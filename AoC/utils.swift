@@ -33,3 +33,7 @@ extension String {
     
 }
 
+func squared(_ x: Int) -> Int {
+    return x * x
+}
+
