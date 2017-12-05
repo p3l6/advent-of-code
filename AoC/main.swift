@@ -10,52 +10,37 @@ import Foundation
 
 let input = puzzleInput
 """
-cat ma tac tca
-cat tra rat
-cat dog
+0
+3
+0
+1
+-3
 """
 
-let phrases = input.split(separator: "\n")
-var validCount = 0;
+var jumps = input.integerArray("\n")
+var pc = 0
+var stepCount = 0
 
-for phrase in phrases {
-    var wordMap = [String:Int]()
-    var valid = true
-    for word in phrase.split(separator: " ") {
-        if let _ = wordMap[String(word)] {
-            valid = false
-            break
-        } else {
-            wordMap[String(word)] = 1
-        }
-    }
-    if valid {
-        validCount+=1
-    }
+while  0 <= pc && pc < jumps.count {
+    //print("pc:\(pc) | \(jumps)")
+    let jump = jumps[pc]
+    jumps[pc] += 1
+    pc += jump
+    stepCount += 1
 }
+print("part one: \(stepCount)") // 358309
 
-print("part one: \(validCount)") // 455
+jumps = input.integerArray("\n")
+pc = 0
+stepCount = 0
 
-validCount = 0;
-
-for phrase in phrases {
-    var wordMap = [String:Int]()
-    var valid = true
-    for word in phrase.split(separator: " ") {
-        let key = word.utf8.sorted().map({"\($0)"}).joined()
-            // this ended up being a string of numbers representing the letters.
-        if let _ = wordMap[key] {
-            valid = false
-            break
-        } else {
-            wordMap[key] = 1
-        }
-    }
-    if valid {
-        validCount+=1
-    }
+while  0 <= pc && pc < jumps.count {
+    //print("pc:\(pc) | \(jumps)")
+    let jump = jumps[pc]
+    jumps[pc] += (jump>=3 ? -1 : 1)
+    pc += jump
+    stepCount += 1
 }
-
-print("part two: \(validCount)") // 186
+print("part two: \(stepCount)") // 28178177
 
 
