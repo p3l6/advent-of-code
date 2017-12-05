@@ -6,7 +6,7 @@
 // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html
 
 import Foundation
-
+let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 """
@@ -43,4 +43,4 @@ while  0 <= pc && pc < jumps.count {
 }
 print("part two: \(stepCount)") // 28178177
 
-
+execTime.end()
