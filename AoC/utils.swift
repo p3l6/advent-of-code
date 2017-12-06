@@ -31,8 +31,8 @@ extension String {
         return String(self[start ..< end])
     }
     
-    func integerArray(_ sep: String) -> [Int] {
-        return components(separatedBy: CharacterSet(charactersIn:sep)).map { Int($0)! }
+    func integerArray(_ sep: Character) -> [Int] {
+        return split(separator:sep).map { Int($0)! }
     }
     
 }

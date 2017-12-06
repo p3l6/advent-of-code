@@ -10,37 +10,48 @@ let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 """
-0
-3
-0
-1
--3
+0 2 7 0
 """
 
-var jumps = input.integerArray("\n")
-var pc = 0
-var stepCount = 0
+var banks = input.integerArray(" ")
 
-while  0 <= pc && pc < jumps.count {
-    //print("pc:\(pc) | \(jumps)")
-    let jump = jumps[pc]
-    jumps[pc] += 1
-    pc += jump
-    stepCount += 1
+func redistribute(_ list :[Int] ) -> [Int] {
+    var maxIndex = 0
+    for (index,item) in list.enumerated() {
+        if item > list[maxIndex] {
+            maxIndex = index
+        }
+    }
+    var output = list
+    var dist = list[maxIndex]
+    output[maxIndex] = 0
+    while dist > 0 {
+        maxIndex+=1
+        maxIndex = maxIndex % output.count
+        output[maxIndex] += 1
+        dist -= 1
+    }
+    return output
 }
-print("part one: \(stepCount)") // 358309
 
-jumps = input.integerArray("\n")
-pc = 0
-stepCount = 0
+var state = banks
+var visited :Set<String> = []
+var redistributions = 0
+repeat {
+    visited.insert(state.description)
 
-while  0 <= pc && pc < jumps.count {
-    //print("pc:\(pc) | \(jumps)")
-    let jump = jumps[pc]
-    jumps[pc] += (jump>=3 ? -1 : 1)
-    pc += jump
-    stepCount += 1
-}
-print("part two: \(stepCount)") // 28178177
+    state = redistribute(state)
+    redistributions += 1
+} while !visited.contains(state.description)
 
+print("part one: \(redistributions)") // 6681
+
+redistributions = 0
+let wanted = state.description
+repeat {
+    state = redistribute(state)
+    redistributions += 1
+} while wanted != state.description
+
+print("part two: \(redistributions)") // 2392
 execTime.end()
