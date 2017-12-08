@@ -10,99 +10,53 @@ let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 """
-pbga (66)
-xhth (57)
-ebii (61)
-havc (66)
-ktlj (57)
-fwft (72) -> ktlj, cntj, xhth
-qoyq (66)
-padx (45) -> pbga, havc, qoyq
-tknk (41) -> ugml, padx, fwft
-jptl (61)
-ugml (68) -> gyxo, ebii, jptl
-gyxo (61)
-cntj (57)
+b inc 5 if a > 1
+a inc 1 if b < 5
+c dec -10 if a >= 1
+c inc -20 if c == 10
 """
 
-class Disk {
-    var name = ""
-    var weight = 0
-    
-    var parent :Disk? = nil
-    var subDisks : [Disk] = []
-    
-    lazy var totalWeight: Int  = {
-        var childWeight = 0
-        for d in subDisks {
-            childWeight += d.totalWeight
-        }
-        return weight + childWeight
-    }()
-    
-    func difference() -> Int {
-        guard subDisks.first != nil else { return 0 }
-        
-        for c in subDisks[1...] {
-            if c.totalWeight != subDisks.first!.totalWeight {
-                return abs(c.totalWeight - subDisks.first!.totalWeight )
-            }
-        }
-        return 0
+var registers : [String:Int] = [:]
+
+func valOf(_ reg:String) -> Int {
+    if registers[reg] == nil {
+        registers[reg] = 0
     }
+    return registers[reg]!
 }
 
-var diskMap :[String:Disk]  = [:]
+var maxValDuring = 0
 
 for line in input.split(separator: "\n") {
     let elements = line.split(separator: " ")
+    let reg = String(elements[0])
+    let increase = elements[1] == "inc"
+    let diff = Int(elements[2])!
+    let compReg = String(elements[4])
+    let compOp = String(elements[5])
+    let compVal = Int(elements[6])!
     
-    let n = String(elements[0])
-    let disk = diskMap[n] ?? Disk()
-    diskMap[n] = disk
     
-    disk.name = n
-    
-    var w = String(elements[1])
-    w.removeFirst()
-    w.removeLast()
-    if let wt = Int(w) {
-        disk.weight = wt
-    }
-    
-    //subDisks
-    if elements.count > 2 {
-        for sd in elements[3...] {
-            var name  = String(sd)
-            if name.hasSuffix(",") {
-                name.removeLast()
-            }
-            let subDisk = diskMap[name] ?? Disk()
-            subDisk.parent = disk
-            disk.subDisks.append(subDisk)
-            diskMap[name] = subDisk
-        }
-    }
-}
-
-// find root disk
-
-var rootDisk = diskMap[diskMap.keys.first!]!
-while rootDisk.parent != nil {
-    rootDisk = rootDisk.parent!
-}
-
-print("part one: \(rootDisk.name)") // hlhomy
-
-for disk in diskMap.values {
-    let diff = disk.difference()
-    if diff != 0 {
-        print("part two: \(disk.name) is unbalanced") // 1505
-        for sd in disk.subDisks {
-            print(" sub-disk \(sd.name) weighs \(sd.weight) for a total of \(sd.totalWeight)")
-        }
+    switch compOp {
+    case ">" where valOf(compReg) > compVal: fallthrough
+    case "<" where valOf(compReg) < compVal: fallthrough
+    case ">=" where valOf(compReg) >= compVal: fallthrough
+    case "<=" where valOf(compReg) <= compVal: fallthrough
+    case "==" where valOf(compReg) == compVal: fallthrough
+    case "!=" where valOf(compReg) != compVal:
+        let _ = valOf(reg) // make sure it has a value
+        registers[reg]! += (increase ? 1 : -1) * diff
+        maxValDuring = max(maxValDuring, registers[reg]!)
+    default:
         break
     }
 }
+
+//find max
+var maxVal = 0
+for val in registers.values { maxVal = max(maxVal, val) }
+
+print("part one: \(maxVal)") // 6012
+print("part two: \(maxValDuring)") // 6369
 
 execTime.end()
