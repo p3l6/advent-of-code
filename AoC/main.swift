@@ -8,55 +8,43 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input = puzzleInput
+let input =  puzzleInput
 """
-b inc 5 if a > 1
-a inc 1 if b < 5
-c dec -10 if a >= 1
-c inc -20 if c == 10
 """
 
-var registers : [String:Int] = [:]
+var scoreSum = 0
+var nestLevel = 0
+var skip = false
+var inGarbage = false
+var garbCount = 0
 
-func valOf(_ reg:String) -> Int {
-    if registers[reg] == nil {
-        registers[reg] = 0
+for char in input{
+    if skip {
+        skip = false
+        continue
     }
-    return registers[reg]!
-}
-
-var maxValDuring = 0
-
-for line in input.split(separator: "\n") {
-    let elements = line.split(separator: " ")
-    let reg = String(elements[0])
-    let increase = elements[1] == "inc"
-    let diff = Int(elements[2])!
-    let compReg = String(elements[4])
-    let compOp = String(elements[5])
-    let compVal = Int(elements[6])!
     
-    
-    switch compOp {
-    case ">" where valOf(compReg) > compVal: fallthrough
-    case "<" where valOf(compReg) < compVal: fallthrough
-    case ">=" where valOf(compReg) >= compVal: fallthrough
-    case "<=" where valOf(compReg) <= compVal: fallthrough
-    case "==" where valOf(compReg) == compVal: fallthrough
-    case "!=" where valOf(compReg) != compVal:
-        let _ = valOf(reg) // make sure it has a value
-        registers[reg]! += (increase ? 1 : -1) * diff
-        maxValDuring = max(maxValDuring, registers[reg]!)
+    switch char {
+    case "!":
+        skip = true
+    case "{" where !inGarbage:
+        nestLevel += 1
+    case "}" where !inGarbage:
+        scoreSum += nestLevel
+        nestLevel -= 1
+    case "<" where !inGarbage:
+        inGarbage = true
+    case ">" where inGarbage:
+        inGarbage = false
     default:
+        if inGarbage {
+            garbCount+=1
+        }
         break
     }
 }
 
-//find max
-var maxVal = 0
-for val in registers.values { maxVal = max(maxVal, val) }
-
-print("part one: \(maxVal)") // 6012
-print("part two: \(maxValDuring)") // 6369
+print("part one: \(scoreSum)") // 10820
+print("part two: \(garbCount)") // 5547
 
 execTime.end()
