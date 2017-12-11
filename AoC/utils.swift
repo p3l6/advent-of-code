@@ -37,6 +37,12 @@ extension String {
     
 }
 
+extension Character {
+    var asciiValue: UInt32? {
+        return String(self).unicodeScalars.filter{$0.isASCII}.first?.value
+    }
+}
+
 func squared(_ x: Int) -> Int {
     return x * x
 }
