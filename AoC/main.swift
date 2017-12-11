@@ -8,50 +8,66 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input = puzzleInput
+let input =  puzzleInput
+"se,sw,se,sw,sw"
 
-let maxVal = 255
-
-var values = Array<Int>(0...maxVal)
-var skipSize = 0
-var currentIndex = 0
-
-func knot(values:inout [Int], currentIndex: inout Int, lengths:[Int]) {
-    for length in lengths {
-        let prevValues = values
-        for i in 0 ..< length {
-            values[(i+currentIndex)%(maxVal+1)] = prevValues[(currentIndex+length-i-1)%(maxVal+1)]
-        }
-        currentIndex += length+skipSize
-        skipSize += 1
+struct Place {
+    var n = 0
+    var ne = 0
+    var nw = 0
+    var s = 0
+    var se = 0
+    var sw = 0
+    
+    func distance () -> Int { // must be simplified
+        return ne + nw + n + s + se + sw
     }
 }
 
+var location = Place()
+var maxDistance = 0
 
-knot(values: &values, currentIndex: &currentIndex, lengths:input.integerArray(",") )
-
-print("part one: \(values[0]*values[1])") // 40132
-
-values = Array<Int>(0...maxVal)
-skipSize = 0
-currentIndex = 0
-
-var lengths = input.utf8.map({Int($0)})
-lengths += [17, 31, 73, 47, 23]
-for _ in 0..<64 {
-    knot(values: &values, currentIndex: &currentIndex, lengths: lengths)
-}
-
-let sparseHash = values
-var hash = ""
-for i in 0..<16 {
-    var denseElem = sparseHash[i*16+0]
-    for j in 1..<16 {
-       denseElem ^= sparseHash[i*16+j]
+func simplify(location :Place) -> Place {
+    var loc = location
+    while true {
+        if      (loc.n  > 0 && loc.s  > 0) { let x = min(loc.n ,loc.s ); loc.n  -= x; loc.s  -= x }
+        else if (loc.ne > 0 && loc.sw > 0) { let x = min(loc.ne,loc.sw); loc.ne -= x; loc.sw -= x }
+        else if (loc.nw > 0 && loc.se > 0) { let x = min(loc.nw,loc.se); loc.nw -= x; loc.se -= x }
+        
+        else if (loc.n  > 0 && loc.se > 0) { let x = min(loc.n ,loc.se); loc.n  -= x; loc.se -= x; loc.ne += x }
+        else if (loc.n  > 0 && loc.sw > 0) { let x = min(loc.n ,loc.sw); loc.n  -= x; loc.sw -= x; loc.nw += x }
+        else if (loc.sw > 0 && loc.se > 0) { let x = min(loc.sw,loc.se); loc.sw -= x; loc.se -= x; loc.s  += x }
+            
+        else if (loc.s  > 0 && loc.nw > 0) { let x = min(loc.s ,loc.nw); loc.s  -= x; loc.nw -= x; loc.sw += x }
+        else if (loc.s  > 0 && loc.ne > 0) { let x = min(loc.s ,loc.ne); loc.s  -= x; loc.ne -= x; loc.se += x }
+        else if (loc.nw > 0 && loc.ne > 0) { let x = min(loc.nw,loc.ne); loc.nw -= x; loc.ne -= x; loc.n  += x }
+            
+        else { break }
     }
-    hash += String(format:"%02x", denseElem)
+    return loc
 }
 
-print("part two: \(hash)") // 35b028fe2c958793f7d5a61d07a008c8
+for dir in input.split(separator: ",") {
+    switch dir {
+    case "n": location.n += 1
+    case "ne": location.ne += 1
+    case "nw": location.nw += 1
+    case "s": location.s += 1
+    case "se": location.se += 1
+    case "sw": location.sw += 1
+    default:
+        break
+    }
+    
+    let d = simplify(location: location).distance()
+    if d > maxDistance {
+        maxDistance = d
+    }
+}
+
+location = simplify(location: location)
+
+print("part one: \(location.distance())") // 707
+print("part two: \(maxDistance)") // 1490
 
 execTime.end()
