@@ -32,6 +32,7 @@ extension String {
     }
     
     func integerArray(_ sep: Character) -> [Int] {
+        // map({Int($0.trimmingCharacters(in: .whitespaces))!}))
         return split(separator:sep).map { Int($0)! }
     }
     
