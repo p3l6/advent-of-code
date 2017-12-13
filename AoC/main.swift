@@ -10,49 +10,66 @@ let execTime = TicToc(named:"Today's problems")
 
 let input =  puzzleInput
 """
-0 <-> 2
-1 <-> 1
-2 <-> 0, 3, 4
-3 <-> 2, 4
-4 <-> 2, 3, 6
-5 <-> 6
-6 <-> 4, 5
+0: 3
+1: 2
+4: 4
+6: 4
 """
 
-var pipes = [[Int]]()
-
-for line in input.split(separator: "\n") {
-    pipes.append(line.split(separator: ">")[1].split(separator:",").map({Int($0.trimmingCharacters(in: .whitespaces))!}))
-}
-
-func connectedSet(ofElement e:Int) -> Set<Int> {
-    var connected = Set<Int>()
-    connected.insert(e)
-    var connectQueue = [e]
-
-    while !connectQueue.isEmpty {
-        let x = connectQueue.popLast()!
-        for con in pipes[x] {
-            if !connected.contains(con) {
-                connectQueue.insert(con, at: 0)
-                connected.insert(con)
-            }
+class Layer {
+    var range :Int
+    var depth :Int
+    
+    var scanner = 0
+    
+    init(depth:Int,range:Int) {
+        self.range = range
+        self.depth = depth
+    }
+    
+    func reset(time:Int) {
+        scanner = time%(range*2-2)
+        if scanner >= range {
+            scanner = range - (scanner-range+2)
         }
     }
-    return connected
+    
+    func willCatch(delay:Int) -> Bool {
+        reset(time:delay+depth)
+        return scanner == 0
+    }
 }
 
-print("part one: \(connectedSet(ofElement: 0).count)") // 169
+var layers = [Int:Layer]()
 
-var groups = [Set<Int>]()
-var remaining = Set(0..<pipes.count)
-
-while !remaining.isEmpty {
-    let g = connectedSet(ofElement: remaining.removeFirst())
-    remaining.subtract(g)
-    groups.append(g)
+for line in input.split(separator: "\n") {
+    let c = String(line).integerArray(":")
+    layers[c[0]] = Layer(depth:c[0], range:c[1])
 }
 
-print("part two: \(groups.count)") // 179
+func severity(departureTime:Int) -> (severity: Int, caught: Bool) {
+    var severity = 0
+    var caught = false
+    
+    for layer in layers.values {
+        if layer.willCatch(delay: departureTime) {
+            caught = true
+            severity += layer.depth * layer.range
+            if departureTime != 0 { return (0,caught)}
+        }
+    }
+    
+    return (severity, caught)
+}
+
+
+print("part one: \(severity(departureTime: 0).severity)") // 1624
+
+for delay in 0... {
+    if !severity(departureTime: delay).caught {
+        print("part two: \(delay)") // 3923436
+        break
+    }
+}
 
 execTime.end()

@@ -32,10 +32,8 @@ extension String {
     }
     
     func integerArray(_ sep: Character) -> [Int] {
-        // map({Int($0.trimmingCharacters(in: .whitespaces))!}))
-        return split(separator:sep).map { Int($0)! }
+        return split(separator:sep).map { Int($0.trimmingCharacters(in: .whitespaces))! }
     }
-    
 }
 
 extension Character {
@@ -66,3 +64,14 @@ class TicToc {
         print("\(name) took \(timeInterval) ms")
     }
 }
+
+struct Stack<Element> {
+    var items = [Element]()
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        return items.removeLast()
+    }
+}
+
