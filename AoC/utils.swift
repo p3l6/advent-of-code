@@ -66,7 +66,10 @@ class TicToc {
 }
 
 struct Stack<Element> {
-    var items = [Element]()
+    private var items = [Element]()
+    var isEmpty :Bool { return items.count == 0 }
+    var count :Int { return items.count }
+    
     mutating func push(_ item: Element) {
         items.append(item)
     }
