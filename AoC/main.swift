@@ -8,108 +8,71 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input =   "oundnydw" // puzzleInput
+let input =  // puzzleInput
 """
-flqrgnkx
+Values:
+Generator A starts with 277
+Generator B starts with 349
+
+Factors:
+(generator A uses 16807; generator B uses 48271),
+
 """
 
+let divisor = 2_147_483_647
+let mask = 0xffff
 
-func knotHash(input:String) -> [Bool] {
-    let maxVal = 255
-    var skipSize = 0
-    var currentIndex = 0
-    var values = Array<Int>(0...maxVal)
-    var lengths = input.utf8.map({Int($0)})
-    lengths += [17, 31, 73, 47, 23]
-    for _ in 0..<64 {
-        for length in lengths {
-            let prevValues = values
-            for i in 0 ..< length {
-                values[(i+currentIndex)%(maxVal+1)] = prevValues[(currentIndex+length-i-1)%(maxVal+1)]
-            }
-            currentIndex += length+skipSize
-            skipSize += 1
+class Generator {
+    var value :Int
+    let factor :Int
+    init(startingValue:Int, factor:Int) {
+        value = startingValue
+        self.factor = factor
+    }
+    func nextValue() -> Int {
+        let temp = value * factor
+        value = temp % divisor
+        return value
+    }
+}
+
+func beJudgy(genA:Generator, genB:Generator, iterations:Int) -> Int {
+    var judge = 0
+    for _ in 0 ..< iterations {
+        let a = genA.nextValue()
+        let b = genB.nextValue()
+        
+        if (a&mask) == (b&mask) {
+            judge += 1
         }
+    }
+    return judge
+}
+
+let j = beJudgy(genA: Generator(startingValue: 277, factor: 16807),
+                genB: Generator(startingValue: 349, factor: 48271),
+                iterations: 40_000_000)
+
+print("part one: \(j)") // 592
+
+class PickyGenerator:Generator {
+    var multiple :Int
+    init(startingValue:Int, factor:Int, multiple:Int) {
+        self.multiple = multiple
+        super.init(startingValue:startingValue, factor:factor)
     }
     
-    let sparseHash = values
-    var hash = ""
-    for i in 0..<16 {
-        var denseElem = sparseHash[i*16+0]
-        for j in 1..<16 {
-            denseElem ^= sparseHash[i*16+j]
-        }
-        hash += String(format:"%02x", denseElem)
-    }
-    
-    var bools = [Bool]()
-    for char in hash {
-        switch char {
-        case "0":  bools += [false, false, false, false]
-        case "1":  bools += [false, false, false, true ]
-        case "2":  bools += [false, false, true , false]
-        case "3":  bools += [false, false, true , true ]
-        case "4":  bools += [false, true , false, false]
-        case "5":  bools += [false, true , false, true ]
-        case "6":  bools += [false, true , true , false]
-        case "7":  bools += [false, true , true , true ]
-        case "8":  bools += [true , false, false, false]
-        case "9":  bools += [true , false, false, true ]
-        case "a":  bools += [true , false, true , false]
-        case "b":  bools += [true , false, true , true ]
-        case "c":  bools += [true , true , false, false]
-        case "d":  bools += [true , true , false, true ]
-        case "e":  bools += [true , true , true , false]
-        case "f":  bools += [true , true , true , true ]
-        default:
-            break
-        }
-    }
-    return bools
-}
-
-var rows = [[Bool]]()
-var used = 0
-for i in 0..<128 {
-    rows.append(knotHash(input: input+"-"+String(i)))
-    rows.last!.forEach { if $0 {used += 1 } }
-}
-
-print("part one: \(used)") // 8106
-
-struct Point {
-    var row :Int
-    var col :Int
-}
-
-func findUsedBlock() -> Point? {
-    for i in 0..<rows.count {
-        if let col = rows[i].index(of:true) {
-            return Point(row:i, col:col)
-        }
-    }
-    return nil
-}
-
-func removeRegion(at:Point) {
-    var toRemove = Stack<Point>()
-    toRemove.push(at)
-    while !toRemove.isEmpty {
-        let r = toRemove.pop()
-        rows[r.row][r.col] = false
-        if r.row+1 < 128 && rows[r.row+1][r.col]  { toRemove.push(Point(row:r.row+1, col:r.col)) }
-        if r.row-1 >= 0  && rows[r.row-1][r.col]  { toRemove.push(Point(row:r.row-1, col:r.col)) }
-        if r.col+1 < 128 && rows[r.row][r.col+1]  { toRemove.push(Point(row:r.row, col:r.col+1)) }
-        if r.col-1 >= 0  && rows[r.row][r.col-1]  { toRemove.push(Point(row:r.row, col:r.col-1)) }
+    override func nextValue() -> Int {
+        var ret = super.nextValue()
+        while ret%multiple != 0 { ret = super.nextValue() }
+        return ret
     }
 }
 
-var regions = 0
-while let location = findUsedBlock() {
-    removeRegion(at: location)
-    regions += 1
-}
+let p = beJudgy(genA: PickyGenerator(startingValue: 277, factor: 16807, multiple:4),
+                genB: PickyGenerator(startingValue: 349, factor: 48271, multiple:8),
+                iterations: 5_000_000)
 
-print("part two: \(regions)") // 1164
+print("part two: \(p)") // 320
 
 execTime.end()
