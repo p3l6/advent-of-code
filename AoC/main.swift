@@ -8,71 +8,57 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input =  // puzzleInput
-"""
-Values:
-Generator A starts with 277
-Generator B starts with 349
+let input =  puzzleInput
 
-Factors:
-(generator A uses 16807; generator B uses 48271),
+var initial :[Character] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p"]
+var progs = initial
 
-"""
-
-let divisor = 2_147_483_647
-let mask = 0xffff
-
-class Generator {
-    var value :Int
-    let factor :Int
-    init(startingValue:Int, factor:Int) {
-        value = startingValue
-        self.factor = factor
-    }
-    func nextValue() -> Int {
-        let temp = value * factor
-        value = temp % divisor
-        return value
-    }
-}
-
-func beJudgy(genA:Generator, genB:Generator, iterations:Int) -> Int {
-    var judge = 0
-    for _ in 0 ..< iterations {
-        let a = genA.nextValue()
-        let b = genB.nextValue()
-        
-        if (a&mask) == (b&mask) {
-            judge += 1
+func danceOnce(from:[Character]) -> [Character] {
+    var progs = from
+    for move in input.split(separator: ",") {
+        let moveDirections = move.dropFirst()
+        switch move.first! {
+        case "s":
+            let count = Int(moveDirections)!
+            let lastItems = progs[(progs.count-count)...]
+            progs.removeLast(count)
+            progs.insert(contentsOf: lastItems, at: 0)
+        case "x":
+            let a = Int( moveDirections.split(separator: "/")[0] )!
+            let b = Int( moveDirections.split(separator: "/")[1] )!
+            let t = progs[a]
+            progs[a] = progs[b]
+            progs[b] = t
+        case "p":
+            let a = progs.index(of:moveDirections.first!)!
+            let b = progs.index(of:moveDirections.last!)!
+            let t = progs[a]
+            progs[a] = progs[b]
+            progs[b] = t
+        default:
+            break
         }
     }
-    return judge
+    return progs
 }
 
-let j = beJudgy(genA: Generator(startingValue: 277, factor: 16807),
-                genB: Generator(startingValue: 349, factor: 48271),
-                iterations: 40_000_000)
+print("part one: \(String(danceOnce(from:progs)))") // ionlbkfeajgdmphc
 
-print("part one: \(j)") // 592
+// The thing I tried to do first, and had to look up a hint why it wasnt working; was a one-dance transformation mapping. then applied repeatedly
+// turns out this won't work because of the partner switch move, of course!
 
-class PickyGenerator:Generator {
-    var multiple :Int
-    init(startingValue:Int, factor:Int, multiple:Int) {
-        self.multiple = multiple
-        super.init(startingValue:startingValue, factor:factor)
-    }
-    
-    override func nextValue() -> Int {
-        var ret = super.nextValue()
-        while ret%multiple != 0 { ret = super.nextValue() }
-        return ret
-    }
+progs = initial
+var cycleCount = 0
+repeat {
+    progs = danceOnce(from: progs)
+    cycleCount+=1
+} while progs != initial
+
+progs = initial
+for _ in 0..<(1_000_000_000%cycleCount) {
+    progs = danceOnce(from: progs)
 }
 
-let p = beJudgy(genA: PickyGenerator(startingValue: 277, factor: 16807, multiple:4),
-                genB: PickyGenerator(startingValue: 349, factor: 48271, multiple:8),
-                iterations: 5_000_000)
-
-print("part two: \(p)") // 320
+print("part two: \(String(progs))") // fdnphiegakolcmjb
 
 execTime.end()
