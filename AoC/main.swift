@@ -8,97 +8,97 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input =  puzzleInput
+let input = puzzleInput
 """
-set a 1
-add a 2
-mul a a
-mod a 5
-snd a
-set a 0
-rcv a
-jgz a -1
-set a 1
-jgz a -2
+     |
+     |  +--+
+     A  |  C
+ F---|----E|--+
+     |  |  |  D
+     +B-+  +--+
 """
+let map :[[Character]] = input.split(separator: "\n").map { [Character]($0.characters) }
+// map[row][col]
 
-class Program {
-    var pc = 0
-    var registers = ["p":0]
-    var receivedMessages = [Int]()
-    var deliverTo :Program?
-    var sentMessages = 0
-    
-    let program : [(inst:String, reg:String, val:String?)]  = input.split(separator: "\n").map { line in
-        let p = line.split(separator: " ")
-        return (inst:String(p[0]), reg:String(p[1]), val:(p.count>2 ? String(p[2]) : nil))
-    }
-
-    var isWaiting :Bool { return program[pc].inst == "rcv" && receivedMessages.isEmpty }
-
-    init(number:Int) {
-        registers["p"] = number
-    }
-    
-    func value(_ xIn:String?) -> Int {
-        guard let x = xIn else {
-            return 0
-        }
-        return Int(x) ?? registers[x] ?? 0
-    }
-    
-    func receive(_ x:Int) {
-        receivedMessages.append(x)
-    }
-    
-    func runProgram() {
-        programLoop: while true {
-            let prog = program[pc]
-            switch prog.inst {
-            case "snd":
-                deliverTo?.receive(value(prog.reg))
-                sentMessages += 1
-            case "set":
-                registers[prog.reg] = value(prog.val)
-            case "add":
-                registers[prog.reg] = value(prog.reg) + value(prog.val)
-            case "mul":
-                registers[prog.reg] = value(prog.reg) * value(prog.val)
-            case "mod":
-                registers[prog.reg] = value(prog.reg) % value(prog.val)
-            case "rcv":
-                if !receivedMessages.isEmpty {
-                    registers[prog.reg] = receivedMessages.removeFirst()
-                } else { break programLoop }
-            case "jgz":
-                if value(prog.reg) > 0 {
-                    pc += value(prog.val)
-                    pc -= 1 // don't increase pc
-                }
-            default:
-                break
-            }
-            pc+=1
+enum Direction {
+    case up
+    case down
+    case left
+    case right
+    case none
+    var opposite :Direction {
+        switch self {
+        case .up: return .down
+        case .down: return .up
+        case .left: return .right
+        case .right: return .left
+        case .none: return .none
         }
     }
 }
 
-let prog  = Program(number:0)
-let output = Program(number:42)
-prog.deliverTo = output
-prog.runProgram()
-print("part one: \(output.receivedMessages.last!)") // 3423
-
-let prog0 = Program(number:0)
-let prog1 = Program(number:1)
-prog0.deliverTo = prog1
-prog1.deliverTo = prog0
-
-while !(prog0.isWaiting && prog1.isWaiting){
-    prog0.runProgram()
-    prog1.runProgram()
+struct Location {
+    let row :Int
+    let col :Int
+    let dir :Direction
+    
+    init(row:Int,col:Int,dir:Direction = .none) {self.row = row; self.col = col; self.dir = dir}
+    
+    func isValid() -> Bool {
+        return row >= 0 && row < map.count && col >= 0 && col < map[row].count
+    }
+    
+    func move() -> Location { return self.move(self.dir) }
+    func move(_ dir: Direction) -> Location {
+        switch dir {
+        case .down: return Location(row:self.row+1, col:self.col, dir:.down)
+        case .up: return Location(row:self.row-1, col:self.col, dir:.up)
+        case .left: return Location(row:self.row, col:self.col-1, dir:.left)
+        case .right: return Location(row:self.row, col:self.col+1, dir:.right)
+        default: return self
+        }
+    }
+    
+    func canTurn(_ dir: Direction) -> Bool {
+        let nextLoc = move(dir)
+        return self.dir != dir && self.dir != dir.opposite && nextLoc.isValid() && map[nextLoc] != " "
+    }
 }
 
-print("part two: \(prog1.sentMessages)") // 7493
+extension Array where Element == [Character] {
+    subscript (loc:Location) -> Character {
+        get { return self[loc.row][loc.col] }
+        set { self[loc.row][loc.col] = newValue }
+    }
+}
+
+var visited = ""
+var loc = Location(row:0, col:map[0].index(of: "|")!, dir:.down)
+var stepCount = 1
+
+mainLoop: while loc.isValid() {
+    switch map[loc] {
+    case "|", "-":
+        loc = loc.move()
+    case "+":
+        if      loc.canTurn(.down) { loc = loc.move(.down) }
+        else if loc.canTurn(.up)   { loc = loc.move(.up) }
+        else if loc.canTurn(.left) { loc = loc.move(.left) }
+        else if loc.canTurn(.right){ loc = loc.move(.right) }
+        else                       { print("error: dead end plus"); break mainLoop }
+    case " ":
+        break mainLoop // dead end found
+    default:
+        visited.append(map[loc])
+        loc = loc.move()
+    }
+    stepCount+=1
+}
+
+if !loc.isValid() { print("error: moved to invalid location") }
+
+print("part one: \(visited)") // ITSZCJNMUO
+
+print("part two: \(stepCount)") // 17420
 
 execTime.end()
