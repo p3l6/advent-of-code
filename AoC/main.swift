@@ -8,57 +8,40 @@
 import Foundation
 let execTime = TicToc(named:"Today's problems")
 
-let input =  puzzleInput
+let input =   376 // puzzleInput
 
-var initial :[Character] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p"]
-var progs = initial
+var buffer = [0]
+var position = 0
 
-func danceOnce(from:[Character]) -> [Character] {
-    var progs = from
-    for move in input.split(separator: ",") {
-        let moveDirections = move.dropFirst()
-        switch move.first! {
-        case "s":
-            let count = Int(moveDirections)!
-            let lastItems = progs[(progs.count-count)...]
-            progs.removeLast(count)
-            progs.insert(contentsOf: lastItems, at: 0)
-        case "x":
-            let a = Int( moveDirections.split(separator: "/")[0] )!
-            let b = Int( moveDirections.split(separator: "/")[1] )!
-            let t = progs[a]
-            progs[a] = progs[b]
-            progs[b] = t
-        case "p":
-            let a = progs.index(of:moveDirections.first!)!
-            let b = progs.index(of:moveDirections.last!)!
-            let t = progs[a]
-            progs[a] = progs[b]
-            progs[b] = t
-        default:
-            break
-        }
+for x in 1...2017 {
+    position = ( position + input ) % buffer.count
+    
+    if position+1 == buffer.count {
+        buffer.append(x)
+    } else {
+        buffer.insert(x, at: position+1)
     }
-    return progs
+
+    position += 1
 }
 
-print("part one: \(String(danceOnce(from:progs)))") // ionlbkfeajgdmphc
+print("part one: \(buffer[position+1])") // 777
 
-// The thing I tried to do first, and had to look up a hint why it wasnt working; was a one-dance transformation mapping. then applied repeatedly
-// turns out this won't work because of the partner switch move, of course!
+position = 0
+var result  = 0
 
-progs = initial
-var cycleCount = 0
-repeat {
-    progs = danceOnce(from: progs)
-    cycleCount+=1
-} while progs != initial
 
-progs = initial
-for _ in 0..<(1_000_000_000%cycleCount) {
-    progs = danceOnce(from: progs)
+for x in 1...50_000_000 {
+    // x is the length of the buffer...
+    position = ( position + input ) % x
+    
+    if position == 0 {
+        result = x
+    }
+    
+    position += 1
 }
 
-print("part two: \(String(progs))") // fdnphiegakolcmjb
+print("part two: \(result)") // 39289581
 
 execTime.end()
