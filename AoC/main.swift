@@ -9,96 +9,78 @@ import Foundation
 let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
-"""
-     |
-     |  +--+
-     A  |  C
- F---|----E|--+
-     |  |  |  D
-     +B-+  +--+
-"""
-let map :[[Character]] = input.split(separator: "\n").map { [Character]($0.characters) }
-// map[row][col]
 
-enum Direction {
-    case up
-    case down
-    case left
-    case right
-    case none
-    var opposite :Direction {
-        switch self {
-        case .up: return .down
-        case .down: return .up
-        case .left: return .right
-        case .right: return .left
-        case .none: return .none
-        }
-    }
-}
-
-struct Location {
-    let row :Int
-    let col :Int
-    let dir :Direction
-    
-    init(row:Int,col:Int,dir:Direction = .none) {self.row = row; self.col = col; self.dir = dir}
-    
-    func isValid() -> Bool {
-        return row >= 0 && row < map.count && col >= 0 && col < map[row].count
+class Particle :Equatable{
+    struct Vector :Hashable{
+        let x:Int; let y:Int; let z:Int
+        init(x:Int, y:Int, z:Int) { self.x = x; self.y = y; self.z = z }
+        init(_ x:[Int]) { self.init(x: x[0], y: x[1], z: x[2]) }
+        static func +  (a:Vector, b:Vector) -> Vector { return Vector(x:a.x+b.x, y:a.y+b.y, z:a.z+b.z) }
+        static func += (a:inout Vector, b:Vector) { a = a + b }
+        static func == (a:Vector, b:Vector) -> Bool { return  a.x == b.x && a.y==b.y && a.z==b.z }
+        var hashValue: Int { return x.hashValue ^ y.hashValue ^ z.hashValue }
     }
     
-    func move() -> Location { return self.move(self.dir) }
-    func move(_ dir: Direction) -> Location {
-        switch dir {
-        case .down: return Location(row:self.row+1, col:self.col, dir:.down)
-        case .up: return Location(row:self.row-1, col:self.col, dir:.up)
-        case .left: return Location(row:self.row, col:self.col-1, dir:.left)
-        case .right: return Location(row:self.row, col:self.col+1, dir:.right)
-        default: return self
+    var number :Int = 0
+    var position :Vector
+    var velocity :Vector
+    var acceleration: Vector
+    var distance :Int {return abs(position.x)+abs(position.y)+abs(position.z)}
+    
+    init(p:Vector, v:Vector, a:Vector) {
+        position = p
+        velocity = v
+        acceleration = a
+    }
+    
+    func step(_ n:Int) {
+        for _ in 0..<n {
+            velocity += acceleration
+            position += velocity
         }
     }
     
-    func canTurn(_ dir: Direction) -> Bool {
-        let nextLoc = move(dir)
-        return self.dir != dir && self.dir != dir.opposite && nextLoc.isValid() && map[nextLoc] != " "
-    }
+    static func == (a:Particle, b:Particle) -> Bool { return  a.position == b.position && a.velocity==b.velocity && a.acceleration==b.acceleration }
 }
 
-extension Array where Element == [Character] {
-    subscript (loc:Location) -> Character {
-        get { return self[loc.row][loc.col] }
-        set { self[loc.row][loc.col] = newValue }
-    }
+//p=<898,3116,-155>, v=<129,448,-25>, a=<-8,-30,-2>
+var particles : [Particle] = input.split(separator: "\n").map {
+    let vecs = $0.split(separator: " ")
+    let p = String(vecs[0])[3..<(vecs[0].count-2)].integerArray(",")
+    let v = String(vecs[1])[3..<(vecs[1].count-2)].integerArray(",")
+    let a = String(vecs[2])[3..<(vecs[2].count-1)].integerArray(",")
+    return Particle(p: Particle.Vector(p), v: Particle.Vector(v), a: Particle.Vector(a))
 }
 
-var visited = ""
-var loc = Location(row:0, col:map[0].index(of: "|")!, dir:.down)
-var stepCount = 1
+for i in 0..<particles.count { particles[i].number = i }
 
-mainLoop: while loc.isValid() {
-    switch map[loc] {
-    case "|", "-":
-        loc = loc.move()
-    case "+":
-        if      loc.canTurn(.down) { loc = loc.move(.down) }
-        else if loc.canTurn(.up)   { loc = loc.move(.up) }
-        else if loc.canTurn(.left) { loc = loc.move(.left) }
-        else if loc.canTurn(.right){ loc = loc.move(.right) }
-        else                       { print("error: dead end plus"); break mainLoop }
-    case " ":
-        break mainLoop // dead end found
-    default:
-        visited.append(map[loc])
-        loc = loc.move()
+var destroyed = [Particle]()
+var lastCollision = 0
+var steps = 0
+while steps - lastCollision < 1000 {
+    var collisionMap  :[Particle.Vector:[Particle]] = [:]
+    for p in particles {
+        if collisionMap[p.position] == nil { collisionMap[p.position] = [] }
+        collisionMap[p.position]!.append(p)
     }
-    stepCount+=1
+    for (_, list) in collisionMap {
+        if list.count > 1 {
+            lastCollision = steps
+            for p in list {
+                particles.remove(at: particles.index(of:p)!)
+                destroyed.append(p)
+            }
+        }
+    }
+    
+    steps += 1
+    particles.forEach { $0.step(1) }
+    destroyed.forEach { $0.step(1) }
 }
 
-if !loc.isValid() { print("error: moved to invalid location") }
+let farthest = (particles+destroyed).min { (a, b) -> Bool in a.distance < b.distance }
 
-print("part one: \(visited)") // ITSZCJNMUO
-
-print("part two: \(stepCount)") // 17420
+print("part one: \(farthest!.number)") // 344
+print("part two: \(particles.count)")  // 404
 
 execTime.end()
