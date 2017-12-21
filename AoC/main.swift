@@ -10,77 +10,199 @@ let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 
-class Particle :Equatable{
-    struct Vector :Hashable{
-        let x:Int; let y:Int; let z:Int
-        init(x:Int, y:Int, z:Int) { self.x = x; self.y = y; self.z = z }
-        init(_ x:[Int]) { self.init(x: x[0], y: x[1], z: x[2]) }
-        static func +  (a:Vector, b:Vector) -> Vector { return Vector(x:a.x+b.x, y:a.y+b.y, z:a.z+b.z) }
-        static func += (a:inout Vector, b:Vector) { a = a + b }
-        static func == (a:Vector, b:Vector) -> Bool { return  a.x == b.x && a.y==b.y && a.z==b.z }
-        var hashValue: Int { return x.hashValue ^ y.hashValue ^ z.hashValue }
-    }
+struct Block :Hashable, CustomStringConvertible{
+    let width :Int
+    let pixels :[Bool]
+    let stringRep :String
     
-    var number :Int = 0
-    var position :Vector
-    var velocity :Vector
-    var acceleration: Vector
-    var distance :Int {return abs(position.x)+abs(position.y)+abs(position.z)}
-    
-    init(p:Vector, v:Vector, a:Vector) {
-        position = p
-        velocity = v
-        acceleration = a
-    }
-    
-    func step(_ n:Int) {
-        for _ in 0..<n {
-            velocity += acceleration
-            position += velocity
-        }
-    }
-    
-    static func == (a:Particle, b:Particle) -> Bool { return  a.position == b.position && a.velocity==b.velocity && a.acceleration==b.acceleration }
-}
-
-//p=<898,3116,-155>, v=<129,448,-25>, a=<-8,-30,-2>
-var particles : [Particle] = input.split(separator: "\n").map {
-    let vecs = $0.split(separator: " ")
-    let p = String(vecs[0])[3..<(vecs[0].count-2)].integerArray(",")
-    let v = String(vecs[1])[3..<(vecs[1].count-2)].integerArray(",")
-    let a = String(vecs[2])[3..<(vecs[2].count-1)].integerArray(",")
-    return Particle(p: Particle.Vector(p), v: Particle.Vector(v), a: Particle.Vector(a))
-}
-
-for i in 0..<particles.count { particles[i].number = i }
-
-var destroyed = [Particle]()
-var lastCollision = 0
-var steps = 0
-while steps - lastCollision < 1000 {
-    var collisionMap  :[Particle.Vector:[Particle]] = [:]
-    for p in particles {
-        if collisionMap[p.position] == nil { collisionMap[p.position] = [] }
-        collisionMap[p.position]!.append(p)
-    }
-    for (_, list) in collisionMap {
-        if list.count > 1 {
-            lastCollision = steps
-            for p in list {
-                particles.remove(at: particles.index(of:p)!)
-                destroyed.append(p)
+    init(str:String){
+        var rowCount = 1
+        var pixels = [Bool]()
+        for char in str {
+            if char == "/" {
+                rowCount+=1
+            } else {
+                pixels.append(char == "#")
             }
         }
+        
+        self.init(bools: pixels, width: rowCount)
+    }
+    init(bools:[Bool], width:Int) {
+        self.pixels = bools
+        self.width = width
+        
+        var str = ""
+        for row in 0..<width {
+            for col in 0..<width {
+                str.append(pixels[row*width + col] ? "#" : ".")
+            }
+            str.append("\n")
+        }
+        stringRep = str
     }
     
-    steps += 1
-    particles.forEach { $0.step(1) }
-    destroyed.forEach { $0.step(1) }
+    var description: String {
+        return stringRep
+    }
+    
+    static var cache22 = [String:[[Bool]]]()
+    static var cache33 = [String:[[Bool]]]()
+    static func cache(_ b:Block, _ i :Int) -> [[Bool]] {
+        func transform(_ b:[Bool], _ t:[Int]) -> [Bool] {
+            var r = [Bool]()
+            for i in 0..<b.count {
+                r.append(b[t[i]])
+            }
+            return r
+        }
+        func equiv2x2(_ x:[Bool]) -> [[Bool]] {
+            let r = [1,3,0,2]
+            let f = [1,0,3,2]
+            var ret = [x]
+            for _ in 1...3 { ret.append(transform(ret.last!, r)) }
+            ret.append(transform(x, f))
+            for _ in 1...3 { ret.append(transform(ret.last!, r)) }
+            return ret
+        }
+        
+        func equiv3x3(_ x:[Bool]) -> [[Bool]] {
+            let r = [2,5,8,1,4,7,0,3,6]
+            let f = [2,1,0,5,4,3,8,7,6]
+            var ret = [x]
+            for _ in 1...3 { ret.append(transform(ret.last!, r)) }
+            ret.append(transform(x, f))
+            for _ in 1...3 { ret.append(transform(ret.last!, r)) }
+            return ret
+        }
+        if i == 2 {
+            var group = Block.cache22[b.description]
+            if nil == group {
+                group = equiv2x2(b.pixels)
+                Block.cache22[b.description] = group!
+            }
+            return group!
+        } else if i == 3 {
+            var group = Block.cache33[b.description]
+            if nil == group {
+                group = equiv3x3(b.pixels)
+                Block.cache33[b.description] = group!
+            }
+            return group!
+        }
+        return [[]]
+    }
+    
+    static func == (a :Block, b :Block) -> Bool {
+        let w = a.width
+        if w != b.width { return false }
+        if a.pixels == b.pixels { return true }
+        
+        if w == 2 || w==3{
+            let group = Block.cache(a, w)
+            return group.contains(where: {$0==b.pixels})
+        }
+        
+        return false
+    }
+    var hashValue :Int {
+        // this is a terrible hash
+        return count
+        
+        // this doesn't rotate
+        var x = 0
+        pixels.forEach { x = (x << 1) | ($0 ? 1 : 0) }
+        return x
+    }
+    
+    func split() -> [Block] {
+        let newWidth = width%2==0 ? 2 : 3
+        let num = squared(width/newWidth)
+        if num == 1 { return [self] }
+        
+        var blocks = [Block]()
+        for row in 0..<sqrti(num) {
+            for bi in 0..<sqrti(num){
+                let offset = width*newWidth*row + newWidth*bi
+                var str = [Bool]()
+                for col in 0..<newWidth {
+                    str += pixels[offset+col*width ..< offset+col*width+newWidth]
+                }
+                blocks.append(Block(bools:str, width:newWidth))
+            }
+        }
+        return blocks
+    }
+    static func combine(blocks:[Block]) -> Block {
+        let numAcross = sqrti(blocks.count)
+        let newWidth = numAcross * blocks.first!.width
+        
+        var rows = [[Bool]](repeating:[Bool](), count:newWidth)
+        
+        for bi in 0..<blocks.count {
+            let b = blocks[bi]
+            for row in 0..<b.width {
+                rows[bi/numAcross*b.width + row] += b.pixels[b.width*row ..< b.width*(row+1)]
+            }
+        }
+        
+        return Block(bools: [Bool](rows.joined()), width: newWidth)
+    }
+    
+    var count :Int { return pixels.filter({$0}).count }
 }
 
-let farthest = (particles+destroyed).min { (a, b) -> Bool in a.distance < b.distance }
+class Art {
+    let iteration :Int
+    var picture :Block
+    
+    init (state:[Block], iteration:Int) {
+        // list of blocks must be a square, 1,4,9,16 etc.
+        self.iteration = iteration
+        self.picture = Block.combine(blocks: state)
+    }
+    
+    convenience init(state:Block, iteration:Int) {
+        self.init(state:[state], iteration:iteration)
+    }
+    
+    var width :Int { return picture.width }
+    var countActivePixels :Int { return picture.count }
+    
+    func enhance(rules: [Block:Block]) -> Art {
+        let myBlocks = picture.split()
+        var newBlocks = [Block]()
+        for b in myBlocks {
+            newBlocks.append(rules[b]!)
+        }
+        return Art(state:newBlocks, iteration:iteration+1)
+    }
+}
 
-print("part one: \(farthest!.number)") // 344
-print("part two: \(particles.count)")  // 404
+// do some sanity tests on blocks
+assert(Block(str:"#./.#") == Block(str:".#/#."))
+assert(Block(str:".#./..#/###") == Block(str:".#./#../###"))
+assert(Block(str:".#./..#/###") == Block(str:"#../#.#/##."))
+assert(Block(str:".#./..#/###") == Block(str:"###/..#/.#."))
+assert(Block(str:".#./..#/###").split() == [Block(str:".#./..#/###")])
+assert(Block(str:".##./.#.#/####/#..#").split() == [Block(str:".#/.#"),Block(str:"#./.#"),Block(str:"##/#."),Block(str:"##/.#"),])
+assert(Block.combine(blocks:[Block(str:".#/.#"),Block(str:"#./.#"),Block(str:"##/#."),Block(str:"##/.#")]) == Block(str:".##./.#.#/####/#..#"))
+
+
+var blockRules = [Block:Block]()
+for line in input.split(separator: "\n") {
+    let blocks = line.components(separatedBy: " => ")
+    blockRules[Block(str:blocks[0])] = Block(str:blocks[1])
+}
+var grid = Art(state: Block(str:".#./..#/###"), iteration: 0)
+
+while grid.iteration != 18 {
+    grid = grid.enhance(rules: blockRules)
+    if grid.iteration == 5 {
+        print("part one: \(grid.countActivePixels)") // 133
+    }
+}
+
+print("part two: \(grid.countActivePixels)")  // 2221990
 
 execTime.end()

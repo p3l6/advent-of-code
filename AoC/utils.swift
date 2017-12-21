@@ -8,7 +8,7 @@ import Foundation
 extension String {
     
     var length: Int {
-        return self.characters.count
+        return self.count
     }
     
     subscript (i: Int) -> String {
@@ -45,6 +45,11 @@ extension Character {
 func squared(_ x: Int) -> Int {
     return x * x
 }
+
+func sqrti(_ x: Int) -> Int {
+    return Int(sqrt(Double(x)))
+}
+
 
 class TicToc {
     var startTime :DispatchTime
