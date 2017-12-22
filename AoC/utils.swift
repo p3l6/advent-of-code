@@ -83,3 +83,54 @@ struct Stack<Element> {
     }
 }
 
+enum Direction {
+    case north
+    case south
+    case east
+    case west
+    
+    var right :Direction {
+        switch self {
+        case .north: return .east
+        case .south: return .west
+        case .east: return .south
+        case .west: return .north
+        }
+    }
+    
+    var left :Direction {
+        switch self {
+        case .north: return .west
+        case .south: return .east
+        case .east: return .north
+        case .west: return .south
+        }
+    }
+    
+    var back :Direction {
+        switch self {
+        case .north: return .south
+        case .south: return .north
+        case .east: return .west
+        case .west: return .east
+        }
+    }
+}
+
+struct Point :Hashable {
+    let x :Int
+    let y :Int
+    
+    static func ==(a:Point, b:Point) -> Bool { return a.x==b.x && a.y==b.y }
+    var hashValue: Int { return x | y<<32 }
+    
+    func move(_ d:Direction) -> Point {
+        switch d {
+        case .north: return Point(x:x, y:y+1)
+        case .south: return Point(x:x, y:y-1)
+        case .east: return Point(x:x+1, y:y)
+        case .west: return Point(x:x-1, y:y)
+        }
+    }
+}
+

@@ -10,57 +10,6 @@ let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 
-enum Direction {
-    case north
-    case south
-    case east
-    case west
-    
-    var right :Direction {
-        switch self {
-        case .north: return .east
-        case .south: return .west
-        case .east: return .south
-        case .west: return .north
-        }
-    }
-    
-    var left :Direction {
-        switch self {
-        case .north: return .west
-        case .south: return .east
-        case .east: return .north
-        case .west: return .south
-        }
-    }
-    
-    var back :Direction {
-        switch self {
-        case .north: return .south
-        case .south: return .north
-        case .east: return .west
-        case .west: return .east
-        }
-    }
-}
-
-struct Point :Hashable {
-    let x :Int
-    let y :Int
-    
-    static func ==(a:Point, b:Point) -> Bool { return a.x==b.x && a.y==b.y }
-    var hashValue: Int { return x | y<<32 }
-    
-    func move(_ d:Direction) -> Point {
-        switch d {
-        case .north: return Point(x:x, y:y+1)
-        case .south: return Point(x:x, y:y-1)
-        case .east: return Point(x:x+1, y:y)
-        case .west: return Point(x:x-1, y:y)
-        }
-    }
-}
-
 var infected = Set<Point>()
 
 let lines = input.split(separator: "\n")
@@ -93,29 +42,33 @@ for _ in 0 ..< 10_000 {
 
 print("part one: \(infectCount)") // 5552
 
+enum State {
+    case infected
+    case weak
+    case flagged
+    case clean
+}
 
 curPos = Point(x:0, y:0)
 direction = Direction.north
-infected = initialInfected
 infectCount = 0
-var weakened = Set<Point>()
-var flagged = Set<Point>()
+var grid = [Point:State]()
+initialInfected.forEach{ grid[$0] = .infected }
 
 for _ in 0 ..< 10_000_000 {
-    if infected.contains(curPos) {
+    switch grid[curPos] ?? .clean {
+    case .infected:
         direction = direction.right
-        infected.remove(curPos)
-        flagged.insert(curPos)
-    } else if flagged.contains(curPos){
-        flagged.remove(curPos)
+        grid[curPos] = .flagged
+    case .flagged:
+        grid[curPos] = .clean
         direction = direction.back
-    } else if weakened.contains(curPos){
-        weakened.remove(curPos)
-        infected.insert(curPos)
+    case .weak:
+        grid[curPos] = .infected
         infectCount += 1
-    } else /* Clean */ {
+    case .clean:
         direction = direction.left
-        weakened.insert(curPos)
+        grid[curPos] = .weak
     }
     curPos = curPos.move(direction)
 }
