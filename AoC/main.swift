@@ -10,69 +10,93 @@ let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
 
-var infected = Set<Point>()
+var pc = 0
+var registers :[String:Int] = ["a":0, "b":0,"c":0,"d":0,"e":0,"f":0,"g":0,"h":0]
 
-let lines = input.split(separator: "\n")
-let inputWidth = lines.first!.count
-let inputHeight = lines.count
-for x in 0..<inputWidth {
-    for y in 0..<inputHeight {
-        if String(lines[y])[x] == "#" {
-            infected.insert(Point(x:x-inputWidth/2, y:inputHeight/2-y))
+let prog :[(inst:String, reg:String, val:String)] = input.split(separator: "\n").map { line in
+    let p = line.split(separator: " ")
+    return (inst:String(p[0]), reg:String(p[1]), val:String(p[2]) )
+}
+
+func value(_ xIn:String?) -> Int {
+    guard let x = xIn else {
+        return 0
+    }
+    return Int(x) ?? registers[x] ?? 0
+}
+
+var multCount = 0
+
+while pc < prog.count {
+    let line = prog[pc]
+    switch line.inst {
+    case "set":
+        registers[line.reg] = value(line.val)
+    case "sub":
+        registers[line.reg] = value(line.reg) - value(line.val)
+    case "mul":
+        registers[line.reg] = value(line.reg) * value(line.val)
+        multCount += 1
+    case "jnz":
+        if value(line.reg) != 0 {
+            pc += value(line.val)
+            pc -= 1 // don't increase pc later
         }
+    default:
+        break
+    }
+    pc += 1
+}
+
+
+print("part one: \(multCount)") // 9409
+
+var a = 1, b = 0, c = 0, d = 0 , e = 0, f = 0, g = 0, h = 0
+pc = 0
+multCount += 1
+
+
+b = 99 * 100 + 100000
+c = b + 17000
+
+// this just counts the non-prime numbers between b and c, skipping by 17
+
+forloop: for n in stride(from: b, through: c, by: 17) {
+    var i = 2
+    while i*i <= n {
+        if n % i == 0 {
+            h += 1
+            continue forloop
+        }
+        i = i + 1
     }
 }
-let initialInfected = infected
 
-var curPos = Point(x:0, y:0)
-var direction = Direction.north
-var infectCount = 0
-
-for _ in 0 ..< 10_000 {
-    if infected.contains(curPos) {
-        direction = direction.right
-        infected.remove(curPos)
-    } else {
-        direction = direction.left
-        infected.insert(curPos)
-        infectCount += 1
+/*
+repeat {
+    print(a,b,c,d,e,f,g,h)
+    f = 1;
+    d = 2;
+    repeat {
+        e = 2;
+        repeat {
+            if e*d == b {
+                f = 0
+            }
+            e += 1
+        } while e != b
+        d += 1
+    } while d != b
+    
+    if f == 0 {
+        h += 1
     }
-    curPos = curPos.move(direction)
-}
-
-print("part one: \(infectCount)") // 5552
-
-enum State {
-    case infected
-    case weak
-    case flagged
-    case clean
-}
-
-curPos = Point(x:0, y:0)
-direction = Direction.north
-infectCount = 0
-var grid = [Point:State]()
-initialInfected.forEach{ grid[$0] = .infected }
-
-for _ in 0 ..< 10_000_000 {
-    switch grid[curPos] ?? .clean {
-    case .infected:
-        direction = direction.right
-        grid[curPos] = .flagged
-    case .flagged:
-        grid[curPos] = .clean
-        direction = direction.back
-    case .weak:
-        grid[curPos] = .infected
-        infectCount += 1
-    case .clean:
-        direction = direction.left
-        grid[curPos] = .weak
+    if b == c {
+        break
     }
-    curPos = curPos.move(direction)
-}
-
-print("part two: \(infectCount)")  // 2511527
+    b += 17
+} while true
+*/
+print("part two: \(h)")  // 913
 
 execTime.end()
