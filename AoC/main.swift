@@ -9,94 +9,85 @@ import Foundation
 let execTime = TicToc(named:"Today's problems")
 
 let input = puzzleInput
+"""
+0/2
+2/2
+2/3
+3/4
+3/5
+0/1
+10/1
+9/10
+"""
 
-var pc = 0
-var registers :[String:Int] = ["a":0, "b":0,"c":0,"d":0,"e":0,"f":0,"g":0,"h":0]
-
-let prog :[(inst:String, reg:String, val:String)] = input.split(separator: "\n").map { line in
-    let p = line.split(separator: " ")
-    return (inst:String(p[0]), reg:String(p[1]), val:String(p[2]) )
+struct Component {
+    let a : Int
+    let b : Int
+    var strength : Int { return a + b }
+    func reversed() -> Component { return Component(a:b, b:a) }
 }
 
-func value(_ xIn:String?) -> Int {
-    guard let x = xIn else {
-        return 0
-    }
-    return Int(x) ?? registers[x] ?? 0
-}
-
-var multCount = 0
-
-while pc < prog.count {
-    let line = prog[pc]
-    switch line.inst {
-    case "set":
-        registers[line.reg] = value(line.val)
-    case "sub":
-        registers[line.reg] = value(line.reg) - value(line.val)
-    case "mul":
-        registers[line.reg] = value(line.reg) * value(line.val)
-        multCount += 1
-    case "jnz":
-        if value(line.reg) != 0 {
-            pc += value(line.val)
-            pc -= 1 // don't increase pc later
-        }
-    default:
-        break
-    }
-    pc += 1
-}
-
-
-print("part one: \(multCount)") // 9409
-
-var a = 1, b = 0, c = 0, d = 0 , e = 0, f = 0, g = 0, h = 0
-pc = 0
-multCount += 1
-
-
-b = 99 * 100 + 100000
-c = b + 17000
-
-// this just counts the non-prime numbers between b and c, skipping by 17
-
-forloop: for n in stride(from: b, through: c, by: 17) {
-    var i = 2
-    while i*i <= n {
-        if n % i == 0 {
-            h += 1
-            continue forloop
-        }
-        i = i + 1
-    }
-}
-
-/*
-repeat {
-    print(a,b,c,d,e,f,g,h)
-    f = 1;
-    d = 2;
-    repeat {
-        e = 2;
-        repeat {
-            if e*d == b {
-                f = 0
-            }
-            e += 1
-        } while e != b
-        d += 1
-    } while d != b
+struct Bridge : CustomStringConvertible {
+    let used : [Component]
+    let unused : [Component]
     
-    if f == 0 {
-        h += 1
+    var strength : Int { var s = 0; used.forEach({s+=$0.strength}); return s }
+    var length : Int { return used.count }
+    
+    func extensions() -> [Bridge]{
+        var ret = [Bridge]()
+        let next = used.isEmpty ? 0 : used.last!.b
+        for (i,com) in unused.enumerated()  {
+            if com.a == next {
+                var remaining = unused
+                remaining.remove(at: i)
+                ret.append(Bridge(used: used+[com],
+                                  unused: remaining))
+            } else if com.b == next {
+                var remaining = unused
+                remaining.remove(at: i)
+                ret.append(Bridge(used: used+[com.reversed()],
+                                  unused: remaining))
+            }
+        }
+        return ret
     }
-    if b == c {
-        break
+    
+    var description: String {
+        var s = ""; used.forEach({s+="\($0.a)/\($0.b)--"}); return s
     }
-    b += 17
-} while true
-*/
-print("part two: \(h)")  // 913
+}
+
+let emptyBridge = Bridge(used:[],
+                         unused:input.split(separator: "\n").map({
+                            let s = String($0).integerArray("/");
+                            return Component(a:s[0], b:s[1])
+                         }))
+
+var eval = Stack<Bridge>()
+eval.push(emptyBridge)
+var strongest = emptyBridge
+var longest = emptyBridge
+
+while !eval.isEmpty {
+    let bridge = eval.pop()
+   
+   // print (bridge)
+    let ext = bridge.extensions()
+    if ext.isEmpty {
+        if bridge.strength > strongest.strength {
+            strongest = bridge
+        }
+        if bridge.length > longest.length || bridge.length == longest.length && bridge.strength > longest.strength {
+            longest = bridge
+        }
+    } else {
+        ext.forEach { eval.push($0) }
+    }
+}
+
+print("part one: \(strongest.strength)") // 2006
+
+print("part two: \(longest.strength)")  // 1994 
 
 execTime.end()

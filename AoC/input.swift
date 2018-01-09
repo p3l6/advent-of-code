@@ -10,79 +10,61 @@ import Foundation
 
 let puzzleInput =
 """
-set b 99
-set c b
-jnz a 2
-jnz 1 5
-mul b 100
-sub b -100000
-set c b
-sub c -17000
-set f 1
-set d 2
-set e 2
-set g d
-mul g e
-sub g b
-jnz g 2
-set f 0
-sub e -1
-set g e
-sub g b
-jnz g -8
-sub d -1
-set g d
-sub g b
-jnz g -13
-jnz f 2
-sub h -1
-set g b
-sub g c
-jnz g 2
-jnz 1 3
-sub b -17
-jnz 1 -23
+24/14
+30/24
+29/44
+47/37
+6/14
+20/37
+14/45
+5/5
+26/44
+2/31
+19/40
+47/11
+0/45
+36/31
+3/32
+30/35
+32/41
+39/30
+46/50
+33/33
+0/39
+44/30
+49/4
+41/50
+50/36
+5/31
+49/41
+20/24
+38/23
+4/30
+40/44
+44/5
+0/43
+38/20
+20/16
+34/38
+5/37
+40/24
+22/17
+17/3
+9/11
+41/35
+42/7
+22/48
+47/45
+6/28
+23/40
+15/15
+29/12
+45/11
+21/31
+27/8
+18/44
+2/17
+46/17
+29/29
+45/50
 """
-
-/*   un-optimized equivalent program
- 
- b = 99; c = b
-if a != 0 {
-    b *= 100
-    b -= -100000
-    c = b
-    c -= -17000
-}
-while true {
-    print(a,b,c,d,e,f,g,h)
-    f = 1;
-    d = 2;
-    repeat {
-        e = 2;
-        repeat {
-            g = d;
-            multCount += 1
-            g *= e
-            g -= b
-            if g == 0 {
-                f = 0
-            }
-            e -= -1
-            g = e
-            g -= b
-        } while g != 0
-        d -= -1
-        g = d
-        g -= b
-    } while g != 0
-    if f == 0 {
-        h -= -1
-    }
-    g = b
-    g -= c
-    if g == 0 {
-        break
-    }
-    b -= -17
-}
- */
