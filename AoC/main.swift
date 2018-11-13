@@ -34,4 +34,8 @@ execTime.end()
 print("part one: \(sol.partOne)")
 print("part two: \(sol.partTwo)")
 
-_ = auth.check(day: problemDay, sol: sol)
+let (a,b) = auth.check(day: problemDay, sol: sol)
+
+if a && b {
+    print("both parts correct!")
+}

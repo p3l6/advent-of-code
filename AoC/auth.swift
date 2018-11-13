@@ -104,6 +104,9 @@ class Auth {
                 store.partOne.succeeded = true
                 store.partOne.answer = sol.partOne
                 print("[Server] Solution part one verified!")
+            } else if response.contains("Did you already complete it?") {
+                store.partOne.succeeded = true
+                store.partOne.answer = "Unknown. Previously submitted."
             } else {
                 print("[Server] Solution part one false")
                 print(response[response.lineRange(for: response.range(of: "<article>")!)])
@@ -125,6 +128,9 @@ class Auth {
                 store.partTwo.succeeded = true
                 store.partTwo.answer = sol.partTwo
                 print("[Server] Solution part two verified!")
+            } else if response.contains("Did you already complete it?") {
+                store.partTwo.succeeded = true
+                store.partTwo.answer = "Unknown. Previously submitted."
             } else {
                 print("[Server] Solution part two false")
                 print(response[response.lineRange(for: response.range(of: "<article>")!)])
