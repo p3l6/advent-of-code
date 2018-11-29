@@ -175,6 +175,14 @@ class Auth {
                 print("[Error] Code \(httpResponse.statusCode) returned for \(httpResponse)")
             } else if let responseData = data {
                 result = String(data: responseData, encoding: String.Encoding.utf8)
+                let dumpFile = "\(localFolder)/\(pageDumpFolderName)/\(Date().string(format: "YY-MM-d-HH-mm-ss")).html"
+                do {
+                    try FileManager.default.createDirectory(atPath: "\(localFolder)/\(pageDumpFolderName)/", withIntermediateDirectories: true, attributes: nil)
+                    try responseData.write(to: URL(fileURLWithPath: dumpFile))
+                } catch {
+                    print("error trying to save http response file")
+                    print(error)
+                }
             }
             semaphore.signal()
         }

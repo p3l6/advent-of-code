@@ -7,8 +7,9 @@
 
 import Foundation
 
-let localFolder = "/Users/paul/var/AoC"
+let localFolder = "/Users/paul/var/AdventOfCode"
 let cacheFolderName = "Cache"
+let pageDumpFolderName = "RawHttp"
 let urlBase = "https://adventofcode.com/2015"
 
 let manualInput =

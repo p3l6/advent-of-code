@@ -48,6 +48,14 @@ extension Character {
     }
 }
 
+extension Date {
+    func string(format:String) -> String {
+        let f = DateFormatter()
+        f.dateFormat = format
+        return f.string(from: self)
+    }
+}
+
 func squared(_ x: Int) -> Int {
     return x * x
 }
