@@ -14,11 +14,10 @@ class AocTest: XCTestCase {
     
     let examples = [
 //        Case(input:"", p1:"", p2:""),
-        Case(input:">", p1:"2", p2:""),
-        Case(input:"^v", p1:"", p2:"3"),
-        Case(input:"^>v<", p1:"4", p2:"3"),
-        Case(input:"^v^v^v^v^v", p1:"2", p2:"11"),
-        
+//        Case(input:"+1\n+1\n+1", p1:"3", p2:""),
+//        Case(input:"-1\n-2\n-3", p1:"-6", p2:""),
+        Case(input:"+1\n-2\n+3\n1", p1:"3", p2:"2"),
+        Case(input:"+3\n+3\n+4\n-2\n-4", p1:"", p2:"10"),
     ]
     
     func testAll() {

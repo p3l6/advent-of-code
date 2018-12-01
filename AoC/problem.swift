@@ -7,65 +7,33 @@
 
 import Foundation
 
-let problemDay = 3
+let problemDay = 1
 
+// gotchas: input in examples was separated differently than actual , vs \n
+//          some of the examples for part one produced infinite loops in part two
 
 func problem(_ input:String) -> Solution {
     var solution = Solution()
     
-    var current = Point(x:0, y:0)
-    var visited = Set(arrayLiteral: current)
+    let ints = input.integerArray("\n")
+    var freq = 0
     
-    for char in input {
-        switch char {
-        case "^" :
-            current = current.move(.north)
-        case "v":
-            current = current.move(.south)
-        case ">":
-            current = current.move(.east)
-        case "<":
-            current = current.move(.west)
-        default:
-            print("unexpected char: \(char)")
-            return solution
-        }
-        visited.insert(current)
+    for i in ints {
+        freq += i
     }
-    solution.partOne = String(visited.count)
+    solution.partOne = "\(freq)"
     
-    var santa = Point(x:0, y:0)
-    var robot = Point(x:0, y:0)
-    var santaNext = true
-    visited = Set(arrayLiteral: santa)
-    
-    for char in input {
-        var d = Direction.north
-        switch char {
-        case "^" :
-            d = .north
-        case "v":
-            d = .south
-        case ">":
-            d = .east
-        case "<":
-            d = .west
-        default:
-            print("unexpected char: \(char)")
-            return solution
+    freq = 0
+    var freqs = Set<Int>()
+    all: while true {
+        for i in ints {
+            freq += i
+            if freqs.contains(freq) {
+                solution.partTwo = "\(freq)"
+                break all
+            }
+            freqs.insert(freq)
         }
-        
-        if santaNext {
-            santa = santa.move(d)
-            visited.insert(santa)
-        } else {
-            robot = robot.move(d)
-            visited.insert(robot)
-        }
-        
-        santaNext = !santaNext
     }
-    solution.partTwo = String(visited.count)
-    
     return solution
 }
