@@ -40,6 +40,8 @@ extension String {
     func lines() -> [String] {
         return split(separator:"\n").map { String($0.trimmingCharacters(in: .whitespaces)) }
     }
+    
+    /// function that returns an array of integers based on a format string and an input
 }
 
 extension Character {

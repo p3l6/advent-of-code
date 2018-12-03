@@ -16,16 +16,12 @@ class AocTest: XCTestCase {
 //        Case(input:"", p1:"", p2:""),
 //        Case(input:"+1\n+1\n+1", p1:"3", p2:""),
 //        Case(input:"-1\n-2\n-3", p1:"-6", p2:""),
-        Case(input:"abcdef\nbababc\nabbcde\nabcccd\naabcdd\nabcdee\nababab", p1:"12", p2:""),
-        Case(input:"""
-            abcde
-            fghij
-            klmno
-            pqrst
-            fguij
-            axcye
-            wvxyz
-""", p1:"", p2:"fgij"),
+        Case(input:
+"""
+#1 @ 1,2: 4x5
+#2 @ 3,1: 4x4
+#3 @ 5,5: 2x2
+""", p1:"6", p2:""),
     ]
     
     func testAll() {

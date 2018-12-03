@@ -7,79 +7,70 @@
 
 import Foundation
 
-let problemDay = 2
+let problemDay = 3
+
+struct Claim {
+    let id :Int
+    let x :Int
+    let y: Int
+    let width :Int
+    let height :Int
+    
+    init(_ string :String) {
+        let components = string.components(separatedBy: " ")
+        var id = components[0]
+        id.removeFirst()
+        self.id = Int(id)!
+        var pos = components[2]
+        pos.removeLast()
+        self.x = Int(pos.components(separatedBy: ",")[0])!
+        self.y = Int(pos.components(separatedBy: ",")[1])!
+        let size = components[3]
+        self.width = Int(size.components(separatedBy: "x")[0])!
+        self.height = Int(size.components(separatedBy: "x")[1])!
+    }
+}
 
 func problem(_ input:String) -> Solution {
     var solution = Solution()
     
-    var twos = 0
-    var threes = 0
+    let claims = input.lines().map { (str) -> Claim in return Claim(str) }
     
-    let boxes = input.lines()
+    var points = [Point:Int]()
     
-    for box in boxes {
-        var one = Set<Character>()
-        var two = Set<Character>()
-        var three = Set<Character>()
-        var more = Set<Character>()
-        for char in box {
-            if more.contains(char) {
-                continue
-            } else if three.contains(char) {
-                three.remove(char)
-                more.insert(char)
-            }else if two.contains(char) {
-                two.remove(char)
-                three.insert(char)
-            }else if one.contains(char) {
-                one.remove(char)
-                two.insert(char)
-            } else {
-                one.insert(char)
+    
+    for c in claims {
+        for x in c.x..<c.x+c.width {
+            for y in c.y..<c.y+c.height {
+                if points[Point(x:x,y:y)] == nil {
+                    points[Point(x:x,y:y)] = 0
+                }
+                points[Point(x:x,y:y)] = points[Point(x:x,y:y)]! + 1
             }
-        }
-        if two.count > 0 {
-            twos += 1
-        }
-        if three.count > 0 {
-            threes += 1
         }
     }
     
-    solution.partOne = "\(twos * threes)"
-    
-    func diff(_ a: String, _ b: String) -> Int{
-        if a.count != b.count {
-            return max(a.count,b.count)
+    var disputed = 0
+    for (_,count) in points {
+        if count > 1 {
+            disputed += 1
         }
-        var diff = 0
-        for i in 0..<a.count {
-            if a[i] != b[i] {
-                diff += 1
-            }
-        }
-        return diff
     }
+    solution.partOne = "\(disputed)"
     
-    func intersection(_ a: String, _ b: String) -> String {
-        var inter = ""
-        for i in 0..<a.count {
-            if a[i] == b[i] {
-                inter += a[i]
+    for c in claims {
+        var disputed = false
+        toClaims: for x in c.x..<c.x+c.width {
+            for y in c.y..<c.y+c.height {
+                if let p = points[Point(x:x,y:y)], p > 1 {
+                    disputed = true
+                    break toClaims
+                }
             }
         }
-        return inter
-    }
-    
-    all: for b in boxes {
-        for a in boxes {
-            if a == b {
-                continue
-            }
-            if diff(a,b) == 1 {
-                solution.partTwo = "\(intersection(a,b))"
-                break all
-            }
+        if !disputed {
+            solution.partTwo = "\(c.id)"
+            break
         }
     }
     
