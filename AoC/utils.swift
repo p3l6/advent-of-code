@@ -41,7 +41,28 @@ extension String {
         return split(separator:"\n").map { String($0.trimmingCharacters(in: .whitespaces)) }
     }
     
-    /// function that returns an array of integers based on a format string and an input
+    /// Format is a string with % where the numbers should be.
+    /// If it doesnt match, nil will be returned
+    /// A second, optional parameter allows specifying the wildcard character(s). Use a wildcard character that doesn't appear in the string
+    func extract(format:String, wildcard :String = "%") -> [Int]? {
+        let scanner = Scanner(string:self)
+        scanner.charactersToBeSkipped = nil // the default here skips whitespace characters
+        var skippers = format.components(separatedBy: wildcard)
+        skippers.removeLast() // the last component here is after the final wildcard
+        var intList = [Int]()
+        for skipper in skippers {
+            if !scanner.scanString(skipper, into: nil) {
+                return nil
+            }
+            var thisInteger = 0
+            if scanner.scanInt(&thisInteger) {
+                intList.append(thisInteger)
+            } else {
+                return nil
+            }
+        }
+        return intList
+    }
 }
 
 extension Character {

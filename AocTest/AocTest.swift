@@ -37,3 +37,10 @@ class AocTest: XCTestCase {
     }
 }
 
+class UtilsTest: XCTestCase {
+    func testExtract() {
+        XCTAssertEqual("#1 @ 1,3: 4x4".extract(format:"#% @ %,%: %x%"),
+                       [1,1,3,4,4])
+    }
+}
+
