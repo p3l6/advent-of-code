@@ -172,4 +172,72 @@ struct Point :Hashable {
         case .west: return Point(x:x-1, y:y)
         }
     }
+    
+    init(_ x:Int, _ y:Int) {
+        self.x = x
+        self.y = y
+    }
+    init( x:Int,  y:Int) {
+        self.x = x
+        self.y = y
+    }
+    static func +(_ point:Point, _ additional:(x:Int,y:Int)) -> Point {
+        return Point(point.x+additional.x,point.y+additional.y)
+    }
+}
+
+struct Area :Sequence {
+    let start :Point
+    let width :Int
+    let height :Int
+    init(at:Point, w:Int, h:Int) {
+        start = at
+        width = w
+        height = h
+    }
+    func makeIterator() -> Area.Iterator {
+        return Area.Iterator(self)
+    }
+    struct Iterator :IteratorProtocol{
+        let area: Area
+        var times = 0
+        init(_ area: Area) {
+            self.area = area
+        }
+        mutating func next() -> Point? {
+            let yOffset = times / area.width
+            guard yOffset < area.height
+                else { return nil }
+            let xOffset = times % area.width
+            times += 1
+            return area.start + (xOffset,yOffset)
+        }
+    }
+}
+
+class InfiniteGrid<T:Equatable> {
+    var grid = [Point: T]()
+    let defaultValue :T
+    
+    init(defaultValue:T) {
+        self.defaultValue = defaultValue
+    }
+    
+    subscript (p: Point) -> T {
+        get {
+            if let thing = grid[p] {
+                return thing
+            }
+            return defaultValue
+        }
+        set {
+            grid[p] = newValue
+        }
+    }
+    
+    func forEach(_ body: (Point, T) throws -> Void ) rethrows {
+        for (point, value) in grid {
+            try body(point,value)
+        }
+    }
 }
