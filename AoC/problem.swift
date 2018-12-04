@@ -7,72 +7,132 @@
 
 import Foundation
 
-let problemDay = 3
+let problemDay = 4
 
-struct Claim {
-    let id :Int
-    let x :Int
-    let y: Int
-    let width :Int
-    let height :Int
+class Guard :Equatable {
+    struct Date :Comparable{
+        static func < (lhs: Guard.Date, rhs: Guard.Date) -> Bool {
+            if lhs.month == rhs.month {
+                if lhs.day == rhs.day {
+                    if lhs.hour == rhs.hour {
+                        return lhs.minute < rhs.minute
+                    } else {
+                        return lhs.hour < rhs.hour
+                    }
+                } else {
+                    return lhs.day < rhs.day
+                }
+            } else {
+                return lhs.month < rhs.month
+            }
+        }
+        
+        let month :Int
+        let day :Int
+        let hour :Int
+        let minute :Int
+    }
     
-    init(_ string :String) {
-        let components = string.components(separatedBy: " ")
-        var id = components[0]
-        id.removeFirst()
-        self.id = Int(id)!
-        var pos = components[2]
-        pos.removeLast()
-        self.x = Int(pos.components(separatedBy: ",")[0])!
-        self.y = Int(pos.components(separatedBy: ",")[1])!
-        let size = components[3]
-        self.width = Int(size.components(separatedBy: "x")[0])!
-        self.height = Int(size.components(separatedBy: "x")[1])!
+    enum EventType {
+        case ToSleep
+        case WakeUp
+    }
+    
+    struct Event {
+        let type : EventType
+        let date : Date
+    }
+    
+    let id: Int
+    var events = [Event]()
+    
+    init(id:Int) {
+        self.id = id
+    }
+    
+    func addEvent (_ t:EventType, _ d :Date) {
+        events.append(Event(type: t, date: d))
+    }
+    
+    static func == (lhs: Guard, rhs: Guard) -> Bool { return lhs.id == rhs.id }
+    
+    private var _sleepTime :Int? = nil
+    private var _asleepMins = [Int](repeating: 0, count: 60)
+    var sleepTime :Int {
+        if let s = _sleepTime  {
+            return s
+        }
+        
+        var total = 0
+        var sortedEvents = events.sorted(by: { (left,right) -> Bool in return left.date < right.date })
+        
+        while sortedEvents.count > 0 {
+            let asleep = sortedEvents.removeFirst()
+            let awake = sortedEvents.removeFirst()
+            assert(asleep.type == .ToSleep)
+            assert(awake.type == .WakeUp)
+            total += awake.date.minute - asleep.date.minute
+            for i in asleep.date.minute..<awake.date.minute {
+                _asleepMins[i] += 1
+            }
+        }
+        
+        _sleepTime = total
+        return total
+    }
+    
+    func maxMinute() -> (minute:Int,times:Int) {
+        var index = 0
+        for i in 0..<60 {
+            if _asleepMins[i] > _asleepMins[index] {
+                index = i
+            }
+        }
+        return (index,_asleepMins[index])
     }
 }
 
 func problem(_ input:String) -> Solution {
     var solution = Solution()
     
-    let claims = input.lines().map { (str) -> Claim in return Claim(str) }
+    var guards = [Int:Guard]()
+    var currentGaurd = Guard(id:-1)
     
-    var points = [Point:Int]()
-    
-    
-    for c in claims {
-        for x in c.x..<c.x+c.width {
-            for y in c.y..<c.y+c.height {
-                if points[Point(x:x,y:y)] == nil {
-                    points[Point(x:x,y:y)] = 0
-                }
-                points[Point(x:x,y:y)] = points[Point(x:x,y:y)]! + 1
+    for line in input.lines().sorted() {
+        let parts = line.split(separator: "]")
+        let dComps = String(parts[0]).extract(format: "[1518-%-% %:%")!
+        let eventDate = Guard.Date(month: dComps[0], day: dComps[1], hour: dComps[2], minute: dComps[3])
+        if let id = String(parts[1]).extract(format: " Guard #% begins shift")?.first {
+            if guards[id] == nil {
+                guards[id] = Guard(id: id)
             }
+            currentGaurd = guards[id]!
+        } else if parts[1] == " falls asleep" {
+            currentGaurd.addEvent(.ToSleep, eventDate)
+        } else if parts[1] == " wakes up" {
+            currentGaurd.addEvent(.WakeUp, eventDate)
+        } else {
+            print("could not parse line!")
         }
     }
     
-    var disputed = 0
-    for (_,count) in points {
-        if count > 1 {
-            disputed += 1
+    var gMax = Guard(id:-1)
+    for g in guards.values {
+        if g.sleepTime > gMax.sleepTime {
+            gMax = g
         }
     }
-    solution.partOne = "\(disputed)"
     
-    for c in claims {
-        var disputed = false
-        toClaims: for x in c.x..<c.x+c.width {
-            for y in c.y..<c.y+c.height {
-                if let p = points[Point(x:x,y:y)], p > 1 {
-                    disputed = true
-                    break toClaims
-                }
-            }
-        }
-        if !disputed {
-            solution.partTwo = "\(c.id)"
-            break
+    solution.partOne = "\(gMax.id * gMax.maxMinute().minute)"
+    
+    gMax = Guard(id:-1)
+    for g in guards.values {
+        if g.maxMinute().times > gMax.maxMinute().times {
+            gMax = g
         }
     }
+    
+    solution.partTwo = "\(gMax.id * gMax.maxMinute().minute)"
     
     return solution
 }
