@@ -37,8 +37,12 @@ extension String {
         return split(separator:sep).map { Int($0.trimmingCharacters(in: .whitespaces))! }
     }
     
+    func stringArray(_ sep: Character) -> [String] {
+        return split(separator:sep).map { String($0.trimmingCharacters(in: .whitespaces)) }
+    }
+    
     func lines() -> [String] {
-        return split(separator:"\n").map { String($0.trimmingCharacters(in: .whitespaces)) }
+        return self.stringArray("\n")
     }
     
     /// Format is a string with % where the numbers should be.
