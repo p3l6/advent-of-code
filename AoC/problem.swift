@@ -9,6 +9,9 @@ import Foundation
 
 let problemDay = 3
 
+// part one: 109143
+// part two: 506
+
 struct Claim {
     let id :Int
     let x :Int
@@ -36,22 +39,16 @@ func problem(_ input:String) -> Solution {
     
     let claims = input.lines().map { (str) -> Claim in return Claim(str) }
     
-    var points = [Point:Int]()
-    
+    let points = InfiniteGrid<Int>(defaultValue: 0)
     
     for c in claims {
-        for x in c.x..<c.x+c.width {
-            for y in c.y..<c.y+c.height {
-                if points[Point(x:x,y:y)] == nil {
-                    points[Point(x:x,y:y)] = 0
-                }
-                points[Point(x:x,y:y)] = points[Point(x:x,y:y)]! + 1
-            }
+        for p in Area(at: Point(c.x,c.y), w:c.width, h:c.height) {
+            points[p] = points[p] + 1
         }
     }
     
     var disputed = 0
-    for (_,count) in points {
+    points.forEach() { (_,count) in
         if count > 1 {
             disputed += 1
         }
@@ -60,12 +57,10 @@ func problem(_ input:String) -> Solution {
     
     for c in claims {
         var disputed = false
-        toClaims: for x in c.x..<c.x+c.width {
-            for y in c.y..<c.y+c.height {
-                if let p = points[Point(x:x,y:y)], p > 1 {
-                    disputed = true
-                    break toClaims
-                }
+        for p in Area(at: Point(c.x,c.y), w:c.width, h:c.height) {
+            if points[p] > 1 {
+                disputed = true
+                break
             }
         }
         if !disputed {
