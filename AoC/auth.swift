@@ -9,6 +9,7 @@ import Foundation
 
 enum SolutionState :String {
     case unsolved = "unsolved"
+    case previouslySubmitted = "prevSolved"
 }
 
 struct Solution {
@@ -27,6 +28,12 @@ struct Storage :Codable {
     var partOne = Part()
     var partTwo = Part()
     var filePath :String { return "\(localFolder)/\(cacheFolderName)/day_\(day).json"}
+    struct EasterEgg :Codable {
+        var saved :Bool = false
+        var text :String = ""
+        var hover :String = ""
+    }
+    var easterEgg = EasterEgg()
     
     init(day:Int) {
         self.day = day
@@ -106,7 +113,7 @@ class Auth {
                 print("[Server] Solution part one verified!")
             } else if response.contains("Did you already complete it?") {
                 store.partOne.succeeded = true
-                store.partOne.answer = "Unknown. Previously submitted."
+                store.partOne.answer = SolutionState.previouslySubmitted.rawValue
             } else {
                 print("[Server] Solution part one false")
                 print(response[response.lineRange(for: response.range(of: "<article>")!)])
@@ -130,13 +137,33 @@ class Auth {
                 print("[Server] Solution part two verified!")
             } else if response.contains("Did you already complete it?") {
                 store.partTwo.succeeded = true
-                store.partTwo.answer = "Unknown. Previously submitted."
+                store.partTwo.answer = SolutionState.previouslySubmitted.rawValue
             } else {
                 print("[Server] Solution part two false")
                 print(response[response.lineRange(for: response.range(of: "<article>")!)])
             }
             store.save()
 //            part2Submitted = true
+        }
+        
+        if store.partOne.succeeded && store.partTwo.succeeded {
+            if !store.easterEgg.saved {
+                let response = self.query(address: "\(urlBase)/day/\(day)") ?? "[Error] no response from server while getting easter egg"
+                let startRange = response.range(of: "<span title=\"")
+                if let startRange = startRange {
+                    let endRange = response.range(of: "</span>", options: [], range:startRange.upperBound..<response.endIndex)
+                    if let endRange = endRange {
+                        let both = response[startRange.upperBound..<endRange.lowerBound].split(separator: ">")
+                        store.easterEgg.saved = true
+                        store.easterEgg.text = String(both[1])
+                        store.easterEgg.hover = String(both[0])
+                        store.easterEgg.hover.removeLast() // remove trailing quote character
+                        store.save()
+                    }
+                }
+                // if needs to extract previous answers...ie: store.partTwo.answer == SolutionState.previouslySubmitted.rawValue
+            }
+            print("easter egg: \(store.easterEgg.text)\n          : \(store.easterEgg.hover)")
         }
         
         return (store.partOne.succeeded, store.partTwo.succeeded)
