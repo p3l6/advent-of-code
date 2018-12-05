@@ -11,7 +11,11 @@ print("day: \(problemDay)")
 
 let auth = Auth()
 
-let input = auth.input(day: problemDay) // day is configured in problem.swift
+var input = auth.input(day: problemDay) // day is configured in problem.swift
+if input.hasSuffix("\n") {
+    input.removeLast()
+    print("stripped trailing newline from input")
+}
 let numLines = input.split(separator: "\n").count
 let numChars = input.count
 switch numLines {

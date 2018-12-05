@@ -70,8 +70,15 @@ extension String {
 }
 
 extension Character {
-    var asciiValue: UInt32? {
-        return String(self).unicodeScalars.filter{$0.isASCII}.first?.value
+    var asciiValue: UInt8 {
+        return UInt8(ascii: self.unicodeScalars.first!)
+    }
+    var lowerCase: Character {
+        let ascii = self.asciiValue
+        if ascii >= 97 {
+            return self
+        }
+        return Character(UnicodeScalar(ascii + 32))
     }
 }
 
