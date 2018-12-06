@@ -55,7 +55,7 @@ extension String {
         skippers.removeLast() // the last component here is after the final wildcard
         var intList = [Int]()
         for skipper in skippers {
-            if !scanner.scanString(skipper, into: nil) {
+            if skipper.count > 0 && !scanner.scanString(skipper, into: nil) {
                 return nil
             }
             var thisInteger = 0
@@ -191,6 +191,12 @@ struct Point :Hashable {
     static func +(_ point:Point, _ additional:(x:Int,y:Int)) -> Point {
         return Point(point.x+additional.x,point.y+additional.y)
     }
+    static func -(_ point:Point, _ additional:(x:Int,y:Int)) -> Point {
+        return Point(point.x-additional.x,point.y-additional.y)
+    }
+    func taxi(to other:Point) -> Int {
+        return abs(x-other.x) + abs(y-other.y)
+    }
 }
 
 struct Area :Sequence {
@@ -202,6 +208,29 @@ struct Area :Sequence {
         width = w
         height = h
     }
+    init(asBoundingBoxOf points:[Point]) {
+        var min = (x:points.first!.x, y:points.first!.y)
+        var max = min
+        for p in points {
+            if p.x < min.x { min.x = p.x }
+            if p.x > max.x { max.x = p.x }
+            if p.y < min.y { min.y = p.y }
+            if p.y > max.y { max.y = p.y }
+        }
+        start = Point(min.x,min.y)
+        width = max.x - min.x + 1
+        height = max.y - min.y + 1
+    }
+    
+    func outset(by: Int) -> Area {
+        return Area(at: start - (by,by), w: width + 2*by, h: height + 2*by)
+    }
+    
+    func contains(point:Point) -> Bool {
+        return start.x <= point.x && point.x < start.x + width &&
+               start.y <= point.y && point.y < start.y + height
+    }
+    
     func makeIterator() -> Area.Iterator {
         return Area.Iterator(self)
     }

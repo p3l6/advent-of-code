@@ -7,47 +7,70 @@
 
 import Foundation
 
-let problemDay = 5
+let problemDay = 6
 
-func reacts(_ a: Character, _ b:Character) -> Bool {
-    return a != b && a.lowerCase == b.lowerCase
-}
+let UNOWNED = -1
+let TIED = -2
 
-func react(_ poly: [Character]) -> [Character] {
-    var i = 0
-    var polymer = poly
-    while i+1 < polymer.count {
-        if reacts(polymer[i],polymer[i+1]) {
-            // all the time is spent removing these. A linked list would be much better
-            polymer.remove(at: i)
-            polymer.remove(at: i)
-            i = max(i-1, 0)
-        } else {
-            i += 1
-        }
-    }
-    return polymer
+func printGrid(_ grid:[[Int]]) {
+    grid.map { (row) -> String in
+        row.reduce("", { (s, owner) -> String in
+            switch owner {
+            case TIED: return s + "."
+            case UNOWNED: return s + " "
+            default: return s + "\(owner)"
+            }
+        })
+    }.forEach { (s) in print(s) }
 }
 
 func problem(_ input:String) -> Solution {
     var solution = Solution()
     
-    let initialPolymer = [Character](input)
+    let ownerLocations = input.lines().map { (str) -> Point in
+        let parts = str.extract(format: "%, %")!
+        return Point(parts[0],parts[1])
+    }
     
-    let polymer = react(initialPolymer)
-    solution.partOne = "\(polymer.count)"
+    var window = Area(asBoundingBoxOf: ownerLocations)
+    window = window.outset(by: 1)
+
+    var grid = [[Int]](repeatElement([Int](repeating: UNOWNED, count: window.width), count: window.height))
+    var safeRegionSize = 0
     
-    var min = initialPolymer.count
-    for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" {
-        var polymer = initialPolymer
-        polymer.removeAll { (ch) -> Bool in return c == ch || ch == c.lowerCase }
-        polymer = react(polymer)
-        if polymer.count < min {
-            min = polymer.count
+// for each in grid, find min distance and sum of distances
+    for point in window {
+        let distances :[Int] = ownerLocations.map { $0.taxi(to: point) }
+        let min = distances.min()!
+        let count = distances.reduce(0) { count, dist in dist == min ? count + 1 : count }
+        grid[point.y-window.start.y][point.x-window.start.x] = count>1 ? TIED : distances.firstIndex(of: min)!
+        
+        let sum = distances.reduce(0, +)
+        if sum < 10_000 {
+            safeRegionSize += 1
         }
     }
     
-    solution.partTwo = "\(min)"
+//    Count owners
+    var ownerCounts = [Int](repeating: 0, count: ownerLocations.count)
+    for row in grid {
+        for owner in row {
+            if owner >= 0 {
+                ownerCounts[owner] += 1
+            }
+        }
+    }
+    
+//    Reject window border
+    for owner in grid[0] { if owner >= 0 { ownerCounts[owner] = 0 }}
+    for owner in grid[grid.count-1] { if owner >= 0 { ownerCounts[owner] = 0 }}
+    for row in grid {
+        if row[0] >= 0 { ownerCounts[row[0]] = 0}
+        if row[row.count-1] >= 0 { ownerCounts[row[row.count-1]] = 0 }
+    }
+
+    solution.partOne = "\(ownerCounts.max()!)"
+    solution.partTwo = "\(safeRegionSize)"
     
     return solution
 }
