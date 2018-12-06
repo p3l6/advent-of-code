@@ -7,7 +7,7 @@
 
 import Foundation
 
-func runay(_ problemDay:Int, _ problem:Problem, check:Bool = true) {
+func runDay(_ problemDay:Int, _ problem:Problem, check:Bool = true) {
 
     print("day: \(problemDay)")
 
@@ -57,6 +57,6 @@ let days :[(Int, Bool,Problem)] = [(1,runDay1,day1), (2,runDay2,day2),(3,runDay3
 for (day, shouldRun, function) in days {
     if (overrideRange == nil && shouldRun) ||
         (overrideRange != nil && overrideRange!.contains(day)) {
-        runay(day, function, check: false)
+        runDay(day, function, check: overrideRange != nil)
     }
 }
