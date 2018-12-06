@@ -9,6 +9,9 @@ import Foundation
 
 typealias Problem = (String) -> Solution
 
+let overrideRange :ClosedRange<Int>? /* */ = nil // */ = 1...4
+//    remove these chars to use range   ^^
+
 let localFolder = "/Users/paul/var/AdventOfCode"
 let cacheFolderName = "Cache"
 let pageDumpFolderName = "RawHttp"

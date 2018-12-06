@@ -24,11 +24,57 @@ class AocTest: XCTestCase {
     }
 }
 
-class Day1Tests: AocTest { override var problem:Problem{return day1}; override var examples :[Case] { return [ ]}}
-class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] { return [ ]}}
-class Day3Tests: AocTest { override var problem:Problem{return day3}; override var examples :[Case] { return [ ]}}
-class Day4Tests: AocTest { override var problem:Problem{return day4}; override var examples :[Case] { return [ ]}}
-class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return [ ]}}
+class Day1Tests: AocTest { override var problem:Problem{return day1}; override var examples :[Case] { return [
+    Case(input:"+1\n-2\n+3\n1", p1:"3", p2:"2"),
+    Case(input:"+3\n+3\n+4\n-2\n-4", p1:"", p2:"10"),
+    ]}}
+class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] { return [
+    Case(input:"abcdef\nbababc\nabbcde\nabcccd\naabcdd\nabcdee\nababab", p1:"12", p2:""),
+    Case(input:"""
+    abcde
+    fghij
+    klmno
+    pqrst
+    fguij
+    axcye
+    wvxyz
+    """, p1:"", p2:"fgij"),
+    ]}}
+class Day3Tests: AocTest { override var problem:Problem{return day3}; override var examples :[Case] { return [
+    Case(input:"""
+    #1 @ 1,2: 4x5
+    #2 @ 3,1: 4x4
+    #3 @ 5,5: 2x2
+    """, p1:"6", p2:""),
+    ]}}
+class Day4Tests: AocTest { override var problem:Problem{return day4}; override var examples :[Case] { return [
+    Case(input:"""
+    [1518-11-01 00:00] Guard #10 begins shift
+    [1518-11-01 00:05] falls asleep
+    [1518-11-01 00:25] wakes up
+    [1518-11-01 00:30] falls asleep
+    [1518-11-03 00:24] falls asleep
+    [1518-11-01 00:55] wakes up
+    [1518-11-01 23:58] Guard #99 begins shift
+    [1518-11-02 00:40] falls asleep
+    [1518-11-02 00:50] wakes up
+    [1518-11-03 00:29] wakes up
+    [1518-11-03 00:05] Guard #10 begins shift
+    [1518-11-04 00:02] Guard #99 begins shift
+    [1518-11-04 00:36] falls asleep
+    [1518-11-04 00:46] wakes up
+    [1518-11-05 00:03] Guard #99 begins shift
+    [1518-11-05 00:45] falls asleep
+    [1518-11-05 00:55] wakes up
+    """, p1:"240", p2:"4455"),
+    ]}}
+class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return [
+    Case(input:"dabAcCaCBAcCcaDA", p1:"10", p2:"4"),
+    Case(input:"aA", p1:"0", p2:""),
+    Case(input:"abBA", p1:"0", p2:""),
+    Case(input:"abAB", p1:"4", p2:""),
+    Case(input:"aabAAB", p1:"6", p2:""),
+    ]}}
 class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
     Case(input:"""
     1, 1
@@ -39,25 +85,63 @@ class Day6Tests: AocTest { override var problem:Problem{return day6}; override v
     8, 9
     """, p1:"17", p2:"110"),
     ]}}
-class Day7Tests: AocTest { override var problem:Problem{return day7}; override var examples :[Case] { return [ ]}}
-class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [ ]}}
-class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [ ]}}
-class Day10Tests: AocTest { override var problem:Problem{return day10}; override var examples :[Case] { return [ ]}}
-class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [ ]}}
-class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [ ]}}
-class Day13Tests: AocTest { override var problem:Problem{return day13}; override var examples :[Case] { return [ ]}}
-class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [ ]}}
-class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [ ]}}
-class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [ ]}}
-class Day17Tests: AocTest { override var problem:Problem{return day17}; override var examples :[Case] { return [ ]}}
-class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [ ]}}
-class Day19Tests: AocTest { override var problem:Problem{return day19}; override var examples :[Case] { return [ ]}}
-class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [ ]}}
-class Day21Tests: AocTest { override var problem:Problem{return day21}; override var examples :[Case] { return [ ]}}
-class Day22Tests: AocTest { override var problem:Problem{return day22}; override var examples :[Case] { return [ ]}}
-class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [ ]}}
-class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [ ]}}
-class Day25Tests: AocTest { override var problem:Problem{return day25}; override var examples :[Case] { return [ ]}}
+class Day7Tests: AocTest { override var problem:Problem{return day7}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day10Tests: AocTest { override var problem:Problem{return day10}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day13Tests: AocTest { override var problem:Problem{return day13}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day17Tests: AocTest { override var problem:Problem{return day17}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day19Tests: AocTest { override var problem:Problem{return day19}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day21Tests: AocTest { override var problem:Problem{return day21}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day22Tests: AocTest { override var problem:Problem{return day22}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
+class Day25Tests: AocTest { override var problem:Problem{return day25}; override var examples :[Case] { return [
+    //Case(input:"", p1:"", p2:""),
+    ]}}
 
 
 class UtilsTest: XCTestCase {

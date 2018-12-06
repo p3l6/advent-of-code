@@ -55,7 +55,8 @@ let days :[(Int, Bool,Problem)] = [(1,runDay1,day1), (2,runDay2,day2),(3,runDay3
                                    (16,runDay16,day16),(17,runDay17,day17),(18,runDay18,day18),(19,runDay19,day19),(20,runDay20,day20),
                                    (21,runDay21,day21),(22,runDay22,day22),(23,runDay23,day23),(24,runDay24,day24),(25,runDay25,day25),]
 for (day, shouldRun, function) in days {
-    if shouldRun {
+    if (overrideRange == nil && shouldRun) ||
+        (overrideRange != nil && overrideRange!.contains(day)) {
         runay(day, function, check: false)
     }
 }

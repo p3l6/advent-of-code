@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay6 = true
+let runDay6 = false
 
 let UNOWNED = -1
 let TIED = -2

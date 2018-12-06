@@ -11,7 +11,26 @@ let runDay1 = false
 
 func day1 (_ input:String) -> Solution {
     var solution = Solution()
-    solution.partOne = solution.partTwo // "\()"
-//    solution.partTwo = "\()"
+    
+    let ints = input.integerArray("\n")
+    var freq = 0
+    
+    for i in ints {
+        freq += i
+    }
+    solution.partOne = "\(freq)"
+    
+    freq = 0
+    var freqs = Set<Int>()
+    all: while true {
+        for i in ints {
+            freq += i
+            if freqs.contains(freq) {
+                solution.partTwo = "\(freq)"
+                break all
+            }
+            freqs.insert(freq)
+        }
+    }
     return solution
 }
