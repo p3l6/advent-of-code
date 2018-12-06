@@ -2,10 +2,12 @@
 //  constants.swift
 //  AoC
 //
-//  Created by Paul Landers on 11/13/18.
-//
+//  To create all days from a template day1.swift:
+//    for i in $(seq 2 25); do cat day1.swift | sed "s/1/$i/g" > day$i.swift; done
 
 import Foundation
+
+typealias Problem = (String) -> Solution
 
 let localFolder = "/Users/paul/var/AdventOfCode"
 let cacheFolderName = "Cache"

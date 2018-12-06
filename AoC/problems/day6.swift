@@ -1,13 +1,13 @@
 //
-//  problem.swift
+//  day6.swift
 //  AoC
 //
-//  Created by Paul Landers on 11/8/18.
+//  Created by Paul Landers
 //
 
 import Foundation
 
-let problemDay = 6
+let runDay6 = true
 
 let UNOWNED = -1
 let TIED = -2
@@ -24,7 +24,7 @@ func printGrid(_ grid:[[Int]]) {
     }.forEach { (s) in print(s) }
 }
 
-func problem(_ input:String) -> Solution {
+func day6 (_ input:String) -> Solution {
     var solution = Solution()
     
     let ownerLocations = input.lines().map { (str) -> Point in
