@@ -9,27 +9,21 @@ import Foundation
 
 let runDay5 = false
 
-
 func reacts(_ a: Character, _ b:Character) -> Bool {
     return a != b && a.lowerCase == b.lowerCase
 }
 
-func react(_ poly: [Character]) -> [Character] {
-    var i = 0
-    var polymer = poly
-    while i+1 < polymer.count {
-        if reacts(polymer[i],polymer[i+1]) {
-            // all the time is spent removing these. A linked list would be much better
-            polymer.remove(at: i)
-            polymer.remove(at: i)
-            i = max(i-1, 0)
+func react(_ polyIn: [Character]) -> [Character] {
+    var polyOut = [Character]()
+    for charIn in polyIn {
+        if polyOut.isEmpty || !reacts(polyOut.last!,charIn) {
+            polyOut.append(charIn)
         } else {
-            i += 1
+            polyOut.removeLast()
         }
     }
-    return polymer
+    return polyOut
 }
-
 
 func day5 (_ input:String) -> Solution {
     var solution = Solution()

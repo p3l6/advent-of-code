@@ -57,6 +57,6 @@ let days :[(Int, Bool,Problem)] = [(1,runDay1,day1), (2,runDay2,day2),(3,runDay3
 for (day, shouldRun, function) in days {
     if (overrideRange == nil && shouldRun) ||
         (overrideRange != nil && overrideRange!.contains(day)) {
-        runDay(day, function, check: overrideRange != nil)
+        runDay(day, function, check: overrideRange == nil)
     }
 }
