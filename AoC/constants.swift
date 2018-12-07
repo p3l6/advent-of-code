@@ -10,7 +10,7 @@ import Foundation
 typealias Problem = (String) -> Solution
 
 let overrideRange :ClosedRange<Int>? /* */ = nil // */ = 1...4
-//    remove these chars to use range   ^^
+//    add a space between these chars   ^^    to set the range
 
 let localFolder = "/Users/paul/var/AdventOfCode"
 let cacheFolderName = "Cache"

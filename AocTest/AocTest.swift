@@ -86,7 +86,15 @@ class Day6Tests: AocTest { override var problem:Problem{return day6}; override v
     """, p1:"17", p2:"110"),
     ]}}
 class Day7Tests: AocTest { override var problem:Problem{return day7}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"""
+Step C must be finished before step A can begin.
+Step C must be finished before step F can begin.
+Step A must be finished before step B can begin.
+Step A must be finished before step D can begin.
+Step B must be finished before step E can begin.
+Step D must be finished before step E can begin.
+Step F must be finished before step E can begin.
+""", p1:"CABDFE", p2:""),
     ]}}
 class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
