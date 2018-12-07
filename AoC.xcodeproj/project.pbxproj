@@ -65,7 +65,6 @@
 		DAD346E6219B537400D0CEA8 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346B8219B4C4200D0CEA8 /* constants.swift */; };
 		DAD346E7219B537400D0CEA8 /* auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D972194FCE400D2470D /* auth.swift */; };
 		DAD346ED219B53F200D0CEA8 /* AocTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346EB219B53F200D0CEA8 /* AocTest.swift */; };
-		DAD346EE219B53F200D0CEA8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAD346EC219B53F200D0CEA8 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -282,7 +281,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAD346EE219B53F200D0CEA8 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

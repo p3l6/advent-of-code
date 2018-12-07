@@ -7,40 +7,14 @@
 
 import Foundation
 
-let runDay7 = true
+let runDay7 = false
 
-class Graph<T> where T:Hashable, T:Comparable {
-    class Node {
-        let value :T
-        var completed = false
-        var inputs = [Node]()
-        var outputs = [Node]()
-        init(value: T) { self.value = value }
-    }
-    
-    var nodes = [T:Node]()
-    
-    func addNode(_ val:T) -> Node {
-        let newNode = Node(value: val)
-        nodes[val] = newNode
-        return newNode
-    }
-    
-    func addDependency(from:T, to:T){
-        let fromNode = nodes[from] ?? addNode(from)
-        let toNode = nodes[to] ?? addNode(to)
-        fromNode.outputs.append(toNode)
-        toNode.inputs.append(fromNode)
-    }
-    
-    func firstNodes() -> [Node] {
-        return nodes.values.filter { $0.inputs.isEmpty }
-    }
-    
+
+extension Graph {
     func orderedValues() -> [T] {
         assert(nodes.count <= 26)
         var ordered = [T]()
-        var availible :[Node] = firstNodes()
+        var availible :[Node] = entryNodes()
         while !availible.isEmpty {
             availible.sort { $0.value < $1.value }
             let next = availible.removeFirst()
@@ -55,7 +29,7 @@ class Graph<T> where T:Hashable, T:Comparable {
     func timedAssembly() -> Int {
         var time = 0
         var workers = [(Int, Node?)](repeating: (0,nil), count: 5)
-        var availible :[Node] = firstNodes()
+        var availible :[Node] = entryNodes()
         while true {
             var anyoneWorking = false
             for (worker,(finishTime,workNode)) in workers.enumerated() {
@@ -98,7 +72,7 @@ func day7 (_ input:String) -> Solution {
     for requirement in input.lines() {
         let before = requirement[5]
         let after = requirement[36]
-        graph.addDependency(from: before, to: after)
+        graph.addEdge(from: before, to: after)
     }
     
     solution.partOne = graph.orderedValues().joined()
