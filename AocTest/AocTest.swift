@@ -97,7 +97,7 @@ class Day7Tests: AocTest { override var problem:Problem{return day7}; override v
     """, p1:"CABDFE", p2:""),
     ]}}
 class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2", p1:"138", p2:"66"),
     ]}}
 class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
