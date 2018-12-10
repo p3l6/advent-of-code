@@ -100,7 +100,12 @@ class Day8Tests: AocTest { override var problem:Problem{return day8}; override v
     Case(input:"2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2", p1:"138", p2:"66"),
     ]}}
 class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"9 players; last marble is worth 25 points", p1:"32", p2:""),
+    Case(input:"10 players; last marble is worth 1618 points", p1:"8317", p2:""),
+    Case(input:"13 players; last marble is worth 7999 points", p1:"146373", p2:""),
+    Case(input:"17 players; last marble is worth 1104 points", p1:"2764", p2:""),
+    Case(input:"21 players; last marble is worth 6111 points", p1:"54718", p2:""),
+    Case(input:"30 players; last marble is worth 5807 points", p1:"37305", p2:""),
     ]}}
 class Day10Tests: AocTest { override var problem:Problem{return day10}; override var examples :[Case] { return [
     Case(input:"""
