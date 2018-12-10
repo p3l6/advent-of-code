@@ -50,15 +50,16 @@ extension String {
     /// A second, optional parameter allows specifying the wildcard character(s). Use a wildcard character that doesn't appear in the string
     func extract(format:String, wildcard :String = "%") -> [Int]? {
         let scanner = Scanner(string:self)
-        scanner.charactersToBeSkipped = nil // the default here skips whitespace characters
         var skippers = format.components(separatedBy: wildcard)
         skippers.removeLast() // the last component here is after the final wildcard
         var intList = [Int]()
         for skipper in skippers {
+            scanner.charactersToBeSkipped = nil // the default here skips whitespace characters
             if skipper.count > 0 && !scanner.scanString(skipper, into: nil) {
                 return nil
             }
             var thisInteger = 0
+            scanner.charactersToBeSkipped = CharacterSet.whitespaces
             if scanner.scanInt(&thisInteger) {
                 intList.append(thisInteger)
             } else {
@@ -229,6 +230,9 @@ struct Area :Sequence {
     func contains(point:Point) -> Bool {
         return start.x <= point.x && point.x < start.x + width &&
                start.y <= point.y && point.y < start.y + height
+    }
+    var area :Int {
+        return height * width
     }
     
     func makeIterator() -> Area.Iterator {
