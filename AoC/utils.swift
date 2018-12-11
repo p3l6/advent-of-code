@@ -282,6 +282,20 @@ class InfiniteGrid<T:Equatable> {
     }
 }
 
+class FiniteGrid<T> {
+    var grid :[[T]]
+    init(defaultValue:T, area:Area) {
+        assert(area.start == Point(0,0))  // TODO account for area offset!
+        let repeatRow = [T](repeating:defaultValue, count:area.width)
+        self.grid = [[T]](repeating: repeatRow, count: area.height)
+    }
+    
+    subscript(_ at: Point) -> T {
+        get { return grid[at.y][at.x] }
+        set { grid[at.y][at.x] = newValue }
+    }
+}
+
 class Graph<T> where T:Hashable, T:Comparable {
     class Node {
         let value :T
