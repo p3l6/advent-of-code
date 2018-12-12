@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay11 = true
+let runDay11 = false
 
 func day11 (_ input:String) -> Solution {
     var solution = Solution()
@@ -26,43 +26,40 @@ func day11 (_ input:String) -> Solution {
         powerLevels[p] = power
     }
     
-    var maxPower = (0,Point(1,1),3)
+    // https://en.wikipedia.org/wiki/Summed-area_table
+    let sumTable = FiniteGrid<Int>(defaultValue: 0, area: area)
+    
     for p in area {
-        if !area.contains(point: p+(2,2)) { continue }
-        let totalPower = powerLevels[p] + powerLevels[p+(1,0)] + powerLevels[p+(2,0)] +
-                         powerLevels[p+(0,1)] + powerLevels[p+(1,1)] + powerLevels[p+(2,1)] +
-                         powerLevels[p+(0,2)] + powerLevels[p+(1,2)] + powerLevels[p+(2,2)]
-        if totalPower > maxPower.0 {
-            maxPower = (totalPower,p,3)
+        sumTable[p] = powerLevels[p]
+        if p.x != 0 && p.y != 0 {
+            sumTable[p] += sumTable[p+( 0,-1)]
+            sumTable[p] += sumTable[p+(-1, 0)]
+            sumTable[p] -= sumTable[p+(-1,-1)] // See refernce link above
+        } else if  p.x != 0 {
+            sumTable[p] += sumTable[p+(-1,0)]
+        } else if p.y != 0 {
+            sumTable[p] += sumTable[p+( 0,-1)]
         }
     }
     
-    solution.partOne = "\(maxPower.1.x),\(maxPower.1.y)"
+    var maxPower = (0,Point(1,1),3)
+    var maxPower3 = (0,Point(1,1))
     
-    maxPower = (0,Point(1,1),3)
-    
-    
-    for p in area {
-//        if p.x == 0 { print("\(p.y) out of 300") }
-        var totalPower = powerLevels[p]
-        for size in 2...300 {
-            if !area.contains(point: p+(size-1,size-1)) { break }
+    for size in 1...299 {
+        for p in Area(at: area.start + (size,size), w: area.width-size, h: area.width-size) {
             
-            for sumPoint in Area(at:Point(p.x+size-1,p.y), w:1, h: size) {
-                totalPower += powerLevels[sumPoint]
-            }
-            for sumPoint in Area(at:Point(p.x,p.y+size-1), w:size-1, h: 1) {
-                totalPower += powerLevels[sumPoint]
-            }
+            let  totalPower = sumTable[p] + sumTable[p-(size,size)] - sumTable[p-(size,0)] - sumTable[p-(0,size)]
             
             if totalPower > maxPower.0 {
-                maxPower = (totalPower,p,size)
+                maxPower = (totalPower, p - (size-1,size-1), size)
+            }
+            if size == 3 && totalPower > maxPower3.0 {
+                maxPower3 = (totalPower, p - (size-1,size-1))
             }
         }
     }
     
+    solution.partOne = "\(maxPower3.1.x),\(maxPower3.1.y)"
     solution.partTwo = "\(maxPower.1.x),\(maxPower.1.y),\(maxPower.2)"
-    // 281_874 ms
-    // TODO make this much faster somehow
     return solution
 }
