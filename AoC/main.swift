@@ -49,6 +49,9 @@ func runDay(_ problemDay:Int, _ problem:Problem, check:Bool = true) {
     }
 }
 
+let allTimed = TicToc(named:"all problems")
+var daysRan = 0
+
 let days :[(Int, Bool,Problem)] = [(1,runDay1,day1), (2,runDay2,day2),(3,runDay3,day3),(4,runDay4,day4),(5,runDay5,day5),
                                    (6,runDay6,day6),(7,runDay7,day7),(8,runDay8,day8),(9,runDay9,day9),(10,runDay10,day10),
                                    (11,runDay11,day11),(12,runDay12,day12),(13,runDay13,day13),(14,runDay14,day14),(15,runDay15,day15),
@@ -58,5 +61,10 @@ for (day, shouldRun, function) in days {
     if (overrideRange == nil && shouldRun) ||
         (overrideRange != nil && overrideRange!.contains(day)) {
         runDay(day, function, check: overrideRange == nil)
+        daysRan += 1
     }
+}
+
+if daysRan > 1 {
+    allTimed.end()
 }
