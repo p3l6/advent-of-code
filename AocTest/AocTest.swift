@@ -184,8 +184,25 @@ class Day12Tests: AocTest { override var problem:Problem{return day12}; override
     """, p1:"325", p2:""),
     ]}}
 class Day13Tests: AocTest { override var problem:Problem{return day13}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
-    ]}}
+    Case(input:"""
+    /->-\\
+    |   |  /----\\
+    | /-+--+-\\  |
+    | | |  | v  |
+    \\-+-/  \\-+--/
+      \\------/
+    """, p1:"7,3", p2:""),
+    ]}
+    func testTurn() {
+        let cart = Railway.Cart(pos: Point(2,2), dir:.north)
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.west, cart.direction )
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.west, cart.direction )
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.north, cart.direction )
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.west, cart.direction )
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.west, cart.direction )
+        cart.turnAtIntersection(); XCTAssertEqual(Direction.north, cart.direction )
+    }
+}
 class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
     ]}}

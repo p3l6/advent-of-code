@@ -91,6 +91,32 @@ extension Date {
     }
 }
 
+extension Array where Element:Hashable{
+    /// returns the first duplicate found, otherwise returns nil if all elements are unique
+    func duplicate() -> Element? {
+        var set = Set<Element>()
+        for e in self {
+            guard !set.contains(e) else {
+                return e
+            }
+            set.insert(e)
+        }
+        return nil
+    }
+    // does not preserve order of original array!!
+    // leaves one copy of any duplicates
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        for e in self {
+            guard !set.contains(e) else {
+                continue
+            }
+            set.insert(e)
+        }
+        return [Element](set)
+    }
+}
+
 func squared(_ x: Int) -> Int {
     return x * x
 }
@@ -133,6 +159,13 @@ struct Stack<Element> {
 }
 
 enum Direction {
+    static var defaultOrigin = Direction.Origin.bottomLeft
+    
+    enum Origin {
+        case bottomLeft
+        case topLeft
+    }
+    
     case north
     case south
     case east
@@ -166,16 +199,16 @@ enum Direction {
     }
 }
 
-struct Point :Hashable {
+struct Point :Hashable , CustomStringConvertible{
     let x :Int
     let y :Int
     
     static func ==(a:Point, b:Point) -> Bool { return a.x==b.x && a.y==b.y }
     
-    func move(_ d:Direction) -> Point {
+    func move(_ d:Direction, origin:Direction.Origin = Direction.defaultOrigin) -> Point {
         switch d {
-        case .north: return Point(x:x, y:y+1)
-        case .south: return Point(x:x, y:y-1)
+        case .north: return self + (origin == .bottomLeft ? (0, 1) : (0,-1))
+        case .south: return self + (origin == .bottomLeft ? (0,-1) : (0, 1))
         case .east: return Point(x:x+1, y:y)
         case .west: return Point(x:x-1, y:y)
         }
@@ -198,6 +231,7 @@ struct Point :Hashable {
     func taxi(to other:Point) -> Int {
         return abs(x-other.x) + abs(y-other.y)
     }
+    var description: String { return "x:\(x), y:\(y)"}
 }
 
 struct Area :Sequence {
@@ -255,6 +289,7 @@ struct Area :Sequence {
     }
 }
 
+// uses cartesian coordinates
 class InfiniteGrid<T:Equatable> {
     var grid = [Point: T]()
     let defaultValue :T
@@ -282,8 +317,10 @@ class InfiniteGrid<T:Equatable> {
     }
 }
 
+// Uses top down coodinates
 class FiniteGrid<T> {
     var grid :[[T]]
+    
     init(defaultValue:T, area:Area) {
         assert(area.start == Point(0,0))  // TODO account for area offset!
         let repeatRow = [T](repeating:defaultValue, count:area.width)

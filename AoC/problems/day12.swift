@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay12 = true
+let runDay12 = false
 
 func intize(_ arr: ArraySlice<Bool>) -> Int {
     let start = arr.startIndex
