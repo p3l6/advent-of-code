@@ -8,7 +8,6 @@
 import Foundation
 
 let runDay14 = false
-// TODO make this faster!
 
 func day14 (_ input:String) -> Solution {
     var solution = Solution()
@@ -33,15 +32,25 @@ func day14 (_ input:String) -> Solution {
     elf1 = 0
     elf2 = 1
     let inputDigits = after.digits()
+    let lastDigit = inputDigits.last!
     
-    while scoreboard.count < inputDigits.count || [Int](scoreboard[(scoreboard.count - inputDigits.count)...]) != inputDigits {
+    all: while true {
         let value1 = scoreboard[elf1]
         let value2 = scoreboard[elf2]
         let sum = value1 + value2
         for digit in sum.digits() {
             scoreboard.append(digit)
-            if scoreboard.count >= inputDigits.count && !([Int](scoreboard[(scoreboard.count - inputDigits.count)...]) != inputDigits ) {
-                break
+            if  digit == lastDigit && scoreboard.count >= inputDigits.count {
+                var matching = true
+                for i in 0..<inputDigits.count {
+                    if scoreboard[scoreboard.count - inputDigits.count + i] != inputDigits[i] {
+                        matching = false
+                        break
+                    }
+                }
+                if  matching {
+                    break all
+                }
             }
         }
         elf1 = (elf1 + value1 + 1) % scoreboard.count
