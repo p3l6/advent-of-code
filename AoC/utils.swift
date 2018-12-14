@@ -117,6 +117,19 @@ extension Array where Element:Hashable{
     }
 }
 
+extension Int {
+    func digits() -> [Int] {
+        var digits = [Int]()
+        var int = self
+        while int >= 10 {
+            digits.append( int % 10 )
+            int = int / 10
+        }
+        digits.append( int )
+        return digits.reversed()
+    }
+}
+
 func squared(_ x: Int) -> Int {
     return x * x
 }

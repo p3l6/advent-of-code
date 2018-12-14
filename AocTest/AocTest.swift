@@ -204,7 +204,15 @@ class Day13Tests: AocTest { override var problem:Problem{return day13}; override
     }
 }
 class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"9", p1:"5158916779", p2:""),
+    Case(input:"5", p1:"0124515891", p2:""),
+    Case(input:"18", p1:"9251071085", p2:""),
+    Case(input:"2018", p1:"5941429882", p2:""),
+    Case(input:"51589", p1:"", p2:"9"),
+//    Case(input:"01245", p1:"", p2:"5"), TODO bug when numbers start with 0
+    Case(input:"92510", p1:"", p2:"18"),
+    Case(input:"59414", p1:"", p2:"2018"),
+    Case(input:"15891", p1:"", p2:"10"),
     ]}}
 class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
@@ -254,6 +262,13 @@ class UtilsTest: XCTestCase {
         XCTAssertEqual(Character("A").lowerCase, Character("a").lowerCase)
         XCTAssertEqual(Character("b").lowerCase, "b")
         XCTAssertEqual(Character("X").lowerCase, Character("x"))
+    }
+    
+    func testDigits() {
+        XCTAssertEqual(123.digits(), [1,2,3])
+        XCTAssertEqual(10.digits(), [1,0])
+        XCTAssertEqual(6.digits(), [6])
+        XCTAssertEqual(647832.digits(), [6,4,7,8,3,2])
     }
 }
 
