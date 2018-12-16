@@ -218,7 +218,20 @@ class Day15Tests: AocTest { override var problem:Problem{return day15}; override
     //Case(input:"", p1:"", p2:""),
     ]}}
 class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"""
+    Before: [3, 2, 1, 1]
+    9 2 1 2
+    After:  [3, 2, 2, 1]
+
+    Before: [3, 2, 1, 1]
+    9 2 1 2
+    After:  [3, 2, 2, 1]
+
+
+
+    4 5 6 3
+    3 2 4 5
+    """, p1:"2", p2:""),
     ]}}
 class Day17Tests: AocTest { override var problem:Problem{return day17}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
