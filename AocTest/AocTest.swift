@@ -215,7 +215,62 @@ class Day14Tests: AocTest { override var problem:Problem{return day14}; override
     Case(input:"15891", p1:"", p2:"10"),
     ]}}
 class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"""
+    #######
+    #.G...#
+    #...EG#
+    #.#.#G#
+    #..G#E#
+    #.....#
+    #######
+    """, p1:"27730", p2:""),
+    Case(input:"""
+    #######
+    #G..#E#
+    #E#E.E#
+    #G.##.#
+    #...#E#
+    #...E.#
+    #######
+    """, p1:"36334", p2:""),
+    Case(input:"""
+    #######
+    #E..EG#
+    #.#G.E#
+    #E.##E#
+    #G..#.#
+    #..E#.#
+    #######
+    """, p1:"39514", p2:""),
+    Case(input:"""
+    #######
+    #E.G#.#
+    #.#G..#
+    #G.#.G#
+    #G..#.#
+    #...E.#
+    #######
+    """, p1:"27755", p2:""),
+    Case(input:"""
+    #######
+    #.E...#
+    #.#..G#
+    #.###.#
+    #E#G#G#
+    #...#G#
+    #######
+    """, p1:"28944", p2:""),
+    Case(input:"""
+    #########
+    #G......#
+    #.E.#...#
+    #..##..G#
+    #...##..#
+    #...#...#
+    #.G...G.#
+    #.....G.#
+    #########
+    """, p1:"18740", p2:""),
     ]}}
 class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
     Case(input:"""

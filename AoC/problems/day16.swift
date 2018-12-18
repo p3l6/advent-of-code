@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay16 = true 
+let runDay16 = false
 
 enum OpCode :CaseIterable {
     case unknown

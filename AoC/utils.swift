@@ -171,7 +171,7 @@ struct Stack<Element> {
     }
 }
 
-enum Direction {
+enum Direction :Int {
     static var defaultOrigin = Direction.Origin.bottomLeft
     
     enum Origin {
@@ -179,10 +179,11 @@ enum Direction {
         case topLeft
     }
     
+    // Order matters now, so that they sort by "reading order"
     case north
-    case south
-    case east
     case west
+    case east
+    case south
     
     var right :Direction {
         switch self {
@@ -212,11 +213,12 @@ enum Direction {
     }
 }
 
-struct Point :Hashable , CustomStringConvertible{
+struct Point :Hashable , CustomStringConvertible, CustomDebugStringConvertible{
     let x :Int
     let y :Int
     
     static func ==(a:Point, b:Point) -> Bool { return a.x==b.x && a.y==b.y }
+    static func readingOrder (_ a:Point, _ b:Point) -> Bool { return a.y == b.y ? a.x < b.x : a.y < b.y }
     
     func move(_ d:Direction, origin:Direction.Origin = Direction.defaultOrigin) -> Point {
         switch d {
@@ -225,6 +227,10 @@ struct Point :Hashable , CustomStringConvertible{
         case .east: return Point(x:x+1, y:y)
         case .west: return Point(x:x-1, y:y)
         }
+    }
+    
+    func adjacents() -> [Point] {
+        return [Point(x:x+1, y:y),Point(x:x-1, y:y),Point(x:x, y:y+1),Point(x:x, y:y-1)]
     }
     
     init(_ x:Int, _ y:Int) {
@@ -245,6 +251,7 @@ struct Point :Hashable , CustomStringConvertible{
         return abs(x-other.x) + abs(y-other.y)
     }
     var description: String { return "x:\(x), y:\(y)"}
+    var debugDescription: String { return description }
 }
 
 struct Area :Sequence {
