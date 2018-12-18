@@ -223,7 +223,7 @@ class Day15Tests: AocTest { override var problem:Problem{return day15}; override
     #..G#E#
     #.....#
     #######
-    """, p1:"27730", p2:""),
+    """, p1:"27730", p2:"4988"),
     Case(input:"""
     #######
     #G..#E#
@@ -241,7 +241,7 @@ class Day15Tests: AocTest { override var problem:Problem{return day15}; override
     #G..#.#
     #..E#.#
     #######
-    """, p1:"39514", p2:""),
+    """, p1:"39514", p2:"31284"),
     Case(input:"""
     #######
     #E.G#.#
@@ -250,7 +250,7 @@ class Day15Tests: AocTest { override var problem:Problem{return day15}; override
     #G..#.#
     #...E.#
     #######
-    """, p1:"27755", p2:""),
+    """, p1:"27755", p2:"3478"),
     Case(input:"""
     #######
     #.E...#
@@ -270,7 +270,7 @@ class Day15Tests: AocTest { override var problem:Problem{return day15}; override
     #.G...G.#
     #.....G.#
     #########
-    """, p1:"18740", p2:""),
+    """, p1:"18740", p2:"1140"),
     ]}}
 class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
     Case(input:"""

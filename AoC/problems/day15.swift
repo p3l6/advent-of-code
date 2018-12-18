@@ -142,7 +142,7 @@ class Cavern :CustomStringConvertible {
         let p3 = from.move(.east) ; if  grid[p3].passable { visited[p3] = (.east, 1) }
         let p4 = from.move(.west) ; if  grid[p4].passable { visited[p4] = (.west, 1) }
         
-        while !toVisit.isEmpty && reached.isEmpty { 
+        while !toVisit.isEmpty && reached.isEmpty {
             let thisVisit = toVisit.sorted(by: {visited[$0].dir.rawValue < visited[$1].dir.rawValue } )
             var nextVisit = [Point]()
             for p in thisVisit {
@@ -173,6 +173,10 @@ class Cavern :CustomStringConvertible {
         return aliveUnits.reduce(0) { $0 + $1.hp }
     }
     
+    func countTeam(_ t:Team) -> Int {
+        return aliveUnits.reduce(0) { $1.team == t ? $0 + 1 : $0 }
+    }
+    
     var description: String {
         var s = ""
         for y in 0..<area.height {
@@ -188,34 +192,62 @@ class Cavern :CustomStringConvertible {
 func day15 (_ input:String) -> Solution {
     Direction.defaultOrigin = .topLeft
     
-    let lines = input.lines()
-    let area = Area(at: Point(0,0), w: lines.first!.count, h: lines.count)
-    let cavern = Cavern(area)
+    func loadInput(lines:[String], elfPower:Int = 3) -> Cavern {
+        let area = Area(at: Point(0,0), w: lines.first!.count, h: lines.count)
+        let cavern = Cavern(area)
     
-    for point in area {
-        switch lines[point.y][point.x] {
-        case "#":
-            cavern.grid[point] = Wall()
-        case "G":
-            let unit = Unit(.Goblin, in:cavern, at:point)
-            cavern.aliveUnits.append(unit)
-            cavern.grid[point] = unit
-        case "E":
-            let unit = Unit(.Elf, in:cavern, at:point)
-            cavern.aliveUnits.append(unit)
-            cavern.grid[point] = unit
-        case ".":
-            continue
-        default:
-            assertionFailure("Unexpected character: '\(lines[point.y][point.x])'")
+        for point in area {
+            switch lines[point.y][point.x] {
+            case "#":
+                cavern.grid[point] = Wall()
+            case "G":
+                let unit = Unit(.Goblin, in:cavern, at:point)
+                cavern.aliveUnits.append(unit)
+                cavern.grid[point] = unit
+            case "E":
+                let unit = Unit(.Elf, in:cavern, at:point)
+                unit.attackPower = elfPower
+                cavern.aliveUnits.append(unit)
+                cavern.grid[point] = unit
+            case ".":
+                continue
+            default:
+                assertionFailure("Unexpected character: '\(lines[point.y][point.x])'")
+            }
         }
+        return cavern
     }
+        
+    let lines = input.lines()
+    var cavern = loadInput(lines: lines)
+    let initialElves = cavern.countTeam(.Elf)
     
 //    print(cavern)
     while cavern.combat() {}
     var solution = Solution()
-    
     solution.partOne = "\(cavern.roundsCompleted * cavern.hpSum())"
-//    solution.partTwo = "\()"
+    
+    var bisectLow = 3
+    var bisectHigh = 200 // One hit K/O
+    while bisectLow + 1 != bisectHigh {
+        let elfAttack = (bisectHigh + bisectLow) / 2
+        var elvesLost = false
+        cavern = loadInput(lines: lines, elfPower: elfAttack)
+        while cavern.combat() {
+            if cavern.countTeam(.Elf) != initialElves {
+                elvesLost = true
+                break
+            }
+        }
+        if elvesLost {
+            bisectLow = elfAttack
+        } else {
+            bisectHigh = elfAttack
+        }
+    }
+    print("elf attack power: \(bisectHigh)")
+    cavern = loadInput(lines: lines, elfPower: bisectHigh)
+    while cavern.combat() {}
+    solution.partTwo = "\(cavern.roundsCompleted * cavern.hpSum())"
     return solution
 }
