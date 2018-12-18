@@ -198,8 +198,9 @@ func day13 (_ input:String) -> Solution {
         rail.tick()
     }
     
-    let lastCart = rail.remainingCarts().first!
-    solution.partTwo = "\(lastCart.position.x),\(lastCart.position.y)"
+    if let lastCart = rail.remainingCarts().first {
+        solution.partTwo = "\(lastCart.position.x),\(lastCart.position.y)"
+    }
     
     return solution
 }
