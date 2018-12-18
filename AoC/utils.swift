@@ -169,6 +169,9 @@ struct Stack<Element> {
     mutating func pop() -> Element {
         return items.removeLast()
     }
+    func peek() -> Element {
+        return items.last!
+    }
 }
 
 enum Direction :Int {
@@ -278,7 +281,11 @@ struct Area :Sequence {
     }
     
     func outset(by: Int) -> Area {
-        return Area(at: start - (by,by), w: width + 2*by, h: height + 2*by)
+        return self.outset(by: (by,by))
+    }
+    
+    func outset(by: (w:Int,h:Int)) -> Area {
+        return Area(at: start - (by.w,by.h), w: width + 2*by.w, h: height + 2*by.h)
     }
     
     func contains(point:Point) -> Bool {
@@ -340,16 +347,17 @@ class InfiniteGrid<T:Equatable> {
 // Uses top down coodinates
 class FiniteGrid<T> {
     var grid :[[T]]
+    let area :Area
     
     init(defaultValue:T, area:Area) {
-        assert(area.start == Point(0,0))  // TODO account for area offset!
+        self.area = area
         let repeatRow = [T](repeating:defaultValue, count:area.width)
         self.grid = [[T]](repeating: repeatRow, count: area.height)
     }
     
     subscript(_ at: Point) -> T {
-        get { return grid[at.y][at.x] }
-        set { grid[at.y][at.x] = newValue }
+        get { return grid[at.y - area.start.y][at.x - area.start.x] }
+        set { grid[at.y - area.start.y][at.x - area.start.x] = newValue }
     }
 }
 

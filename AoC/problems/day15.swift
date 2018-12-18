@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay15 = true
+let runDay15 = false
 
 protocol CavernPlaceable {
     var passable :Bool {get}
