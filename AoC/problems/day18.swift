@@ -80,7 +80,28 @@ func day18 (_ input:String) -> Solution {
     var solution = Solution()
     solution.partOne = "\(treeCount * lumberCount)"
     
-    while minutes < 1_000_000_000 {
+    // TODO make this faster 507755 / 235080
+    let stableMinutes = 1_000
+    let totalMinutes = 1_000_000_000
+    while minutes < stableMinutes {
+        zone = processMinute(zone)
+        minutes += 1
+    }
+    
+    let repeatCount = countLumber(zone)
+    zone = processMinute(zone)
+    minutes += 1
+    while countLumber(zone) != repeatCount {
+        zone = processMinute(zone)
+        minutes += 1
+    }
+    
+    let cycle = minutes - stableMinutes
+    while minutes + cycle < totalMinutes {
+        minutes += cycle
+    }
+    
+    while minutes < totalMinutes {
         zone = processMinute(zone)
         minutes += 1
     }
