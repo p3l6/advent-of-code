@@ -301,7 +301,18 @@ class Day17Tests: AocTest { override var problem:Problem{return day17}; override
     """, p1:"57", p2:"29"),
     ]}}
 class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"""
+    .#.#...|#.
+    .....#|##|
+    .|..|...#.
+    ..|#.....#
+    #.#|||#|#|
+    ...#.||...
+    .|....|...
+    ||...#|.#|
+    |.||||..|.
+    ...#.|..|.
+    """, p1:"1147", p2:""),
     ]}}
 class Day19Tests: AocTest { override var problem:Problem{return day19}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),

@@ -232,8 +232,15 @@ struct Point :Hashable , CustomStringConvertible, CustomDebugStringConvertible{
         }
     }
     
+    /// Returns the 4 adjancent orthagonal points
     func adjacents() -> [Point] {
         return [Point(x:x+1, y:y),Point(x:x-1, y:y),Point(x:x, y:y+1),Point(x:x, y:y-1)]
+    }
+    
+    /// Returns the 8 adjancent points, including diagonals
+    func adjacent8() -> [Point] {
+        return [Point(x:x+1, y:y),Point(x:x-1, y:y),Point(x:x, y:y+1),Point(x:x, y:y-1),
+                Point(x:x+1, y:y+1),Point(x:x-1, y:y-1),Point(x:x-1, y:y+1),Point(x:x+1, y:y-1)]
     }
     
     init(_ x:Int, _ y:Int) {
