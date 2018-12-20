@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay18 = true
+let runDay18 = false
 
 enum Acre {
     case ground     // .

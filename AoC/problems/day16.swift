@@ -65,6 +65,12 @@ struct DeviceState :Equatable {
         }
         return DeviceState(registers: regs)
     }
+    
+    func stateBySettingRegister(at:Int, to:Int) -> DeviceState {
+        var regs = registers
+        regs[at] = to
+        return DeviceState(registers: regs)
+    }
 }
 
 struct Validator {
