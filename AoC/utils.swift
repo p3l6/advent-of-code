@@ -366,9 +366,21 @@ class FiniteGrid<T> {
         get { return grid[at.y - area.start.y][at.x - area.start.x] }
         set { grid[at.y - area.start.y][at.x - area.start.x] = newValue }
     }
+    
+    func stringBy(_ mapping:(T)->Character) -> String {
+        var s = ""
+        for y in area.start.y..<area.start.y + area.height {
+            for x in area.start.x..<area.start.x + area.width {
+                s.append(mapping(self[Point(x,y)]))
+            }
+            s += "\n"
+        }
+        return s
+    }
 }
 
-class Graph<T> where T:Hashable, T:Comparable {
+/// Cannot contain duplicate nodes!
+class Graph<T> where T:Hashable {
     class Node {
         let value :T
         var completed = false

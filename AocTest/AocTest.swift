@@ -333,7 +333,7 @@ class Day21Tests: AocTest { override var problem:Problem{return day21}; override
     //Case(input:"", p1:"", p2:""),
     ]}}
 class Day22Tests: AocTest { override var problem:Problem{return day22}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"depth: 510\ntarget: 10,10", p1:"114", p2:"45"),
     ]}}
 class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
