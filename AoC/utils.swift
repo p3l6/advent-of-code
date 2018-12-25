@@ -264,6 +264,28 @@ struct Point :Hashable , CustomStringConvertible, CustomDebugStringConvertible{
     var debugDescription: String { return description }
 }
 
+/// Like Point, but in 3d space
+struct SpacePoint :Hashable, CustomStringConvertible, CustomDebugStringConvertible{
+    let x :Int
+    let y :Int
+    let z :Int
+    
+    static func ==(a:SpacePoint, b:SpacePoint) -> Bool { return a.x==b.x && a.y==b.y && a.z == b.z}
+    
+    init(_ x:Int, _ y:Int, _ z:Int) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+    
+    func taxi(to other:SpacePoint) -> Int {
+        return abs(x-other.x) + abs(y-other.y) + abs(z-other.z)
+    }
+    
+    var description: String { return "x:\(x), y:\(y), z:\(z)"}
+    var debugDescription: String { return description }
+}
+
 struct Area :Sequence {
     let start :Point
     let width :Int

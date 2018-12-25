@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay22 = true
+let runDay22 = false
 
 class Cave :CustomStringConvertible {
     enum CaveType {

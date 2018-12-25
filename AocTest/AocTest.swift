@@ -336,7 +336,25 @@ class Day22Tests: AocTest { override var problem:Problem{return day22}; override
     Case(input:"depth: 510\ntarget: 10,10", p1:"114", p2:"45"),
     ]}}
 class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"""
+    pos=<0,0,0>, r=4
+    pos=<1,0,0>, r=1
+    pos=<4,0,0>, r=3
+    pos=<0,2,0>, r=1
+    pos=<0,5,0>, r=3
+    pos=<0,0,3>, r=1
+    pos=<1,1,1>, r=1
+    pos=<1,1,2>, r=1
+    pos=<1,3,1>, r=1
+    """, p1:"7", p2:""),
+    Case(input:"""
+    pos=<10,12,12>, r=2
+    pos=<12,14,12>, r=2
+    pos=<16,12,12>, r=4
+    pos=<14,14,14>, r=6
+    pos=<50,50,50>, r=200
+    pos=<10,10,10>, r=5
+    """, p1:"", p2:"36"),
     ]}}
 class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [
     //Case(input:"", p1:"", p2:""),
