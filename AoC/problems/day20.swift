@@ -9,7 +9,7 @@ import Foundation
 
 let runDay20 = true
 
-func matchFirstParen(_ s:String) -> String.Index {
+func matchFirstParen(_ s:Substring) -> String.Index {
     var index = s.firstIndex(of: "(")!
     index = s.index(after: index)
     var parenCount = 1
@@ -44,57 +44,54 @@ class NorthBase :CustomStringConvertible {
     let area :Area
     let origin = Point(0,0)
     
-    typealias PathGraph = Graph<[Direction]>
-    
-    private static func recursiveCreateNodes(branchSet:String, graph:PathGraph) -> [PathGraph.Node] {
-        return []
-    }
-    
     struct Branch {
-        let path :String
+        let path :Substring
         let forks :[Branch]
         
         init(path:String) {
+            self.init(path: path[...])
+        }
+        
+        init(path:Substring) {
             guard let nextFork = path.firstIndex(of:"(") else {
                 self.path = path
                 self.forks = []
                 return
             }
             
-            self.path = String(path[..<nextFork])
+            self.path = /*String(*/path[..<nextFork]/*)*/
             let matchingIndex = matchFirstParen(path)
-            let branches = Branch.components(String(path[path.index(after:nextFork) ..< matchingIndex]))
-            let remainder = String(path[path.index(after: matchingIndex)..<path.endIndex])
+            let branches = Branch.components(/*String(*/path[path.index(after:nextFork) ..< matchingIndex])//)
+            let remainder = /*String(*/path[path.index(after: matchingIndex)..<path.endIndex]//)
             
             self.forks = branches.map { branch in
                 return Branch(path: branch + remainder)
             }
         }
         
-        private static func components(_ subStr:String) -> [String] {
-            var strings = [String]()
-            var buffer = ""
+        private static func components(_ subStr:Substring) -> [Substring] {
+            var strings = [Substring]()
             var parenCount = 0
-            for c in subStr {
-                switch c {
+
+            var start = subStr.startIndex
+            var index = subStr.startIndex
+            
+            while index != subStr.endIndex {
+                switch subStr[index] {
                 case "(":
-                    buffer.append(c)
                     parenCount += 1
                 case ")":
-                    buffer.append(c)
                     parenCount -= 1
                 case "|":
                     if parenCount == 0 {
-                        strings.append(buffer)
-                        buffer = ""
-                    } else {
-                        buffer.append(c)
+                        strings.append(subStr[start..<index])
+                        start = subStr.index(after: index)
                     }
-                default:
-                    buffer.append(c)
+                default: break
                 }
+                index = subStr.index(after: index)
             }
-            strings.append(buffer)
+            strings.append(subStr[start..<index])
             return strings
         }
     }
