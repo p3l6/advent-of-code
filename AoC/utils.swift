@@ -17,6 +17,16 @@ extension String {
         return self[i ..< i + 1]
     }
     
+    func substring(before: String) -> String {
+        guard let range = self.range(of: before) else { return "" }
+        return String(self[startIndex ..< range.lowerBound])
+    }
+    
+    func substring(after: String) -> String {
+        guard let range = self.range(of: after) else { return "" }
+        return String(self[range.upperBound ..< endIndex])
+    }
+    
     func substring(fromIndex: Int) -> String {
         return self[min(fromIndex, length) ..< length]
     }
