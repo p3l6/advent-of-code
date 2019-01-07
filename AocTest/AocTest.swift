@@ -327,10 +327,11 @@ class Day19Tests: AocTest { override var problem:Problem{return day19}; override
     """, p1:"6", p2:""),
     ]}}
 class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
-    ]}}
-class Day21Tests: AocTest { override var problem:Problem{return day21}; override var examples :[Case] { return [
-    //Case(input:"", p1:"", p2:""),
+    Case(input:"^WNE$", p1:"3", p2:""),
+    Case(input:"^ENWWW(NEEE|SSE(EE|N))$", p1:"10", p2:""),
+    Case(input:"^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$", p1:"18", p2:""),
+    Case(input:"^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$", p1:"23", p2:""),
+    Case(input:"^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$", p1:"31", p2:""),
     ]}}
 class Day22Tests: AocTest { override var problem:Problem{return day22}; override var examples :[Case] { return [
     Case(input:"depth: 510\ntarget: 10,10", p1:"114", p2:"45"),

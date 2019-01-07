@@ -10,7 +10,7 @@ import Foundation
 let runDay7 = false
 
 
-extension Graph {
+extension Graph where T:Comparable {
     func orderedValues() -> [T] {
         assert(nodes.count <= 26)
         var ordered = [T]()
