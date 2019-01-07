@@ -296,6 +296,32 @@ struct SpacePoint :Hashable, CustomStringConvertible, CustomDebugStringConvertib
     var debugDescription: String { return description }
 }
 
+/// Like Point, but in 4d space
+struct TimeSpacePoint :Hashable, CustomStringConvertible, CustomDebugStringConvertible{
+    let x :Int
+    let y :Int
+    let z :Int
+    let t :Int
+    
+    static func ==(a:TimeSpacePoint, b:TimeSpacePoint) -> Bool { return a.x==b.x && a.y==b.y && a.z == b.z && a.t == b.t}
+    
+    init(_ x:Int, _ y:Int, _ z:Int, _ t:Int) {
+        self.x = x
+        self.y = y
+        self.z = z
+        self.t = t
+    }
+    
+    func taxi(to other:TimeSpacePoint) -> Int {
+        var tax :Int = abs(x-other.x) + abs(y-other.y)
+        tax += abs(z-other.z) + abs(t-other.t)
+        return tax
+    }
+    
+    var description: String { return "x:\(x), y:\(y), z:\(z), t:\(t)"}
+    var debugDescription: String { return description }
+}
+
 struct Area :Sequence {
     let start :Point
     let width :Int
