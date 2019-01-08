@@ -101,6 +101,12 @@ extension Date {
     }
 }
 
+extension Array {
+    func count(where isIncluded: (Element) -> Bool) -> Int {
+        return self.reduce(0) { isIncluded($1) ? $0 + 1 : $0 }
+    }
+}
+
 extension Array where Element:Hashable{
     /// returns the first duplicate found, otherwise returns nil if all elements are unique
     func duplicate() -> Element? {

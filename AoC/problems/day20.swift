@@ -182,6 +182,9 @@ func day20 (_ input:String) -> Solution {
     
     var solution = Solution()
     solution.partOne = "\(farthest.dist)"
-//    solution.partTwo = "\()"
+    
+    let count1000 = minDistances.filter({$0.value >= 1000 }).count
+    
+    solution.partTwo = "\(count1000)"
     return solution
 }
