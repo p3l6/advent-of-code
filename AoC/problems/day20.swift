@@ -44,35 +44,15 @@ class NorthBase :CustomStringConvertible {
     let area :Area
     let origin = Point(0,0)
     
-    struct Branch {
-        let path :Substring
-        let forks :[Branch]
+    struct Fork {
+        let loc :Point
+        let start :String.Index
+        let end :String.Index
         
-        init(path:String) {
-            self.init(path: path[...])
-        }
-        
-        init(path:Substring) {
-            guard let nextFork = path.firstIndex(of:"(") else {
-                self.path = path
-                self.forks = []
-                return
-            }
-            
-            self.path = /*String(*/path[..<nextFork]/*)*/
-            let matchingIndex = matchFirstParen(path)
-            let branches = Branch.components(/*String(*/path[path.index(after:nextFork) ..< matchingIndex])//)
-            let remainder = /*String(*/path[path.index(after: matchingIndex)..<path.endIndex]//)
-            
-            self.forks = branches.map { branch in
-                return Branch(path: branch + remainder)
-            }
-        }
-        
-        private static func components(_ subStr:Substring) -> [Substring] {
-            var strings = [Substring]()
+        static func split(_ subStr:Substring, from:Point, parent:Fork) -> [Fork] {
+            var forks = [Fork]()
             var parenCount = 0
-
+            
             var start = subStr.startIndex
             var index = subStr.startIndex
             
@@ -84,50 +64,57 @@ class NorthBase :CustomStringConvertible {
                     parenCount -= 1
                 case "|":
                     if parenCount == 0 {
-                        strings.append(subStr[start..<index])
+                        forks.append(Fork(loc: from, start: start, end: index))
                         start = subStr.index(after: index)
                     }
                 default: break
                 }
                 index = subStr.index(after: index)
             }
-            strings.append(subStr[start..<index])
-            return strings
+            forks.append(Fork(loc: from, start: start, end: subStr.endIndex))
+            return forks
         }
     }
     
-    
     init(pathsRegex:String) {
         // create Branch object structure
-        let mainBranch = Branch(path: pathsRegex)
+        let mainBranch = Fork(loc: origin, start: pathsRegex.startIndex, end: pathsRegex.endIndex)
         
-        var branchStack = Stack<(loc:Point, branch:Branch)>()
-        branchStack.push((origin,mainBranch))
+        var branchStack = Stack<Fork>()
+        branchStack.push(mainBranch)
         
         // Build an infinite map of layout
         let imap = InfiniteGrid<MapSquare>(defaultValue:MapSquare.unknown)
         imap[origin] = .room
         
         while !branchStack.isEmpty {
-            let (branchOrigin, branch) = branchStack.pop()
-            var loc = branchOrigin
-            for char in branch.path {
+            let fork = branchStack.pop()
+            var loc = fork.loc
+            var index = fork.start
+            toNextFork: while index != fork.end {
+                let char = pathsRegex[index]
+                let nextIndex = pathsRegex.index(after: index)
                 var d = Direction.north
                 switch char {
-                case "^","$": continue
+                case "^": index = nextIndex; continue
+                case "$", ")", "|": break toNextFork
                 case "N":  d = .north
                 case "E":  d = .east
                 case "S":  d = .south
                 case "W":  d = .west
+                case "(":
+                    let paren = matchFirstParen(pathsRegex[index..<pathsRegex.endIndex])
+                    let afterFork = pathsRegex.index(after: paren)
+                    Fork.split(pathsRegex[nextIndex..<paren], from:loc, parent:fork).forEach { branchStack.push($0) }
+                    branchStack.push(Fork(loc: loc, start: afterFork, end: pathsRegex.endIndex))
+                    break toNextFork
                 default: assertionFailure("unexpected character in branch: \(char)")
                 }
                 loc = loc.move(d)
                 imap[loc] = .door
                 loc = loc.move(d)
                 imap[loc] = .room
-            }
-            for fork in branch.forks {
-                branchStack.push((loc,fork))
+                index = nextIndex
             }
         }
         
@@ -186,7 +173,7 @@ func day20 (_ input:String) -> Solution {
     Direction.defaultOrigin = .topLeft
     
     let base = NorthBase(pathsRegex:input)
-    print(base)
+//    print(base)
     
     let minDistances = base.roomDistances()
     let farthest = minDistances.reduce((room:Point(0,0),dist:0)) { (max, roomDist) -> (room:Point,dist:Int) in
