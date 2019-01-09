@@ -388,7 +388,7 @@ struct Area :Sequence {
 }
 
 // uses cartesian coordinates
-class InfiniteGrid<T:Equatable> {
+class InfiniteGrid<T> {
     var grid = [Point: T]()
     let defaultValue :T
     

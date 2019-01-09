@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay20 = true
+let runDay20 = false
 
 func matchFirstParen(_ s:Substring) -> String.Index {
     var index = s.firstIndex(of: "(")!
