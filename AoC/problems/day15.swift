@@ -174,7 +174,7 @@ class Cavern :CustomStringConvertible {
     }
     
     func countTeam(_ t:Team) -> Int {
-        return aliveUnits.reduce(0) { $1.team == t ? $0 + 1 : $0 }
+        return aliveUnits.count(where:{ $0.team == t })
     }
     
     var description: String {

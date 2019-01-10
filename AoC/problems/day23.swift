@@ -37,7 +37,7 @@ struct Cube {
     }
     
     func botsInRange(_ bots:[Nanobot]) -> Int {
-        return bots.reduce(0) { $1.inRange(self) ? $0 + 1 : $0 }
+        return bots.count(where:{ $0.inRange(self) })
     }
 }
 

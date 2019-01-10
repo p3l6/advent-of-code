@@ -110,7 +110,7 @@ class Army {
     }
     
     var remainingGroups :[Group] { return groups.filter { $0.alive } }
-    var remainingGroupsCount :Int { return groups.reduce(0) { $1.alive ? $0 + 1 : $0 } }
+    var remainingGroupsCount :Int { return groups.count(where:{ $0.alive }) }
     var remainingUnits :Int { return groups.reduce(0) { $1.units + $0 }}
     
     func sortedTargets(of:Group) -> [Group] {

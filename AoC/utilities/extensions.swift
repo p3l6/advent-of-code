@@ -144,12 +144,12 @@ extension Int {
         digits.append( int )
         return digits.reversed()
     }
-}
 
-func squared(_ x: Int) -> Int {
-    return x * x
-}
-
-func sqrti(_ x: Int) -> Int {
-    return Int(sqrt(Double(x)))
+    func squared() -> Int {
+        return self * self
+    }
+    
+    func sqrti() -> Int {
+        return Int(sqrt(Double(self)))
+    }
 }
