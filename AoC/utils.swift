@@ -294,6 +294,12 @@ struct SpacePoint :Hashable, CustomStringConvertible, CustomDebugStringConvertib
         self.z = z
     }
     
+    static func +(_ point:SpacePoint, _ additional:(x:Int,y:Int,z:Int)) -> SpacePoint {
+        return SpacePoint(point.x+additional.x,point.y+additional.y,point.z+additional.z)
+    }
+    static func -(_ point:SpacePoint, _ additional:(x:Int,y:Int,z:Int)) -> SpacePoint {
+        return SpacePoint(point.x-additional.x,point.y-additional.y,point.z-additional.z)
+    }
     func taxi(to other:SpacePoint) -> Int {
         return abs(x-other.x) + abs(y-other.y) + abs(z-other.z)
     }
