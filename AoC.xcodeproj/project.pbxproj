@@ -11,8 +11,18 @@
 		DA180D982194FCE400D2470D /* auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D972194FCE400D2470D /* auth.swift */; };
 		DA180D9A2194FCF400D2470D /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D992194FCF400D2470D /* extensions.swift */; };
 		DA180D9C2194FE9600D2470D /* day6.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D9B2194FE9600D2470D /* day6.swift */; };
-		DA1D7A1721E7B384009A9887 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1621E7B384009A9887 /* Heap.swift */; };
-		DA1D7A1821E7B384009A9887 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1621E7B384009A9887 /* Heap.swift */; };
+		DA1D7A1721E7B384009A9887 /* heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1621E7B384009A9887 /* heap.swift */; };
+		DA1D7A1821E7B384009A9887 /* heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1621E7B384009A9887 /* heap.swift */; };
+		DA1D7A1B21E7C60B009A9887 /* clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1A21E7C60B009A9887 /* clock.swift */; };
+		DA1D7A1C21E7C60B009A9887 /* clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1A21E7C60B009A9887 /* clock.swift */; };
+		DA1D7A1E21E7C622009A9887 /* stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1D21E7C622009A9887 /* stack.swift */; };
+		DA1D7A1F21E7C622009A9887 /* stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A1D21E7C622009A9887 /* stack.swift */; };
+		DA1D7A2121E7C655009A9887 /* geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2021E7C655009A9887 /* geometry.swift */; };
+		DA1D7A2221E7C655009A9887 /* geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2021E7C655009A9887 /* geometry.swift */; };
+		DA1D7A2421E7C665009A9887 /* grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2321E7C665009A9887 /* grid.swift */; };
+		DA1D7A2521E7C665009A9887 /* grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2321E7C665009A9887 /* grid.swift */; };
+		DA1D7A2721E7C670009A9887 /* graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2621E7C670009A9887 /* graph.swift */; };
+		DA1D7A2821E7C670009A9887 /* graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D7A2621E7C670009A9887 /* graph.swift */; };
 		DA241C5C21B9B4AD00417C5A /* day5.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA241C5B21B9B4AD00417C5A /* day5.swift */; };
 		DA241C5D21B9B4AD00417C5A /* day5.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA241C5B21B9B4AD00417C5A /* day5.swift */; };
 		DA241C7521B9B6BA00417C5A /* day13.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA241C5E21B9B6B900417C5A /* day13.swift */; };
@@ -87,7 +97,12 @@
 		DA180D972194FCE400D2470D /* auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auth.swift; sourceTree = "<group>"; };
 		DA180D992194FCF400D2470D /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		DA180D9B2194FE9600D2470D /* day6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day6.swift; sourceTree = "<group>"; };
-		DA1D7A1621E7B384009A9887 /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
+		DA1D7A1621E7B384009A9887 /* heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = heap.swift; sourceTree = "<group>"; };
+		DA1D7A1A21E7C60B009A9887 /* clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clock.swift; sourceTree = "<group>"; };
+		DA1D7A1D21E7C622009A9887 /* stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stack.swift; sourceTree = "<group>"; };
+		DA1D7A2021E7C655009A9887 /* geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geometry.swift; sourceTree = "<group>"; };
+		DA1D7A2321E7C665009A9887 /* grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = grid.swift; sourceTree = "<group>"; };
+		DA1D7A2621E7C670009A9887 /* graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph.swift; sourceTree = "<group>"; };
 		DA241C5B21B9B4AD00417C5A /* day5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day5.swift; sourceTree = "<group>"; };
 		DA241C5E21B9B6B900417C5A /* day13.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day13.swift; sourceTree = "<group>"; };
 		DA241C5F21B9B6B900417C5A /* day19.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day19.swift; sourceTree = "<group>"; };
@@ -170,7 +185,12 @@
 			isa = PBXGroup;
 			children = (
 				DA180D992194FCF400D2470D /* extensions.swift */,
-				DA1D7A1621E7B384009A9887 /* Heap.swift */,
+				DA1D7A1D21E7C622009A9887 /* stack.swift */,
+				DA1D7A2021E7C655009A9887 /* geometry.swift */,
+				DA1D7A2321E7C665009A9887 /* grid.swift */,
+				DA1D7A2621E7C670009A9887 /* graph.swift */,
+				DA1D7A1621E7B384009A9887 /* heap.swift */,
+				DA1D7A1A21E7C60B009A9887 /* clock.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -317,19 +337,24 @@
 				DA241C7B21B9B6BA00417C5A /* day21.swift in Sources */,
 				DA241C8B21B9B6BA00417C5A /* day11.swift in Sources */,
 				DA241C8521B9B6BA00417C5A /* day24.swift in Sources */,
+				DA1D7A2721E7C670009A9887 /* graph.swift in Sources */,
 				DA241C9521B9B6BA00417C5A /* day20.swift in Sources */,
 				DA241C9D21B9B6BA00417C5A /* day25.swift in Sources */,
+				DA1D7A1B21E7C60B009A9887 /* clock.swift in Sources */,
 				DA241C7921B9B6BA00417C5A /* day18.swift in Sources */,
 				DA241C8921B9B6BA00417C5A /* day8.swift in Sources */,
 				DA241C9321B9B6BA00417C5A /* day17.swift in Sources */,
 				DA241C9B21B9B6BA00417C5A /* day10.swift in Sources */,
 				DA241CA121B9B6BA00417C5A /* day16.swift in Sources */,
-				DA1D7A1721E7B384009A9887 /* Heap.swift in Sources */,
+				DA1D7A1721E7B384009A9887 /* heap.swift in Sources */,
 				DA241C8721B9B6BA00417C5A /* day15.swift in Sources */,
 				DA241C7521B9B6BA00417C5A /* day13.swift in Sources */,
+				DA1D7A2421E7C665009A9887 /* grid.swift in Sources */,
 				DA241C7721B9B6BA00417C5A /* day19.swift in Sources */,
 				DA241C7F21B9B6BA00417C5A /* day3.swift in Sources */,
+				DA1D7A2121E7C655009A9887 /* geometry.swift in Sources */,
 				DA241C9921B9B6BA00417C5A /* day12.swift in Sources */,
+				DA1D7A1E21E7C622009A9887 /* stack.swift in Sources */,
 				DA241C8121B9B6BA00417C5A /* day23.swift in Sources */,
 				DA241C8D21B9B6BA00417C5A /* day1.swift in Sources */,
 				DA180D912194FC9300D2470D /* main.swift in Sources */,
@@ -354,19 +379,24 @@
 				DA241C7C21B9B6BA00417C5A /* day21.swift in Sources */,
 				DA241C8C21B9B6BA00417C5A /* day11.swift in Sources */,
 				DA241C8621B9B6BA00417C5A /* day24.swift in Sources */,
+				DA1D7A2821E7C670009A9887 /* graph.swift in Sources */,
 				DA241C9621B9B6BA00417C5A /* day20.swift in Sources */,
 				DA241C9E21B9B6BA00417C5A /* day25.swift in Sources */,
+				DA1D7A1C21E7C60B009A9887 /* clock.swift in Sources */,
 				DA241C7A21B9B6BA00417C5A /* day18.swift in Sources */,
 				DA241C8A21B9B6BA00417C5A /* day8.swift in Sources */,
 				DA241C9421B9B6BA00417C5A /* day17.swift in Sources */,
 				DA241C9C21B9B6BA00417C5A /* day10.swift in Sources */,
 				DA241CA221B9B6BA00417C5A /* day16.swift in Sources */,
-				DA1D7A1821E7B384009A9887 /* Heap.swift in Sources */,
+				DA1D7A1821E7B384009A9887 /* heap.swift in Sources */,
 				DA241C8821B9B6BA00417C5A /* day15.swift in Sources */,
 				DA241C7621B9B6BA00417C5A /* day13.swift in Sources */,
+				DA1D7A2521E7C665009A9887 /* grid.swift in Sources */,
 				DA241C7821B9B6BA00417C5A /* day19.swift in Sources */,
 				DA241C8021B9B6BA00417C5A /* day3.swift in Sources */,
+				DA1D7A2221E7C655009A9887 /* geometry.swift in Sources */,
 				DA241C9A21B9B6BA00417C5A /* day12.swift in Sources */,
+				DA1D7A1F21E7C622009A9887 /* stack.swift in Sources */,
 				DA241C8221B9B6BA00417C5A /* day23.swift in Sources */,
 				DA241C8E21B9B6BA00417C5A /* day1.swift in Sources */,
 				DAD346E6219B537400D0CEA8 /* constants.swift in Sources */,
