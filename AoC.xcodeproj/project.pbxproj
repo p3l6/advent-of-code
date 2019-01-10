@@ -157,14 +157,22 @@
 		DA180D8F2194FC9300D2470D /* AoC */ = {
 			isa = PBXGroup;
 			children = (
+				DA1D7A1921E7C567009A9887 /* utilities */,
 				DA241C5A21B9B2C000417C5A /* problems */,
-				DA180D992194FCF400D2470D /* utils.swift */,
 				DA180D902194FC9300D2470D /* main.swift */,
 				DAD346B8219B4C4200D0CEA8 /* constants.swift */,
 				DA180D972194FCE400D2470D /* auth.swift */,
-				DA1D7A1621E7B384009A9887 /* Heap.swift */,
 			);
 			path = AoC;
+			sourceTree = "<group>";
+		};
+		DA1D7A1921E7C567009A9887 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DA180D992194FCF400D2470D /* utils.swift */,
+				DA1D7A1621E7B384009A9887 /* Heap.swift */,
+			);
+			path = utilities;
 			sourceTree = "<group>";
 		};
 		DA241C5A21B9B2C000417C5A /* problems */ = {
