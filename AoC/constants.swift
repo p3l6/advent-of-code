@@ -15,7 +15,7 @@ let overrideRange :ClosedRange<Int>? /* */ = nil // */ = 1...11
 let localFolder = "/Users/paul/var/AdventOfCode"
 let cacheFolderName = "Cache"
 let pageDumpFolderName = "RawHttp"
-let urlBase = "https://adventofcode.com/2018"
+let urlBase = "https://adventofcode.com/2019"
 
 let manualInput =
 """
