@@ -35,8 +35,12 @@ class Day1Tests: AocTest { override var problem:Problem{return day1}; override v
 1969
 """, p1:"658", p2:"970"),
     ]}}
-//class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] { return [
-//    ]}}
+class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] {
+    return []}
+    func testOther() {
+        XCTAssertEqual(intCodeProg("1,9,10,3,2,3,11,0,99,30,40,50".integerArray(",")), 3500)
+    }
+}
 //class Day3Tests: AocTest { override var problem:Problem{return day3}; override var examples :[Case] { return [
 //    ]}}
 //class Day4Tests: AocTest { override var problem:Problem{return day4}; override var examples :[Case] { return [
