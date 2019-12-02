@@ -77,6 +77,8 @@
 		DAD346E6219B537400D0CEA8 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346B8219B4C4200D0CEA8 /* constants.swift */; };
 		DAD346E7219B537400D0CEA8 /* auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D972194FCE400D2470D /* auth.swift */; };
 		DAD346ED219B53F200D0CEA8 /* AocTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346EB219B53F200D0CEA8 /* AocTest.swift */; };
+		DAFDE0C823956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
+		DAFDE0C923956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -131,6 +133,7 @@
 		DAD346DC219B533F00D0CEA8 /* AocTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AocTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD346EB219B53F200D0CEA8 /* AocTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AocTest.swift; sourceTree = "<group>"; };
 		DAD346EC219B53F200D0CEA8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAFDE0C723956A3A00F5DB64 /* intcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = intcode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,7 @@
 			children = (
 				DA1D7A1921E7C567009A9887 /* utilities */,
 				DA241C5A21B9B2C000417C5A /* problems */,
+				DAFDE0C723956A3A00F5DB64 /* intcode.swift */,
 				DA180D902194FC9300D2470D /* main.swift */,
 				DAD346B8219B4C4200D0CEA8 /* constants.swift */,
 				DA180D972194FCE400D2470D /* auth.swift */,
@@ -327,6 +331,7 @@
 				DA241C9F21B9B6BA00417C5A /* day2.swift in Sources */,
 				DA241C9121B9B6BA00417C5A /* day9.swift in Sources */,
 				DA241C7D21B9B6BA00417C5A /* day14.swift in Sources */,
+				DAFDE0C823956A3A00F5DB64 /* intcode.swift in Sources */,
 				DA180D9A2194FCF400D2470D /* extensions.swift in Sources */,
 				DA241C8F21B9B6BA00417C5A /* day4.swift in Sources */,
 				DA180D9C2194FE9600D2470D /* day6.swift in Sources */,
@@ -369,6 +374,7 @@
 				DA241CA021B9B6BA00417C5A /* day2.swift in Sources */,
 				DA241C9221B9B6BA00417C5A /* day9.swift in Sources */,
 				DA241C7E21B9B6BA00417C5A /* day14.swift in Sources */,
+				DAFDE0C923956A3A00F5DB64 /* intcode.swift in Sources */,
 				DAD346E5219B537400D0CEA8 /* extensions.swift in Sources */,
 				DA241C9021B9B6BA00417C5A /* day4.swift in Sources */,
 				DAD346E7219B537400D0CEA8 /* auth.swift in Sources */,
