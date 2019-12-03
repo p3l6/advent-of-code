@@ -105,7 +105,7 @@ extension Heap where Element : Equatable {
     
     // This function allows you to remove an element from the heap, in a similar way to how you would dequeue the root element.
     mutating func remove(_ element: Element) {
-        guard let index = elements.index(of: element)
+        guard let index = elements.firstIndex(of: element)
             else { return }
         swapElement(at: index, with: count - 1)
         elements.remove(at: count - 1)
@@ -114,7 +114,7 @@ extension Heap where Element : Equatable {
     
     // This function allows you to 'boost' an element, by sifting the element up the heap. You might do this if the element is already in the heap, but its priority has increased since it was enqueued.
     mutating func boost(_ element: Element) {
-        guard let index = elements.index(of: element)
+        guard let index = elements.firstIndex(of: element)
             else { return }
         siftUp(elementAtIndex: index)
     }

@@ -176,8 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				DA1D7A1921E7C567009A9887 /* utilities */,
+				DAFDE0CA2396EC8600F5DB64 /* computer */,
 				DA241C5A21B9B2C000417C5A /* problems */,
-				DAFDE0C723956A3A00F5DB64 /* intcode.swift */,
 				DA180D902194FC9300D2470D /* main.swift */,
 				DAD346B8219B4C4200D0CEA8 /* constants.swift */,
 				DA180D972194FCE400D2470D /* auth.swift */,
@@ -240,6 +240,14 @@
 			path = AocTest;
 			sourceTree = "<group>";
 		};
+		DAFDE0CA2396EC8600F5DB64 /* computer */ = {
+			isa = PBXGroup;
+			children = (
+				DAFDE0C723956A3A00F5DB64 /* intcode.swift */,
+			);
+			path = computer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -284,13 +292,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1120;
 				TargetAttributes = {
 					DA180D8C2194FC9300D2470D = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1120;
 					};
 					DAD346DB219B533F00D0CEA8 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1120;
 					};
 				};
 			};
@@ -300,6 +310,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = DA180D842194FC9300D2470D;
 			productRefGroup = DA180D8E2194FC9300D2470D /* Products */;
@@ -530,18 +541,20 @@
 		DA180D952194FC9300D2470D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		DA180D962194FC9300D2470D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -558,7 +571,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pwxn.AocTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -575,7 +588,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pwxn.AocTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
