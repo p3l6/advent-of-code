@@ -77,6 +77,8 @@
 		DAD346E6219B537400D0CEA8 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346B8219B4C4200D0CEA8 /* constants.swift */; };
 		DAD346E7219B537400D0CEA8 /* auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA180D972194FCE400D2470D /* auth.swift */; };
 		DAD346ED219B53F200D0CEA8 /* AocTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346EB219B53F200D0CEA8 /* AocTest.swift */; };
+		DAEB01D82399C71400C7C377 /* basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01D72399C71400C7C377 /* basic.swift */; };
+		DAEB01D92399C71400C7C377 /* basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01D72399C71400C7C377 /* basic.swift */; };
 		DAFDE0C823956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
 		DAFDE0C923956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
 /* End PBXBuildFile section */
@@ -133,6 +135,7 @@
 		DAD346DC219B533F00D0CEA8 /* AocTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AocTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD346EB219B53F200D0CEA8 /* AocTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AocTest.swift; sourceTree = "<group>"; };
 		DAD346EC219B53F200D0CEA8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAEB01D72399C71400C7C377 /* basic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = basic.swift; sourceTree = "<group>"; };
 		DAFDE0C723956A3A00F5DB64 /* intcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = intcode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				DAFDE0C723956A3A00F5DB64 /* intcode.swift */,
+				DAEB01D72399C71400C7C377 /* basic.swift */,
 			);
 			path = computer;
 			sourceTree = "<group>";
@@ -359,6 +363,7 @@
 				DA1D7A1B21E7C60B009A9887 /* clock.swift in Sources */,
 				DA241C7921B9B6BA00417C5A /* day18.swift in Sources */,
 				DA241C8921B9B6BA00417C5A /* day8.swift in Sources */,
+				DAEB01D82399C71400C7C377 /* basic.swift in Sources */,
 				DA241C9321B9B6BA00417C5A /* day17.swift in Sources */,
 				DA241C9B21B9B6BA00417C5A /* day10.swift in Sources */,
 				DA241CA121B9B6BA00417C5A /* day16.swift in Sources */,
@@ -402,6 +407,7 @@
 				DA1D7A1C21E7C60B009A9887 /* clock.swift in Sources */,
 				DA241C7A21B9B6BA00417C5A /* day18.swift in Sources */,
 				DA241C8A21B9B6BA00417C5A /* day8.swift in Sources */,
+				DAEB01D92399C71400C7C377 /* basic.swift in Sources */,
 				DA241C9421B9B6BA00417C5A /* day17.swift in Sources */,
 				DA241C9C21B9B6BA00417C5A /* day10.swift in Sources */,
 				DA241CA221B9B6BA00417C5A /* day16.swift in Sources */,
