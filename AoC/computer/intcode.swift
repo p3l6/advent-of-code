@@ -14,13 +14,19 @@ class Intcode {
         case Mult   = 2   // a * b -> c
         case Input  = 3   // a
         case Output = 4   // a
+        case JmpT   = 5   // a ? ip
+        case JmpF   = 6   // !a ? ip
+        case Less   = 7   // a < b ? 1 : 0 -> c
+        case Equal  = 8   // a == b ? 1 : 0 -> c
         case Halt   = 99  // --
         
         func length() -> Int { return self.params() + 1 }
         func params() -> Int {
             switch self {
-            case .Add, .Mult:
+            case .Add, .Mult, .Less, .Equal:
                 return 3
+            case .JmpT, .JmpF:
+                return 2
             case .Input, .Output:
                 return 1
             case .Halt:
@@ -87,6 +93,20 @@ class Intcode {
                 prog[param(0)] = input.removeFirst()
             case .Output:
                 output.append(param(0, modes[0]))
+            case .JmpT:
+                if param(0, modes[0]) != 0 {
+                    ip = param(1, modes[1])
+                    continue
+                }
+            case .JmpF:
+                if param(0, modes[0]) == 0 {
+                    ip = param(1, modes[1])
+                    continue
+                }
+            case .Less:
+                prog[param(2)] = param(0, modes[0]) < param(1, modes[1]) ? 1 : 0
+            case .Equal:
+                prog[param(2)] = param(0, modes[0]) == param(1, modes[1]) ? 1 : 0
             case .Halt:
                 return true
             }

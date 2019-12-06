@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay5 = true
+let runDay5 = false
 
 func day5 (_ input:String) -> Solution {
     var solution = Solution()
@@ -18,6 +18,13 @@ func day5 (_ input:String) -> Solution {
     let diagnosticCode = program.output.last!
     
     solution.partOne = "\(diagnosticCode)"
-//    solution.partTwo = "\()"
+    
+    let programRadiator = Intcode(string:input)
+    programRadiator.addInput(5)
+    let _ = programRadiator.run()
+    let diagnosticCodeRadiator = programRadiator.output.last!
+    
+    solution.partTwo = "\(diagnosticCodeRadiator)"
+    
     return solution
 }
