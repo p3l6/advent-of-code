@@ -7,11 +7,17 @@
 
 import Foundation
 
-let runDay5 = false
+let runDay5 = true
 
 func day5 (_ input:String) -> Solution {
-    let solution = Solution()
-//    solution.partOne = "\()"
+    var solution = Solution()
+    
+    let program = Intcode(string:input)
+    program.addInput(1)
+    let _ = program.run()
+    let diagnosticCode = program.output.last!
+    
+    solution.partOne = "\(diagnosticCode)"
 //    solution.partTwo = "\()"
     return solution
 }
