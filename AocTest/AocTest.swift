@@ -54,8 +54,37 @@ class Day3Tests: AocTest { override var problem:Problem{return day3}; override v
 //    ]}}
 //class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return [
 //    ]}}
-//class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
-//    ]}}
+class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
+    Case(input:"""
+    B)YOU
+    YOU)D
+    D)E
+    COM)B
+    E)F
+    G)SAN
+    D)I
+    B)G
+    E)J
+    J)K
+    K)L
+    """, p1:"42", p2:""),
+    Case(input:"""
+    COM)B
+    B)C
+    C)D
+    D)E
+    E)F
+    B)G
+    G)H
+    D)I
+    E)J
+    J)K
+    K)L
+    K)YOU
+    I)SAN
+    """, p1:"", p2:"4"),
+    ]}}
+
 //class Day7Tests: AocTest { override var problem:Problem{return day7}; override var examples :[Case] { return [
 //    ]}}
 //class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [

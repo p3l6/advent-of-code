@@ -35,4 +35,8 @@ class Graph<T> where T:Hashable {
     func entryNodes() -> [Node] {
         return nodes.values.filter { $0.inputs.isEmpty }
     }
+    
+    func resetVisits() {
+        nodes.values.forEach { $0.completed = false }
+    }
 }
