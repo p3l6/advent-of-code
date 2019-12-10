@@ -135,6 +135,21 @@ class IntcodeTest: XCTestCase {
     func testAddMult() {
         XCTAssertEqual(intcodeProg("1,9,10,3,2,3,11,0,99,30,40,50".integerArray(",")), 3500)
     }
+    func testQuine() {
+        let progInts = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+        let prog = Intcode(program: progInts)
+        let _ = prog.run()
+        XCTAssertEqual(progInts, prog.output)
+    }
+    func testBigNumbers() {
+        let prog = Intcode(program: [104,1125899906842624,99])
+        let _ = prog.run()
+        XCTAssertEqual(prog.output.last!, 1125899906842624)
+        
+        let prog2 = Intcode(program: [1102,34915192,34915192,7,4,7,99,0])
+        let _ = prog2.run()
+        XCTAssertEqual(prog2.output.last!.digits().count, 16)
+    }
 }
 
 class UtilsTest: XCTestCase {

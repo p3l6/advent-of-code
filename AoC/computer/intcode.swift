@@ -18,6 +18,7 @@ class Intcode {
         case JmpF   = 6   // !a ? ip
         case Less   = 7   // a < b ? 1 : 0 -> c
         case Equal  = 8   // a == b ? 1 : 0 -> c
+        case Base   = 9   // a
         case Halt   = 99  // --
         
         func length() -> Int { return self.params() + 1 }
@@ -27,7 +28,7 @@ class Intcode {
                 return 3
             case .JmpT, .JmpF:
                 return 2
-            case .Input, .Output:
+            case .Input, .Output, .Base:
                 return 1
             case .Halt:
                 return 0
@@ -38,15 +39,20 @@ class Intcode {
     enum ParameterMode: Int {
         case Position = 0
         case Immediate = 1
+        case Relative = 2
     }
     
-    private var prog :[Int]
+    private var prog: [Int]
+    private let initialProg: [Int]
+    private var extraMemory = [Int:Int]()
     private var ip = 0
     private var input = [Int]()
     private(set) var output = [Int]()
+    private var relativeBase = 0
     
     init(program: [Int]) {
         self.prog = program
+        self.initialProg = program
     }
     
     convenience init(string: String) {
@@ -57,12 +63,21 @@ class Intcode {
         self.input.append(x)
     }
     
+    func reset() {
+        ip = 0
+        relativeBase = 0
+        input.removeAll()
+        output.removeAll()
+        extraMemory.removeAll()
+        prog = initialProg
+    }
+    
     private static func decodeInstruction(_ inst:Int) -> (code: OpCode, paramModes: [ParameterMode]) {
         let code = OpCode(rawValue: inst % 100)!
         var params = [ParameterMode]()
         var remain = inst / 100
         for _ in 0..<code.params() {
-            params.append( remain % 10 == 0 ? ParameterMode.Position : ParameterMode.Immediate )
+            params.append(ParameterMode(rawValue: remain % 10)!)
             remain /= 10
         }
         return (code, params)
@@ -70,9 +85,33 @@ class Intcode {
     
     /// Index for first param is 0
     private func param(_ index: Int, _ mode:ParameterMode = .Immediate) -> Int {
+        let value = prog[ip + 1 + index]
+        
         switch mode {
-        case .Immediate: return prog[ip + 1 + index]
-        case .Position: return prog[prog[ip + 1 + index]]
+        case .Immediate:
+            return value
+        case .Position:
+            if value >= prog.count {
+                return extraMemory[value] ?? 0
+            }
+            return prog[value]
+        case .Relative:
+            let access = relativeBase + value
+            if access >= prog.count {
+                return extraMemory[access] ?? 0
+            }
+            return prog[access]
+        }
+    }
+    
+    private func write(_ index: Int, _ mode: ParameterMode, val: Int) {
+        assert(mode != .Immediate, "Writes should not be immediate!")
+        let writeLoc = mode == .Relative ? index + relativeBase : index
+        
+        if writeLoc >= prog.count {
+            extraMemory[writeLoc] = val
+        } else {
+            prog[writeLoc] = val
         }
     }
     
@@ -81,16 +120,14 @@ class Intcode {
         while true {
             let (code, modes) = Intcode.decodeInstruction(prog[ip])
             
-            // instructions with writes will always write to position mode
-            
             switch code {
             case .Add:
-                prog[param(2)] = param(0, modes[0]) + param(1, modes[1])
+                write(param(2), modes[2], val: param(0, modes[0]) + param(1, modes[1]))
             case .Mult:
-                prog[param(2)] = param(0, modes[0]) * param(1, modes[1])
+                write(param(2), modes[2], val: param(0, modes[0]) * param(1, modes[1]))
             case .Input:
                 if input.isEmpty { return false }
-                prog[param(0)] = input.removeFirst()
+                write(param(0), modes[0], val: input.removeFirst())
             case .Output:
                 output.append(param(0, modes[0]))
             case .JmpT:
@@ -104,9 +141,11 @@ class Intcode {
                     continue
                 }
             case .Less:
-                prog[param(2)] = param(0, modes[0]) < param(1, modes[1]) ? 1 : 0
+                write(param(2), modes[2], val: param(0, modes[0]) < param(1, modes[1]) ? 1 : 0)
             case .Equal:
-                prog[param(2)] = param(0, modes[0]) == param(1, modes[1]) ? 1 : 0
+                write(param(2), modes[2], val: param(0, modes[0]) == param(1, modes[1]) ? 1 : 0)
+            case .Base:
+                relativeBase += param(0, modes[0])
             case .Halt:
                 return true
             }
