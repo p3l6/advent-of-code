@@ -79,6 +79,8 @@
 		DAD346ED219B53F200D0CEA8 /* AocTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD346EB219B53F200D0CEA8 /* AocTest.swift */; };
 		DAEB01D82399C71400C7C377 /* basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01D72399C71400C7C377 /* basic.swift */; };
 		DAEB01D92399C71400C7C377 /* basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01D72399C71400C7C377 /* basic.swift */; };
+		DAEB01DB23A0342B00C7C377 /* gcd.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01DA23A0342B00C7C377 /* gcd.swift */; };
+		DAEB01DC23A0342B00C7C377 /* gcd.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEB01DA23A0342B00C7C377 /* gcd.swift */; };
 		DAFDE0C823956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
 		DAFDE0C923956A3A00F5DB64 /* intcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFDE0C723956A3A00F5DB64 /* intcode.swift */; };
 /* End PBXBuildFile section */
@@ -136,6 +138,7 @@
 		DAD346EB219B53F200D0CEA8 /* AocTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AocTest.swift; sourceTree = "<group>"; };
 		DAD346EC219B53F200D0CEA8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEB01D72399C71400C7C377 /* basic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = basic.swift; sourceTree = "<group>"; };
+		DAEB01DA23A0342B00C7C377 /* gcd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gcd.swift; sourceTree = "<group>"; };
 		DAFDE0C723956A3A00F5DB64 /* intcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = intcode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,6 +200,7 @@
 				DA1D7A2321E7C665009A9887 /* grid.swift */,
 				DA1D7A2621E7C670009A9887 /* graph.swift */,
 				DA1D7A1621E7B384009A9887 /* heap.swift */,
+				DAEB01DA23A0342B00C7C377 /* gcd.swift */,
 				DA1D7A1A21E7C60B009A9887 /* clock.swift */,
 			);
 			path = utilities;
@@ -378,6 +382,7 @@
 				DA1D7A1E21E7C622009A9887 /* stack.swift in Sources */,
 				DA241C8121B9B6BA00417C5A /* day23.swift in Sources */,
 				DA241C8D21B9B6BA00417C5A /* day1.swift in Sources */,
+				DAEB01DB23A0342B00C7C377 /* gcd.swift in Sources */,
 				DA180D912194FC9300D2470D /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +427,7 @@
 				DA1D7A1F21E7C622009A9887 /* stack.swift in Sources */,
 				DA241C8221B9B6BA00417C5A /* day23.swift in Sources */,
 				DA241C8E21B9B6BA00417C5A /* day1.swift in Sources */,
+				DAEB01DC23A0342B00C7C377 /* gcd.swift in Sources */,
 				DAD346E6219B537400D0CEA8 /* constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

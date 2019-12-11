@@ -100,8 +100,49 @@ class Day7Tests: AocTest { override var problem:Problem{return day7}; override v
 //    ]}}
 //class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [
 //    ]}}
-//class Day10Tests: AocTest { override var problem:Problem{return day10}; override var examples :[Case] { return [
-//    ]}}
+class Day10Tests: AocTest { override var problem:Problem{return day10}; override var examples :[Case] { return [
+    Case(input:"""
+    .#..#
+    .....
+    #####
+    ....#
+    ...##
+    """, p1:"8", p2:""),
+    Case(input:"""
+    ......#.#.
+    #..#.#....
+    ..#######.
+    .#.#.###..
+    .#..#.....
+    ..#....#.#
+    #..#....#.
+    .##.#..###
+    ##...#..#.
+    .#....####
+    """, p1:"33", p2:""),
+    Case(input:"""
+    .#..##.###...#######
+    ##.############..##.
+    .#.######.########.#
+    .###.#######.####.#.
+    #####.##.#.##.###.##
+    ..#####..#.#########
+    ####################
+    #.####....###.#.#.##
+    ##.#################
+    #####.##.###..####..
+    ..######..##.#######
+    ####.##.####...##..#
+    .#####..#.######.###
+    ##...#.##########...
+    #.##########.#######
+    .####.#.###.###.#.##
+    ....##.##.###..#####
+    .#.#.###########.###
+    #.#.#.#####.####.###
+    ###.##.####.##.#..##
+    """, p1:"210", p2:"802"),
+    ]}}
 //class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [
 //    ]}}
 //class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [
