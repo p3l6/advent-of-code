@@ -22,12 +22,12 @@ func day8 (_ input:String) -> Solution {
     }
     
     enum Pixel: Int {
-        case Transparent = 2
-        case White = 1
-        case Black = 0
+        case transparent = 2
+        case white = 1
+        case black = 0
     }
     
-    var image = [Pixel](repeating: Pixel.Transparent, count: pixelsPerLayer)
+    var image = [Pixel](repeating: Pixel.transparent, count: pixelsPerLayer)
     
     var min = (fewestZero: Int.max, mult: 0)
     for l in 0..<numLayers {
@@ -35,7 +35,7 @@ func day8 (_ input:String) -> Solution {
         for p in 0..<pixelsPerLayer {
             let color = Pixel(rawValue:imageData[l*pixelsPerLayer+p])!
             counts[color.rawValue] += 1
-            if image[p] == .Transparent && color != .Transparent {
+            if image[p] == .transparent && color != .transparent {
                 image[p] = color
             }
         }
@@ -49,7 +49,7 @@ func day8 (_ input:String) -> Solution {
     print("Part two rendering:")
     for row in 0..<imageSize.height {
         for col in 0..<imageSize.width {
-            print(image[row*imageSize.width+col] == .White ? "X" : " ", terminator:"")
+            print(image[row*imageSize.width+col] == .white ? "X" : " ", terminator:"")
         }
         print("")
     }

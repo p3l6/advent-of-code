@@ -9,20 +9,20 @@ import Foundation
 
 func intcodeProg(_ program: [Int]) -> Int {
     enum OpCode: Int {
-        case Add = 1
-        case Mult = 2
-        case Halt = 99
+        case add = 1
+        case mult = 2
+        case halt = 99
     }
     var prog = program
     var pc = 0
-    while prog[pc] != OpCode.Halt.rawValue {
+    while prog[pc] != OpCode.halt.rawValue {
         let a = prog[prog[pc+1]]
         let b = prog[prog[pc+2]]
         let outPos = prog[pc+3]
         switch prog[pc] {
-        case OpCode.Add.rawValue:
+        case OpCode.add.rawValue:
             prog[outPos] = a + b
-        case OpCode.Mult.rawValue:
+        case OpCode.mult.rawValue:
             prog[outPos] = a * b
         default:
             print("Unexpected opcode")
