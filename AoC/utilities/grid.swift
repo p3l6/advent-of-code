@@ -33,6 +33,20 @@ class InfiniteGrid<T> {
             try body(point,value)
         }
     }
+    
+    func stringBy(_ mapping:(T)->Character) -> String {
+        var s = ""
+        let area = Area(asBoundingBoxOf: Array<Point>(grid.keys))
+        for p in area {
+            if p.x == area.start.x {
+                s += "\n"
+            }
+            s.append(mapping(self[p]))
+        }
+        s += "\n"
+        return s
+    }
+    
 }
 
 // Uses top down coodinates

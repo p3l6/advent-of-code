@@ -72,6 +72,10 @@ class Intcode {
         prog = initialProg
     }
     
+    func clearOutput() {
+        output.removeAll()
+    }
+    
     private static func decodeInstruction(_ inst:Int) -> (code: OpCode, paramModes: [ParameterMode]) {
         let code = OpCode(rawValue: inst % 100)!
         var params = [ParameterMode]()
