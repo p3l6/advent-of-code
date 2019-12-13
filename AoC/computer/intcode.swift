@@ -76,6 +76,10 @@ class Intcode {
         output.removeAll()
     }
     
+    func modifyMem(at: Int, to: Int) {
+        prog[at] = to
+    }
+    
     private static func decodeInstruction(_ inst:Int) -> (code: OpCode, paramModes: [ParameterMode]) {
         let code = OpCode(rawValue: inst % 100)!
         var params = [ParameterMode]()
