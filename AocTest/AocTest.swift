@@ -145,8 +145,20 @@ class Day10Tests: AocTest { override var problem:Problem{return day10}; override
     ]}}
 //class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [
 //    ]}}
-//class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [
-//    ]}}
+class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [
+    Case(input:"""
+    <x=-1, y=0, z=2>
+    <x=2, y=-10, z=-7>
+    <x=4, y=-8, z=8>
+    <x=3, y=5, z=-1>
+    """, p1:"1940", p2:""),
+    Case(input:"""
+    <x=-8, y=-10, z=0>
+    <x=5, y=5, z=10>
+    <x=2, y=-7, z=3>
+    <x=9, y=-8, z=-3>
+    """, p1:"1940", p2:""),
+    ]}}
 //class Day13Tests: AocTest { override var problem:Problem{return day13}; override var examples :[Case] { return [
 //    ]}}
 //class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
