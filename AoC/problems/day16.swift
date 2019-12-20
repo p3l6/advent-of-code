@@ -9,30 +9,21 @@ import Foundation
 
 let runDay16 = false
 
-var patternCache = [Int:[Int]]()
-func getPattern(forIndex: Int, atLeast: Int) -> [Int] {
-    if let inCache = patternCache[forIndex] { return inCache }
-    
-    let basePattern = [0,1,0,-1]
-    var expanded = [Int](repeating: 0, count: atLeast+1)
-    for i in 0..<expanded.count {
-        expanded[i] = basePattern[ (i/(forIndex+1)) % 4 ]
-    }
-    
-    let _ = expanded.removeFirst()
-    
-    patternCache[forIndex] = expanded
-    return expanded
-}
-
 func processPhase(signal: [Int]) -> [Int] {
     var next = [Int]()
     
+    let basePattern = [0,1,0,-1]
+    
     for s in 0..<signal.count {
-        let pattern = getPattern(forIndex: s, atLeast: signal.count)
         var sum = 0
+        
         for i in 0..<signal.count {
-            sum += signal[i] * pattern[i]
+            let value = basePattern[ ((i+1)/(s+1)) % 4 ]
+            switch value {
+            case 1: sum += signal[i]
+            case -1:  sum -= signal[i]
+            default: continue
+            }
         }
         next.append( abs(sum) % 10 )
     }
@@ -54,16 +45,24 @@ func day16 (_ input:String) -> Solution {
     for i in 0..<8 { first8.append(String(signal[i])) }
     solution.partOne = "\(first8)"
     
-    // above took 45 seconds, needs to be faster for part 2!
+    return solution
+    // got the above down to 20s, but still way to slow
+    // had it down to 3s by caching the pattern indexes, but had to drop that
+    // because for part 2 it would take days to even build the cache.
     
-    // set initial signal
-    // get offset of first seven digits
-    // repeat signal 10_000 times
+    var first7 = ""
+    for i in 0..<8 { first7.append(String(initial[i])) }
+    let offset = Int(first7)!
     
-    // do 100 phases
+    signal = [[Int]](repeating: initial, count: 10_000).flatMap{$0}
     
-    // read 8 digits at offset
+    for phase in 0..<100 {
+        signal = processPhase(signal:signal)
+    }
     
-//    solution.partTwo = "\()"
+    first8 = ""
+    for i in 0..<8 { first8.append(String(signal[offset+i])) }
+    solution.partTwo = "\(first8)"
+    
     return solution
 }
