@@ -165,8 +165,11 @@ class Day12Tests: AocTest { override var problem:Problem{return day12}; override
 //    ]}}
 //class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
 //    ]}}
-//class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
-//    ]}}
+class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
+    Case(input:"80871224585914546619083218645595", p1:"24176176", p2:"84462026"),
+    Case(input:"19617804207202209144916044189917", p1:"73745418", p2:""),
+    Case(input:"69317163492948606335995924319873", p1:"52432133", p2:""),
+    ]}}
 //class Day17Tests: AocTest { override var problem:Problem{return day17}; override var examples :[Case] { return [
 //    ]}}
 //class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [
