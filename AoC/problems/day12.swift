@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay12 = true
+let runDay12 = false
 
 func day12 (_ input:String) -> Solution {
     var solution = Solution()
