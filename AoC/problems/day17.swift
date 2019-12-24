@@ -7,7 +7,7 @@
 
 import Foundation
 
-let runDay17 = true
+let runDay17 = false
 
 enum Shield {
     case scaffold
