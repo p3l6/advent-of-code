@@ -189,8 +189,13 @@ class Day16Tests: AocTest { override var problem:Problem{return day16}; override
 //    ]}}
 //class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [
 //    ]}}
-//class Day22Tests: AocTest { override var problem:Problem{return day22}; override var examples :[Case] { return [
-//    ]}}
+class Day22Tests: AocTest {
+    func testDeck() {
+        var deck = Deck(size:10)
+        deck.performOps(list: ["cut 6","deal with increment 7","deal into new stack"])
+        XCTAssertEqual(deck.cards, [3,0,7,4,1,8,5,2,9,6])
+    }
+}
 //class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [
 //    ]}}
 //class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [
