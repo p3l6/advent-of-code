@@ -198,8 +198,15 @@ class Day22Tests: AocTest {
 }
 //class Day23Tests: AocTest { override var problem:Problem{return day23}; override var examples :[Case] { return [
 //    ]}}
-//class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [
-//    ]}}
+class Day24Tests: AocTest { override var problem:Problem{return day24}; override var examples :[Case] { return [
+    Case(input:"""
+    ....#
+    #..#.
+    #..##
+    ..#..
+    #....
+    """, p1:"2129920", p2:""),
+    ]}}
 //class Day25Tests: AocTest { override var problem:Problem{return day25}; override var examples :[Case] { return [
 //    ]}}
 
