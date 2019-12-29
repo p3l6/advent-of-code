@@ -47,6 +47,10 @@ enum Direction :Int {
         case .west: return .east
         }
     }
+    
+    static func all() -> [Direction] {
+        return [.north, .south, .east, .west]
+    }
 }
 
 struct Point :Hashable , CustomStringConvertible, CustomDebugStringConvertible{

@@ -72,6 +72,17 @@ class Intcode {
         prog = initialProg
     }
     
+    func fork(keepOutput:Bool = false) -> Intcode {
+        let fork = Intcode(program: initialProg)
+        fork.prog = self.prog
+        fork.ip = self.ip
+        fork.extraMemory = self.extraMemory
+        fork.input = self.input
+        fork.relativeBase = self.relativeBase
+        if keepOutput { fork.output = self.output }
+        return fork
+    }
+    
     func clearOutput() {
         output.removeAll()
     }
