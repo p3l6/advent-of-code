@@ -36,7 +36,7 @@ struct KeyState :CustomStringConvertible {
     }
     
     func has(_ char: String) -> Bool {
-        return found.contains(char)
+        return found.contains(char.lowercased())
     }
     
     var isComplete :Bool {
@@ -48,94 +48,156 @@ struct KeyState :CustomStringConvertible {
     }
 }
 
-enum VaultTile {
-    case entrance
-    case key
-    case door
-    case wall
-    case empty
+class Vault {
+    enum VaultTile {
+        case entrance
+        case key
+        case door
+        case wall
+        case empty
+    }
+    typealias Graph = [(primary: String, next: String, length:Int)]
+    
+    let map :FiniteGrid<VaultTile>
+    let keys :[Point:String]
+    let doors :[Point:String]
+    let entrance :Point
+    let baseKeyState :KeyState
+    
+    init(map inputMap: String) {
+        let lines = inputMap.lines()
+        
+        let area = Area(at: Point(0,0), w: lines.first!.count, h: lines.count)
+        map = FiniteGrid(defaultValue: VaultTile.wall, area: area)
+
+        var baseKeyState = KeyState()
+        var keys = [Point:String]()
+        var doors = [Point:String]()
+        var entrance = Point(0,0)
+        
+        for p in area {
+            let char = lines[p.y][p.x]
+            switch char {
+            case "#":
+                map[p] = .wall
+            case ".":
+                map[p] = .empty
+            case "@":
+                map[p] = .entrance
+                entrance = p
+            case "a"..."z":
+                map[p] = .key
+                keys[p] = char
+                baseKeyState = baseKeyState.requiring(char)
+            case "A"..."Z":
+                map[p] = .door
+                doors[p] = char //.lowercased()
+            default:
+                assertionFailure("Unexpected map character")
+            }
+        }
+        
+        self.entrance = entrance
+        self.keys = keys
+        self.doors = doors
+        self.baseKeyState = baseKeyState
+    }
+    
+    func vaultSearch(start: Point, id: String) -> Graph {
+        var graph = Graph()
+        let visited = FiniteGrid(defaultValue: false, area: map.area)
+        var toVisit = [Point]()
+        toVisit.append(start)
+        var depth = 0
+        while !toVisit.isEmpty {
+            var nextVisit = [Point]()
+            let nDepth = depth+1
+            for v in toVisit {
+                visited[v] = true
+                for n in v.adjacents() {
+                    if visited[n] { continue }
+                    switch map[n] {
+                    case .entrance: graph.append((id, "@", nDepth))
+                    case .door: graph.append((id, doors[n]!, nDepth))
+                    case .key: graph.append((id, keys[n]!, nDepth))
+                    case .empty: nextVisit.append(n)
+                    case .wall: break
+                    }
+                }
+            }
+            depth = nDepth
+            toVisit = nextVisit
+        }
+        return graph
+    }
+
+    func graph() -> Graph {
+        var graph = Graph()
+        for (loc, key) in keys {
+            graph.append(contentsOf: vaultSearch(start: loc, id: key))
+        }
+        for (loc, door) in doors {
+            graph.append(contentsOf: vaultSearch(start: loc, id: door))
+        }
+        graph.append(contentsOf: vaultSearch(start: entrance, id: "@"))
+        return graph
+    }
 }
 
 func day18 (_ input:String) -> Solution {
     var solution = Solution()
-    let lines = input.lines()
     
-    let area = Area(at: Point(0,0), w: lines.first!.count, h: lines.count)
-    let map = FiniteGrid(defaultValue: VaultTile.wall, area: area)
-    var pos = Point(0,0)
-
-    var state = KeyState()
-    var keys = [Point:String]()
-    var doors = [Point:String]()
+    let vault = Vault(map: input)
     
-    for p in area {
-        let char = lines[p.y][p.x]
-        switch char {
-        case "#":
-            map[p] = .wall
-        case ".":
-            map[p] = .empty
-        case "@":
-            map[p] = .entrance
-            pos = p
-        case "a"..."z":
-            map[p] = .key
-            keys[p] = char
-            state = state.requiring(char)
-        case "A"..."Z":
-            map[p] = .door
-            doors[p] = char.lowercased()
-        default:
-            assertionFailure("Unexpected map character")
-        }
-    }
+    let graph = vault.graph()
+    var filteredGraph = [String:Vault.Graph]()
+    for primary in vault.keys.values { filteredGraph[primary] = graph.filter({ $0.primary == primary }) }
+    for primary in vault.doors.values { filteredGraph[primary] = graph.filter({ $0.primary == primary }) }
+    filteredGraph["@"] = graph.filter({ $0.primary == "@" })
     
-    var toVisit = Stack<(Point, Int, Point?, KeyState)>()
-    toVisit.push((pos, 0, nil, state))
+    var toVisit = [(String, Int, String?, KeyState)]()
+    toVisit.append(("@", 0, nil, vault.baseKeyState))
     
     var minDist = Int.max
-    
-    var visited = [String:Int]()
+    var visited = Set<String>()
     
     while !toVisit.isEmpty {
-        let (loc, visitDist, previous, state) = toVisit.pop()
-        let nDist = visitDist + 1
-        if nDist >= minDist {
-            continue
-        }
+        var nextVisit = [(String, Int, String?, KeyState)]()
+        for (node, visitDist, prevNode, state) in toVisit {
         
-        let unique = "\(loc.x),\(loc.y),\(state)"
-        if let prevDist = visited[unique], prevDist <= nDist {
-            continue
-        }
-        visited[unique] = nDist
+            let unique = "\(node),\(state)"
+            if visited.contains(unique) { continue }
+            visited.insert(unique)
         
-        for n in loc.adjacents() {
-            if let p = previous, n == p {
-                continue
-            }
+            for (_, nextNode, separation) in filteredGraph[node]! {
+                if let p = prevNode, nextNode == p {
+                    continue
+                }
+                
+                let nextDist = visitDist + separation
+                if nextDist >= minDist {
+                    continue
+                }
             
-            switch map[n] {
-            case .entrance, .empty:
-                toVisit.push((n, nDist, loc, state))
-            case .key:
-                let key = keys[n]!
-                let newState = state.finding(key)
-                if newState.isComplete {
-                    minDist = min(nDist, minDist)
-                } else {
-//                    print("Found key \(keys[n]!) for state \(newState)")
-                    toVisit.push((n, nDist, state.has(key) ? loc : nil, newState))
+                switch nextNode {
+                case "@":
+                    nextVisit.append((nextNode, nextDist, node, state))
+                case "a"..."z":
+                    let newState = state.finding(nextNode)
+                    if newState.isComplete {
+                        minDist = min(nextDist, minDist)
+                    } else {
+                        nextVisit.append((nextNode, nextDist, state.has(nextNode) ? node : nil, newState))
+                    }
+                case "A"..."Z":
+                    if state.has(nextNode) {
+                        nextVisit.append((nextNode, nextDist, node, state))
+                    }
+                default: assertionFailure("Unexpected node")
                 }
-            case .door:
-//                print("Visiting door \(doors[n]!.uppercased()) with keys \(state)")
-                if state.has(doors[n]!) {
-                    toVisit.push((n, nDist, loc, state))
-                }
-            case .wall:
-                break
             }
         }
+        toVisit = nextVisit
     }
     
     solution.partOne = "\(minDist)"
