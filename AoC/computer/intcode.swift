@@ -63,6 +63,18 @@ class Intcode {
         self.input.append(x)
     }
     
+    func addAsciiInput(_ s: String) {
+        self.input.append(contentsOf: s.map{Int($0.asciiValue)})
+    }
+    
+    func asciiOutput(clear: Bool = false) -> String {
+        let chars :[String] = self.output.map({String(UnicodeScalar($0)!)})
+        if clear {
+            self.clearOutput()
+        }
+        return chars.joined()
+    }
+    
     func reset() {
         ip = 0
         relativeBase = 0
