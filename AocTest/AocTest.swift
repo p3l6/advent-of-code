@@ -213,8 +213,48 @@ class Day18Tests: AocTest { override var problem:Problem{return day18}; override
     ]}}
 //class Day19Tests: AocTest { override var problem:Problem{return day19}; override var examples :[Case] { return [
 //    ]}}
-//class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [
-//    ]}}
+class Day20Tests: AocTest { override var problem:Problem{return day20}; override var examples :[Case] { return [
+    Case(input:"""
+                   A   
+                   A
+  #################.#############
+  #.#...#...................#.#.#
+  #.#.#.###.###.###.#########.#.#
+  #.#.#.......#...#.....#.#.#...#
+  #.#########.###.#####.#.#.###.#
+  #.............#.#.....#.......#
+  ###.###########.###.#####.#.#.#
+  #.....#        A   C    #.#.#.#
+  #######        S   P    #####.#
+  #.#...#                 #......VT
+  #.#.#.#                 #.#####
+  #...#.#               YN....#.#
+  #.###.#                 #####.#
+DI....#.#                 #.....#
+  #####.#                 #.###.#
+ZZ......#               QG....#..AS
+  ###.###                 #######
+JO..#.#.#                 #.....#
+  #.#.#.#                 ###.#.#
+  #...#..DI             BU....#..LF
+  #####.#                 #.#####
+YN......#               VT..#....QG
+  #.###.#                 #.###.#
+  #.#...#                 #.....#
+  ###.###    J L     J    #.#.###
+  #.....#    O F     P    #.#...#
+  #.###.#####.#.#####.#####.###.#
+  #...#.#.#...#.....#.....#.#...#
+  #.#####.###.###.#.#.#########.#
+  #...#.#.....#...#.#.#.#.....#.#
+  #.###.#####.###.###.#.#.#######
+  #.#.........#...#.............#
+  #########.###.###.#############
+           B   J   C
+           U   P   P
+""", p1:"58", p2:""),
+
+    ]}}
 class Day22Tests: AocTest {
     func testDeck() {
         var deck = Deck(size:10)
