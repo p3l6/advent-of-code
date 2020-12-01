@@ -1,13 +1,7 @@
 #! /bin/bash
 
 for i in $(seq 1 25); do
-  cat <<EOF > ./AoC/problems/day$i.swift
-//
-//  day$i.swift
-//  AoC
-//
-//  Created by Paul Landers
-//
+  cat <<EOF > ./2020/AoC/problems/day$i.swift
 
 import Foundation
 
@@ -19,5 +13,6 @@ func day$i (_ input:String) -> Solution {
 //    solution.partTwo = "\()"
     return solution
 }
+
 EOF
 done
