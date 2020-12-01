@@ -1,7 +1,9 @@
 #! /bin/bash
 
+year=2020
+
 for i in $(seq 1 25); do
-  cat <<EOF > ./2020/AoC/problems/day$i.swift
+  cat <<EOF > ./$year/AoC/problems/day$i.swift
 
 import Foundation
 
@@ -14,5 +16,9 @@ func day$i (_ input:String) -> Solution {
     return solution
 }
 
+EOF
+
+cat <<EOF >> ./$year/AocTest/AocTest.swift
+class Day${i}Tests: AocTest { override var problem:Problem{return day$i}; override var examples :[Case] { return []}}
 EOF
 done
