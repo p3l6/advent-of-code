@@ -19,6 +19,10 @@ func day$i (_ input:String) -> Solution {
 EOF
 
 cat <<EOF >> ./$year/AocTest/AocTest.swift
-class Day${i}Tests: AocTest { override var problem:Problem{return day$i}; override var examples :[Case] { return []}}
+// class Day${i}Tests: AocTest { override var problem:Problem{return day$i}; override var examples :[Case] { return [
+// Case(input:"""
+// """, p1:"", p2:""),
+// ]}}
+
 EOF
 done
