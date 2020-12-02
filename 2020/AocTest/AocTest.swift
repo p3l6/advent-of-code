@@ -39,10 +39,13 @@ Case(input:"""
 """, p1:"514579", p2:"241861950"),
 ]}}
 
-// class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day2Tests: AocTest { override var problem:Problem{return day2}; override var examples :[Case] { return [
+Case(input:"""
+1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc
+""", p1:"2", p2:"1"),
+]}}
 
 // class Day3Tests: AocTest { override var problem:Problem{return day3}; override var examples :[Case] { return [
 // Case(input:"""
