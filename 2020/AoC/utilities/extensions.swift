@@ -44,15 +44,17 @@ extension String {
     }
     
     func integerArray(_ sep: Character) -> [Int] {
-        return split(separator:sep).map { Int($0.trimmingCharacters(in: .whitespaces))! }
+        return split(separator:sep)
+            .map { Int($0.trimmingCharacters(in: .whitespaces))! }
     }
     
-    func stringArray(_ sep: Character) -> [String] {
-        return split(separator:sep).map { String($0.trimmingCharacters(in: .whitespaces)) }
+    func stringArray(_ sep: Character, keepBlank: Bool = false) -> [String] {
+        return split(separator:sep, omittingEmptySubsequences: !keepBlank)
+            .map { String($0.trimmingCharacters(in: .whitespaces)) }
     }
     
-    func lines() -> [String] {
-        return self.stringArray("\n")
+    func lines(keepBlank: Bool = false) -> [String] {
+        return self.stringArray("\n", keepBlank: keepBlank)
     }
     
     /// Format is a string with % where the numbers should be.

@@ -63,10 +63,29 @@ Case(input:"""
 """, p1:"7", p2:"336"),
 ]}}
 
-// class Day4Tests: AocTest { override var problem:Problem{return day4}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day4Tests: AocTest { override var problem:Problem{return day4}; override var examples :[Case] { return [
+Case(input:"""
+ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+byr:1937 iyr:2017 cid:147 hgt:183cm
+
+iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
+hcl:#cfa07d byr:1929
+
+hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:179cm
+
+hcl:#cfa07d eyr:2025 pid:166559648
+iyr:2011 ecl:brn hgt:59in
+""", p1:"2", p2:""),
+]}
+    func testValidator() {
+        XCTAssertTrue(Passport(data: "pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f").valid)
+    }
+}
+
+
 
 // class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return [
 // Case(input:"""
