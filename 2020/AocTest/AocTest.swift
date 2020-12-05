@@ -85,12 +85,14 @@ iyr:2011 ecl:brn hgt:59in
     }
 }
 
-
-
-// class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day5Tests: AocTest { override var problem:Problem{return day5}; override var examples :[Case] { return []}
+    func testSeats() {
+        XCTAssertEqual(357, Seat("FBFBBFFRLR").id)
+        XCTAssertEqual(567, Seat("BFFFBBFRRR").id)
+        XCTAssertEqual(119, Seat("FFFBBBFRRR").id)
+        XCTAssertEqual(820, Seat("BBFFBBFRLL").id)
+    }
+}
 
 // class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
 // Case(input:"""
