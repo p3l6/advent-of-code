@@ -94,10 +94,25 @@ class Day5Tests: AocTest { override var problem:Problem{return day5}; override v
     }
 }
 
-// class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day6Tests: AocTest { override var problem:Problem{return day6}; override var examples :[Case] { return [
+Case(input:"""
+abc
+
+a
+b
+c
+
+ab
+ac
+
+a
+a
+a
+a
+
+b
+""", p1:"11", p2:"6"),
+]}}
 
 // class Day7Tests: AocTest { override var problem:Problem{return day7}; override var examples :[Case] { return [
 // Case(input:"""

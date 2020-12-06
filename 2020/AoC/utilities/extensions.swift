@@ -57,6 +57,24 @@ extension String {
         return self.stringArray("\n", keepBlank: keepBlank)
     }
     
+    /// like lines(), except returning multiple groups of lines
+    /// that are separated by blank lines
+    func lineGroups() -> [[String]] {
+        var lineGroups: [[String]] = []
+        var group: [String] = []
+        
+        for line in self.lines(keepBlank: true) {
+            if line.count > 0 {
+                group.append(line)
+            } else {
+                lineGroups.append(group)
+                group = []
+            }
+        }
+        lineGroups.append(group)
+        return lineGroups
+    }
+    
     /// Format is a string with % where the numbers should be.
     /// If it doesnt match, nil will be returned
     /// A second, optional parameter allows specifying the wildcard character(s). Use a wildcard character that doesn't appear in the string
@@ -132,6 +150,12 @@ extension Array where Element:Hashable{
             set.insert(e)
         }
         return [Element](set)
+    }
+}
+
+extension Array where Element: AdditiveArithmetic {
+    func sum() -> Element {
+        return self.reduce(0 as! Element) { $0 + $1 }
     }
 }
 

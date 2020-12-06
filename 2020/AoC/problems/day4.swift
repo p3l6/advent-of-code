@@ -60,20 +60,9 @@ struct Passport {
 
 func day4 (_ input:String) -> Solution {
     var solution = Solution()
-    let lines = input.lines(keepBlank: true)
-    var passports: [Passport] = []
+    let lineGroups = input.lineGroups()
+    let passports = lineGroups.map { Passport(data: $0.joined(separator: " ")) }
     
-    var workingLine = ""
-    for line in lines {
-        if line.count > 0 {
-            workingLine += " " + line
-        } else {
-            passports.append(Passport(data:workingLine))
-            workingLine = ""
-        }
-    }
-    passports.append(Passport(data:workingLine))
-        
     solution.partOne = "\(passports.count() { $0.fieldsExist })"
     solution.partTwo = "\(passports.count() { $0.valid })"
     return solution
