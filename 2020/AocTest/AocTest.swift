@@ -137,10 +137,19 @@ dark violet bags contain no other bags.
 """, p1:"", p2:"126"),
 ]}}
 
-// class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day8Tests: AocTest { override var problem:Problem{return day8}; override var examples :[Case] { return [
+Case(input:"""
+nop +0
+acc +1
+jmp +4
+acc +3
+jmp -3
+acc -99
+acc +1
+jmp -4
+acc +6
+""", p1:"5", p2:"8"),
+]}}
 
 // class Day9Tests: AocTest { override var problem:Problem{return day9}; override var examples :[Case] { return [
 // Case(input:"""
