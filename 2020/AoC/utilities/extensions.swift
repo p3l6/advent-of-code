@@ -85,7 +85,7 @@ extension String {
         var intList = [Int]()
         for skipper in skippers {
             scanner.charactersToBeSkipped = nil // the default here skips whitespace characters
-            if skipper.count > 0 && !scanner.scanString(skipper, into: nil) {
+            if skipper.count > 0 && scanner.scanString(skipper) == nil {
                 return nil
             }
             var thisInteger = 0
