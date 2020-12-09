@@ -159,6 +159,12 @@ extension Array where Element: AdditiveArithmetic {
     }
 }
 
+extension ArraySlice where Element: AdditiveArithmetic {
+    func sum() -> Element {
+        return self.reduce(0 as! Element) { $0 + $1 }
+    }
+}
+
 extension Int {
     func digits() -> [Int] {
         var digits = [Int]()
