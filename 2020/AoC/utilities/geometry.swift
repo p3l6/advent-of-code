@@ -186,7 +186,8 @@ struct Area :Sequence {
         return Area(at: start - (by.w,by.h), w: width + 2*by.w, h: height + 2*by.h)
     }
     
-    func contains(point:Point) -> Bool {
+    // was called contains, but that is overriden by protocol "Sequence"
+    func interior(_ point:Point) -> Bool {
         return start.x <= point.x && point.x < start.x + width &&
             start.y <= point.y && point.y < start.y + height
     }

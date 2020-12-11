@@ -205,10 +205,20 @@ Case(input:"""
 """, p1:"220", p2:"19208"),
 ]}}
 
-// class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day11Tests: AocTest { override var problem:Problem{return day11}; override var examples :[Case] { return [
+Case(input:"""
+L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL
+""", p1:"37", p2:"26"),
+]}}
 
 // class Day12Tests: AocTest { override var problem:Problem{return day12}; override var examples :[Case] { return [
 // Case(input:"""

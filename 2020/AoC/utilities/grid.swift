@@ -60,6 +60,11 @@ class FiniteGrid<T> {
         self.grid = [[T]](repeating: repeatRow, count: area.height)
     }
     
+    init(lines:[String], _ mapping:(Character)->T) {
+        self.area = Area(at: Point(0,0), w: lines.first!.count, h:lines.count)
+        self.grid = lines.map { line in line.map(mapping) }
+    }
+    
     subscript(_ at: Point) -> T {
         get { return grid[at.y - area.start.y][at.x - area.start.x] }
         set { grid[at.y - area.start.y][at.x - area.start.x] = newValue }

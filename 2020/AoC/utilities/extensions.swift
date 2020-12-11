@@ -121,7 +121,7 @@ extension Date {
     }
 }
 
-extension Array {
+extension Sequence {
     func count(where isIncluded: (Element) -> Bool) -> Int {
         return self.reduce(0) { isIncluded($1) ? $0 + 1 : $0 }
     }
