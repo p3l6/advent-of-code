@@ -60,12 +60,12 @@ struct Point :Hashable , CustomStringConvertible, CustomDebugStringConvertible{
     static func ==(a:Point, b:Point) -> Bool { return a.x==b.x && a.y==b.y }
     static func readingOrder (_ a:Point, _ b:Point) -> Bool { return a.y == b.y ? a.x < b.x : a.y < b.y }
     
-    func move(_ d:Direction, origin:Direction.Origin = Direction.defaultOrigin) -> Point {
+    func move(_ d:Direction, origin:Direction.Origin = Direction.defaultOrigin, by: Int = 1) -> Point {
         switch d {
-        case .north: return self + (origin == .bottomLeft ? (0, 1) : (0,-1))
-        case .south: return self + (origin == .bottomLeft ? (0,-1) : (0, 1))
-        case .east: return Point(x:x+1, y:y)
-        case .west: return Point(x:x-1, y:y)
+        case .north: return self + (origin == .bottomLeft ? (0, by) : (0,-by))
+        case .south: return self + (origin == .bottomLeft ? (0,-by) : (0, by))
+        case .east: return Point(x:x+by, y:y)
+        case .west: return Point(x:x-by, y:y)
         }
     }
     
