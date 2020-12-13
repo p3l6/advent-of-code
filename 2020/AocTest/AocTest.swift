@@ -231,10 +231,11 @@ F11
 ]}}
 
 class Day13Tests: AocTest { override var problem:Problem{return day13}; override var examples :[Case] { return [
+Case(input:"1\n17,x,13,19", p1:"", p2:"3417"),
 Case(input:"""
 939
 7,13,x,x,59,x,31,19
-""", p1:"295", p2:""),
+""", p1:"295", p2:"1068781"),
 ]}}
 
 // class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
