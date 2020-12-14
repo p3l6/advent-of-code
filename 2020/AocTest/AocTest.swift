@@ -238,10 +238,21 @@ Case(input:"""
 """, p1:"295", p2:"1068781"),
 ]}}
 
-// class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day14Tests: AocTest { override var problem:Problem{return day14}; override var examples :[Case] { return [
+Case(input:"""
+mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+mem[8] = 11
+mem[7] = 101
+mem[8] = 0
+""", p1:"165", p2:""),
+Case(input:"""
+mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1
+""", p1:"", p2:"208"),
+
+]}}
 
 // class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
 // Case(input:"""
