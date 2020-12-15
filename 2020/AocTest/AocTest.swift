@@ -254,10 +254,11 @@ mem[26] = 1
 
 ]}}
 
-// class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day15Tests: AocTest { override var problem:Problem{return day15}; override var examples :[Case] { return [
+Case(input:"0,3,6", p1:"436", p2:""),
+Case(input:"2,3,1", p1:"78", p2:""),
+Case(input:"3,1,2", p1:"1836", p2:""),
+]}}
 
 // class Day16Tests: AocTest { override var problem:Problem{return day16}; override var examples :[Case] { return [
 // Case(input:"""
