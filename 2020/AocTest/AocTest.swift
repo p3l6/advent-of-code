@@ -270,10 +270,12 @@ Case(input:"3,1,2", p1:"1836", p2:""),
 // """, p1:"", p2:""),
 // ]}}
 
-// class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [
-// Case(input:"""
-// """, p1:"", p2:""),
-// ]}}
+class Day18Tests: AocTest { override var problem:Problem{return day18}; override var examples :[Case] { return [
+    Case(input:"2 * 3 + (4 * 5)", p1:"26", p2:""),
+    Case(input:"5 + (8 * 3 + 9 + 3 * 4 * 3)",  p1:"437", p2:""),
+    Case(input:"5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))",  p1:"12240", p2:""),
+    Case(input:"((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2",  p1:"13632", p2:""),
+]}}
 
 // class Day19Tests: AocTest { override var problem:Problem{return day19}; override var examples :[Case] { return [
 // Case(input:"""
