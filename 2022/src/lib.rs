@@ -40,6 +40,7 @@ pub fn input(day: u32) -> String {
         let res = client
             .get(format!("https://adventofcode.com/{year}/day/{day}/input"))
             .header(reqwest::header::COOKIE, format!("session={token}"))
+            .header(reqwest::header::USER_AGENT, "github.com/pwxn/AdventOfCode via Rust::reqwest")
             .send()
             .unwrap()
             .text()
