@@ -101,3 +101,9 @@ export function inputFromRegexLines<Item>(
     .filter(notEmpty)
     .map(convert);
 }
+
+export function inputFromLines(input: string): string[] {
+  return input
+    .split("\n")
+    .filter((x) => x.length > 0);
+}
