@@ -107,3 +107,21 @@ export function inputFromLines(input: string): string[] {
     .split("\n")
     .filter((x) => x.length > 0);
 }
+
+export function inputAsIntGrid(input: string): number[][] {
+  return input
+    .split("\n")
+    .filter((x) => x.length > 0)
+    .map((line) => Array.from(line).map((x) => parseInt(x)));
+}
+
+export function emptyGrid<T>(
+  value: T,
+  rows: number,
+  cols: number | undefined = undefined,
+): T[][] {
+  return Array.from(
+    { length: rows },
+    () => Array.from({ length: cols ?? rows }, () => value),
+  );
+}
