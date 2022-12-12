@@ -115,6 +115,13 @@ export function inputAsIntGrid(input: string): number[][] {
     .map((line) => Array.from(line).map((x) => parseInt(x)));
 }
 
+export function inputAsCharGrid(input: string): string[][] {
+  return input
+    .split("\n")
+    .filter((x) => x.length > 0)
+    .map((line) => Array.from(line));
+}
+
 export function emptyGrid<T>(
   value: T,
   rows: number,
