@@ -15,16 +15,21 @@ let package = Package(
         .target(name: "Shared", dependencies: ["RunnerMacro"], path: ".", sources: ["shared.swift", "config.swift"]),
         
         .executableTarget(name: "day1", dependencies:["Shared"], path: "days", sources: ["day1.swift"]),
+        .executableTarget(name: "day2", dependencies:["Shared"], path: "days", sources: ["day2.swift"]),
     ]
 )
 
+for target in package.targets {
+    target.swiftSettings = (target.swiftSettings ?? [SwiftSetting]()) + [.enableUpcomingFeature("BareSlashRegexLiterals")]
+}
 
 /* DAY TEMPLATE
 
+import Foundation
 import Shared
 
 @main @dayMain struct DayRunner: Runnable {
-    let dayNumber = 1
+    let dayNumber = 
     let tests = [
         TestCase("", .one(6))
     ]

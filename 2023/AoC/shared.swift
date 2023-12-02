@@ -124,3 +124,9 @@ func fetchInput(num: Int) async -> String {
     try! data.write(to: archiveFile)
     return contents
 }
+
+public extension [Int] {
+    var sum: Int {
+        reduce(0) { (acc, x) in acc + x }
+    }
+}
