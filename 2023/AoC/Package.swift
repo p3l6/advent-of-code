@@ -30,8 +30,7 @@ import Shared
     ]
 }
 
-func day(_ input: String) -> Answer {
-    let lines = input
+func day(_ input: Input) -> Answer {
 
     return .one(5) //  + .two(7)
 }

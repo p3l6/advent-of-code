@@ -6,7 +6,7 @@ public macro dayMain() = #externalMacro(module: "RunnerMacro", type: "RunnerMacr
 public protocol Runnable {
     var dayNumber: Int { get }
     func runDay() async
-    var answeringFunc: (String) -> Answer { get }
+    var answeringFunc: (Input) -> Answer { get }
     var tests: [TestCase] { get }
 }
 
@@ -14,7 +14,7 @@ public extension Runnable {
     func runDay() async {
         let failingTests = tests
             .enumerated()
-            .map { (i, t) in (i, t, answeringFunc(t.input)) }
+            .map { (i, t) in (i, t, answeringFunc(Input(string: t.input))) }
             .filter { (i, t, a) in a != t.answer }
 
         failingTests.forEach { (i, t, a) in print("Test Case \(i):\n Expected \(t.answer)\n But Got  \(a)") }
@@ -22,10 +22,26 @@ public extension Runnable {
         if failingTests.isEmpty {
             print("All tests passed.")
             let input = await fetchInput(num: dayNumber)
-            let answer = answeringFunc(input)
+            let answer = answeringFunc(Input(string: input))
             print("Answer: \(answer)")
         }
     }
+}
+
+public struct Input {
+    public let string: String
+
+    public var lines: [String] {
+        string.split(separator: "\n").map{ String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+    }
+
+
+    // inputSplit(on:) -> [String]
+    // inputFromRegexLines -> [String]
+    // inputFromLines -> [String]
+    // inputAsIntGrid
+    // inputAsCharGrid
+
 }
 
 public struct Answer: Equatable, CustomStringConvertible {
@@ -108,9 +124,3 @@ func fetchInput(num: Int) async -> String {
     try! data.write(to: archiveFile)
     return contents
 }
-
-// inputSplit(on:) -> [String]
-// inputFromRegexLines -> [String]
-// inputFromLines -> [String]
-// inputAsIntGrid
-// inputAsCharGrid
