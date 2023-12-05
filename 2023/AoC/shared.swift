@@ -129,4 +129,8 @@ public extension [Int] {
     var sum: Int {
         reduce(0) { (acc, x) in acc + x }
     }
+    
+    var set: Set<Int> {
+        Set(self)
+    }
 }
