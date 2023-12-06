@@ -136,10 +136,9 @@ func fetchInput(num: Int) async -> String {
 }
 
 public extension [Int] {
-    var sum: Int {
-        reduce(0) { (acc, x) in acc + x }
-    }
-    
+    var sum: Int     { reduce(0) { (acc, x) in acc + x } }
+    var product: Int { reduce(1) { (acc, x) in acc * x } }
+
     var set: Set<Int> {
         Set(self)
     }
