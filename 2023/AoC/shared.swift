@@ -35,6 +35,16 @@ public struct Input {
         string.split(separator: "\n").map{ String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
     }
 
+    /// Sets of lines grouped by blank lines
+    public var lineGroups: [[String]] {
+        string.split(separator: "\n\n")
+            .map { group in
+                group
+                    .split(separator: "\n")
+                    .map{ String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+            }
+    }
+
     public var grid: Grid<Character> {
         Grid(rows: lines.map(Array.init))
     }
