@@ -12,10 +12,11 @@ let package = Package(
                dependencies: [.product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                               .product(name: "SwiftCompilerPlugin", package: "swift-syntax")], 
                path: ".", sources: ["DayRunnerMacro.swift"]),
-        .target(name: "Shared", dependencies: ["RunnerMacro"], path: ".", sources: ["shared.swift", "config.swift"]),
-        
+        .target(name: "Shared", dependencies: ["RunnerMacro"], path: ".", sources: ["shared.swift", "config.swift", "grid.swift"]),
+
         .executableTarget(name: "day1", dependencies:["Shared"], path: "days", sources: ["day1.swift"]),
         .executableTarget(name: "day2", dependencies:["Shared"], path: "days", sources: ["day2.swift"]),
+        .executableTarget(name: "day3", dependencies:["Shared"], path: "days", sources: ["day3.swift"]),
         .executableTarget(name: "day4", dependencies:["Shared"], path: "days", sources: ["day4.swift"]),
     ]
 )

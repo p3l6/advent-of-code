@@ -35,12 +35,12 @@ public struct Input {
         string.split(separator: "\n").map{ String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
     }
 
+    public var grid: Grid<Character> {
+        Grid(rows: lines.map(Array.init))
+    }
 
     // inputSplit(on:) -> [String]
     // inputFromRegexLines -> [String]
-    // inputFromLines -> [String]
-    // inputAsIntGrid
-    // inputAsCharGrid
 
 }
 
