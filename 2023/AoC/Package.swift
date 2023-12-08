@@ -20,6 +20,7 @@ let package = Package(
         .executableTarget(name: "day4", dependencies:["Shared"], path: "days", sources: ["day4.swift"]),
         .executableTarget(name: "day5", dependencies:["Shared"], path: "days", sources: ["day5.swift"]),
         .executableTarget(name: "day6", dependencies:["Shared"], path: "days", sources: ["day6.swift"]),
+        .executableTarget(name: "day7", dependencies:["Shared"], path: "days", sources: ["day7.swift"]),
     ]
 )
 
@@ -35,7 +36,8 @@ import Shared
 @main @dayMain struct DayRunner: Runnable {
     let dayNumber = 
     let tests = [
-        TestCase("", .one(6))
+        TestCase("""
+ """, .one(6))
     ]
 }
 
