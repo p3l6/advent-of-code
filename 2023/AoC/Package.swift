@@ -21,6 +21,7 @@ let package = Package(
         .executableTarget(name: "day5", dependencies:["Shared"], path: "days", sources: ["day5.swift"]),
         .executableTarget(name: "day6", dependencies:["Shared"], path: "days", sources: ["day6.swift"]),
         .executableTarget(name: "day7", dependencies:["Shared"], path: "days", sources: ["day7.swift"]),
+        .executableTarget(name: "day8", dependencies:["Shared"], path: "days", sources: ["day8.swift"]),
     ]
 )
 
