@@ -143,3 +143,9 @@ public extension [Int] {
         Set(self)
     }
 }
+
+public extension String {
+    var ints: [Int] {
+        split(separator: " ", omittingEmptySubsequences: true).map{Int($0)!}
+    }
+}
